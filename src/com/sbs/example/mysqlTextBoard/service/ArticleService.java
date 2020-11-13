@@ -24,4 +24,13 @@ public class ArticleService {
 		return articleDao.delete(id);
 	}
 
+	public void modify(int inputedId, String title, String body) {
+		articleDao.modify(inputedId, title, body);
+		
+	}
+
+	public int write(String title, String body) {
+		return articleDao.write(title, body);
+	}
+
 }

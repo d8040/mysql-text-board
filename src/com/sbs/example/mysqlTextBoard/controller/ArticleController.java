@@ -2,6 +2,7 @@ package com.sbs.example.mysqlTextBoard.controller;
 
 import java.util.List;
 
+import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.Article;
 import com.sbs.example.mysqlTextBoard.service.ArticleService;
 
@@ -13,13 +14,53 @@ public class ArticleController {
 	}
 
 	public void doCommand(String cmd) {
-		if (cmd.startsWith("article list")) {
+		if (cmd.equals("article list")) {
 			showList(cmd);
 		} else if (cmd.startsWith("article detail ")) {
 			showDetail(cmd);
 		} else if (cmd.startsWith("article delete ")) {
 			doDelete(cmd);
+		} else if (cmd.startsWith("article modify ")) {
+			doModify(cmd);
+		} else if (cmd.equals("article write")) {
+			doWrite(cmd);
 		}
+	}
+
+	private void doWrite(String cmd) {
+		System.out.println("== 게시물 등록 ==");
+		
+		System.out.printf("제목 : ");
+		String title = Container.scanner.nextLine();
+		System.out.printf("내용 : ");
+		String body = Container.scanner.nextLine();
+		
+		int id = articleService.write(title, body );
+		
+		System.out.println(id + "번 게시물이 생성되었습니다.");
+	}
+
+	private void doModify(String cmd) {
+		
+
+		int inputedId = Integer.parseInt(cmd.split(" ")[2]);
+
+		Article article = articleService.getArticle(inputedId);
+		System.out.printf("== %d번 게시물 수정 ==\n", inputedId);
+		if (article == null) {
+			System.out.println("존재하지 않는 게시물 입니다.");
+			return;
+		}
+
+		System.out.printf("제목 : ");
+		String title = Container.scanner.nextLine();
+		System.out.printf("내용 : ");
+		String body = Container.scanner.nextLine();
+
+		articleService.modify(inputedId,title, body );
+		
+		System.out.println(inputedId + "번 게시물 수정이 완료되었습니다.");
+
 	}
 
 	private void doDelete(String cmd) {
