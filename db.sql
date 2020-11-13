@@ -14,6 +14,31 @@ CREATE TABLE article (
     boardId INT(10) UNSIGNED NOT NULL
 );
 
+#멤버 테이블 생성
+CREATE TABLE `member` (
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    loginId CHAR(200) NOT NULL,
+    loginPw CHAR(200) NOT NULL,
+    `name` CHAR(200) NOT NULL
+);
+
+#멥버 데이터 2개 생성
+INSERT INTO MEMBER
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = 'aaa',
+loginPw = 'aaa',
+`name` = 'aaa';
+
+INSERT INTO MEMBER
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = 'bbb',
+loginPw = 'bbb',
+`name` = 'bbb';
+
 # 게시물 데이터 3개 생성
 INSERT INTO article
 SET regDate = NOW(),
@@ -39,3 +64,7 @@ title = '제목3',
 memberId = 1,
 boardId = 1;
 
+SELECT * FROM article;
+SELECT * FROM `member`;
+DELETE FROM article WHERE id = 1;
+UPDATE article SET title = 'asdfasdf', BODY = 'asdfasdf', updateDate = NOW() WHERE id = 1;

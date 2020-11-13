@@ -38,6 +38,7 @@ public class ArticleController {
 		int id = articleService.write(title, body );
 		
 		System.out.println(id + "번 게시물이 생성되었습니다.");
+		
 	}
 
 	private void doModify(String cmd) {
