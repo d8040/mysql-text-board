@@ -66,5 +66,3 @@ boardId = 1;
 
 SELECT * FROM article;
 SELECT * FROM `member`;
-DELETE FROM article WHERE id = 1;
-UPDATE article SET title = 'asdfasdf', BODY = 'asdfasdf', updateDate = NOW() WHERE id = 1;
