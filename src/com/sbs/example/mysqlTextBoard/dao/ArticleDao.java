@@ -219,7 +219,7 @@ public class ArticleDao {
 		}
 	}
 
-	public int write(String title, String body) {
+	public int write(int memberId, String title, String body) {
 		int id = 0;
 		try {
 			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
@@ -240,13 +240,14 @@ public class ArticleDao {
 				e.printStackTrace();
 			}
 
-			String sql = "INSERT INTO article SET regDate = NOW(), updateDate = NOW(), title = ?, body = ?, memberId = 1, boardId = 1";
+			String sql = "INSERT INTO article SET regDate = NOW(), updateDate = NOW(), title = ?, body = ?, memberId = ?, boardId = 1";
 
 			try {
 				PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 				pstmt.setString(1, title);
 				pstmt.setString(2, body);
+				pstmt.setInt(3, memberId);
 
 				pstmt.executeUpdate();
 

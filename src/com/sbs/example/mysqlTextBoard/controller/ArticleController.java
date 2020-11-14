@@ -4,13 +4,17 @@ import java.util.List;
 
 import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.Article;
+import com.sbs.example.mysqlTextBoard.dto.Member;
 import com.sbs.example.mysqlTextBoard.service.ArticleService;
+import com.sbs.example.mysqlTextBoard.service.MemberService;
 
 public class ArticleController {
 	private ArticleService articleService;
+	private MemberService memberService;
 
 	public ArticleController() {
-		articleService = new ArticleService();
+		articleService = Container.articleService;
+		memberService = Container.memberService;
 	}
 
 	public void doCommand(String cmd) {
@@ -29,21 +33,30 @@ public class ArticleController {
 
 	private void doWrite(String cmd) {
 		System.out.println("== 게시물 등록 ==");
-		
+
+		if (Container.session.loginedMemberId == 0) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}
+
 		System.out.printf("제목 : ");
 		String title = Container.scanner.nextLine();
 		System.out.printf("내용 : ");
 		String body = Container.scanner.nextLine();
 		
-		int id = articleService.write(title, body );
-		
+		int memberId = Container.session.loginedMemberId;
+
+		int id = articleService.write(memberId, title, body);
+
 		System.out.println(id + "번 게시물이 생성되었습니다.");
-		
+
 	}
 
 	private void doModify(String cmd) {
-		
-
+		if (Container.session.loginedMemberId == 0) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}
 		int inputedId = Integer.parseInt(cmd.split(" ")[2]);
 
 		Article article = articleService.getArticle(inputedId);
@@ -58,15 +71,18 @@ public class ArticleController {
 		System.out.printf("내용 : ");
 		String body = Container.scanner.nextLine();
 
-		articleService.modify(inputedId,title, body );
-		
+		articleService.modify(inputedId, title, body);
+
 		System.out.println(inputedId + "번 게시물 수정이 완료되었습니다.");
 
 	}
 
 	private void doDelete(String cmd) {
 		System.out.println("== 게시물 삭제 ==");
-
+		if (Container.session.loginedMemberId == 0) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}
 		int inputedId = Integer.parseInt(cmd.split(" ")[2]);
 
 		Article article = articleService.getArticle(inputedId);
@@ -88,14 +104,18 @@ public class ArticleController {
 		System.out.println("번호 / 작성 / 수정 / 작성자 / 제목");
 
 		for (Article article : articles) {
-			System.out.printf("%d / %s / %s / %s / %s\n", article.id, article.regDate, article.updateDate,
-					article.memberId, article.title);
+			Member member = memberService.getMemberByMemberId(article.memberId);
+			System.out.printf("%d / %s / %s / %s / %s\n", article.id, article.regDate, article.updateDate, member.name,
+					article.title);
 		}
 	}
 
 	private void showDetail(String cmd) {
 		System.out.println("== 게시물 상세페이지 ==");
-
+		if (Container.session.loginedMemberId == 0) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}
 		int inputedId = Integer.parseInt(cmd.split(" ")[2]);
 
 		Article article = articleService.getArticle(inputedId);

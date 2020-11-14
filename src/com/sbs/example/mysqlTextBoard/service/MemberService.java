@@ -20,8 +20,12 @@ public class MemberService {
 		return memberDao.getMemberByLoginId(loginId);
 	}
 
-	public int login(String loginId, String loginPw) {
-		return memberDao.login(loginId, loginPw);
+	public void login(String loginId, String loginPw) {
+		memberDao.login(loginId, loginPw);
+	}
+
+	public Member getMemberByMemberId(int memberId) {
+		return memberDao.getMemberByMemberId(memberId);
 	}
 
 }

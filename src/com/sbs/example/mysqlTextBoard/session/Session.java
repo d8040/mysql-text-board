@@ -4,4 +4,8 @@ public class Session {
 
 	public int loginedMemberId;
 
+	public void logout() {
+		loginedMemberId = 0;
+	}
+
 }

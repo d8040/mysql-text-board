@@ -6,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.sbs.example.mysqlTextBoard.dto.Member;
 
@@ -15,11 +13,7 @@ public class MemberDao {
 	Connection con = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
-	private List<Member> members;
 
-	public MemberDao() {
-		members = new ArrayList<>();
-	}
 
 	public int join(String loginId, String loginPw, String name) {
 		int id = 0;
@@ -72,18 +66,61 @@ public class MemberDao {
 		return id;
 	}
 
-	public Member getMemberByLoginId(String loginId) {
-		for (Member member : members) {
-			if (member.loginId.equals(loginId)) {
-				return member;
+	public Member getMemberByLoginId(String MemberId) {
+		Member member = null;
+
+		try {
+			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
+			String dbmsLoginId = "sbsst";
+			String dbmsLoginPw = "sbs123414";
+
+			// MySQL 드라이버 등록
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+
+			// 연결 생성
+			try {
+				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			String sql = "SELECT * FROM member WHERE loginid = ?";
+
+			try {
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, MemberId);
+				ResultSet rs = pstmt.executeQuery();
+
+				if (rs.next()) {
+					int id = rs.getInt("id");
+					String loginId = rs.getString("loginId");
+					String loginPw = rs.getString("loginPw");
+					String name = rs.getString("name");
+
+					member = new Member(loginId, loginPw, name, id);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 		}
-		return null;
+
+		return member;
 	}
 
-	public int login(String loginId, String loginPw) {
-		String dbPw = "";
-		int x = -1;
+	public void login(String loginId, String loginPw) {
 		try {
 			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
 			String dbmsLoginId = "sbsst";
@@ -105,24 +142,11 @@ public class MemberDao {
 			}
 
 			try {
-				StringBuffer qr = new StringBuffer();
-				qr.append("SELECT loginPw FROM `member` WHERE loginId = ?");
+				String SQL = "SELECT loginPw FROM `member` WHERE loginId = ?";
 
-				pstmt = con.prepareStatement(qr.toString());
+				pstmt = con.prepareStatement(SQL);
 				pstmt.setString(1, loginId);
 				rs = pstmt.executeQuery();
-
-				if (rs.next()) {
-					dbPw = rs.getString("loginPw");
-
-					if (dbPw.equals(loginId)) {
-						x = 1;
-					} else {
-						x = 0;
-					}
-				}else {
-					x = -1;
-				}
 
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -137,7 +161,59 @@ public class MemberDao {
 				e.printStackTrace();
 			}
 		}
-		return x;
 
+	}
+
+	public Member getMemberByMemberId(int memberId) {
+		Member member = null;
+
+		try {
+			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
+			String dbmsLoginId = "sbsst";
+			String dbmsLoginPw = "sbs123414";
+
+			// MySQL 드라이버 등록
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+
+			// 연결 생성
+			try {
+				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			String sql = "SELECT * FROM member WHERE id = ?";
+
+			try {
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, memberId);
+				ResultSet rs = pstmt.executeQuery();
+
+				if (rs.next()) {
+					int id = rs.getInt("id");
+					String loginId = rs.getString("loginId");
+					String loginPw = rs.getString("loginPw");
+					String name = rs.getString("name");
+
+					member = new Member(loginId, loginPw, name, id);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return member;
 	}
 }
