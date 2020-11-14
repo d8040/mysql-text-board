@@ -14,28 +14,29 @@ public class MemberDao {
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 
+	public Connection connect() {
 
-	public int join(String loginId, String loginPw, String name) {
-		int id = 0;
+		// MySQL 드라이버 등록
 		try {
 			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
 			String dbmsLoginId = "sbsst";
 			String dbmsLoginPw = "sbs123414";
 
-			// MySQL 드라이버 등록
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return con;
 
-			// 연결 생성
-			try {
-				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+	}
 
+	public int join(String loginId, String loginPw, String name) {
+		int id = 0;
+		try {
+			con = connect();
 			String sql = "INSERT INTO member SET regDate = NOW(), updateDate = NOW(), loginId = ?, loginPw = ?, name = ?";
 
 			try {
@@ -70,24 +71,7 @@ public class MemberDao {
 		Member member = null;
 
 		try {
-			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
-			String dbmsLoginId = "sbsst";
-			String dbmsLoginPw = "sbs123414";
-
-			// MySQL 드라이버 등록
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-
-			// 연결 생성
-			try {
-				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			con = connect();
 			String sql = "SELECT * FROM member WHERE loginid = ?";
 
 			try {
@@ -122,25 +106,7 @@ public class MemberDao {
 
 	public void login(String loginId, String loginPw) {
 		try {
-			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
-			String dbmsLoginId = "sbsst";
-			String dbmsLoginPw = "sbs123414";
-
-			// MySQL 드라이버 등록
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-
-			// 연결 생성
-			try {
-
-				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			con = connect();
 			try {
 				String SQL = "SELECT loginPw FROM `member` WHERE loginId = ?";
 
@@ -168,23 +134,7 @@ public class MemberDao {
 		Member member = null;
 
 		try {
-			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
-			String dbmsLoginId = "sbsst";
-			String dbmsLoginPw = "sbs123414";
-
-			// MySQL 드라이버 등록
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-
-			// 연결 생성
-			try {
-				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			con = connect();
 			String sql = "SELECT * FROM member WHERE id = ?";
 
 			try {

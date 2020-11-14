@@ -14,28 +14,30 @@ import com.sbs.example.mysqlTextBoard.dto.Article;
 public class ArticleDao {
 	Connection con = null;
 
-	public List<Article> getArticles() {
-		List<Article> articles = new ArrayList<>();
+	public Connection connect() {
 
+		// MySQL 드라이버 등록
 		try {
 			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
 			String dbmsLoginId = "sbsst";
 			String dbmsLoginPw = "sbs123414";
 
-			// MySQL 드라이버 등록
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return con;
 
-			// 연결 생성
-			try {
-				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+	}
 
+	public List<Article> getArticles() {
+		List<Article> articles = new ArrayList<>();
+
+		try {
+			con = connect();
 			String sql = "SELECT * FROM article ORDER BY id DESC";
 
 			try {
@@ -76,24 +78,7 @@ public class ArticleDao {
 		Article article = null;
 
 		try {
-			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
-			String dbmsLoginId = "sbsst";
-			String dbmsLoginPw = "sbs123414";
-
-			// MySQL 드라이버 등록
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-
-			// 연결 생성
-			try {
-				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			con = connect();
 			String sql = "SELECT * FROM article WHERE id = ?";
 
 			try {
@@ -133,23 +118,7 @@ public class ArticleDao {
 		int affectedRows = 0;
 
 		try {
-			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
-			String dbmsLoginId = "sbsst";
-			String dbmsLoginPw = "sbs123414";
-
-			// MySQL 드라이버 등록
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-
-			// 연결 생성
-			try {
-				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			con = connect();
 
 			String sql = "DELETE FROM article WHERE id = ?";
 
@@ -176,23 +145,7 @@ public class ArticleDao {
 
 	public void modify(int inputedId, String title, String body) {
 		try {
-			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
-			String dbmsLoginId = "sbsst";
-			String dbmsLoginPw = "sbs123414";
-
-			// MySQL 드라이버 등록
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-
-			// 연결 생성
-			try {
-				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			con = connect();
 
 			String sql = "UPDATE article set title = ?, body = ?, updateDate = NOW() where id = ?";
 
@@ -222,23 +175,7 @@ public class ArticleDao {
 	public int write(int memberId, String title, String body) {
 		int id = 0;
 		try {
-			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
-			String dbmsLoginId = "sbsst";
-			String dbmsLoginPw = "sbs123414";
-
-			// MySQL 드라이버 등록
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-
-			// 연결 생성
-			try {
-				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			con = connect();
 
 			String sql = "INSERT INTO article SET regDate = NOW(), updateDate = NOW(), title = ?, body = ?, memberId = ?, boardId = 1";
 
