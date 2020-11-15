@@ -46,7 +46,7 @@ public class ArticleController {
 		
 		int memberId = Container.session.loginedMemberId;
 
-		int id = articleService.write(memberId, title, body);
+		int id = articleService.add(memberId, title, body);
 
 		System.out.println(id + "번 게시물이 생성되었습니다.");
 
@@ -59,7 +59,7 @@ public class ArticleController {
 		}
 		int inputedId = Integer.parseInt(cmd.split(" ")[2]);
 
-		Article article = articleService.getArticle(inputedId);
+		Article article = articleService.getArticles(inputedId);
 		System.out.printf("== %d번 게시물 수정 ==\n", inputedId);
 		if (article == null) {
 			System.out.println("존재하지 않는 게시물 입니다.");
@@ -70,8 +70,9 @@ public class ArticleController {
 		String title = Container.scanner.nextLine();
 		System.out.printf("내용 : ");
 		String body = Container.scanner.nextLine();
-
-		articleService.modify(inputedId, title, body);
+		
+		int memberId = Container.session.loginedMemberId;
+		articleService.modify(memberId, inputedId, title, body);
 
 		System.out.println(inputedId + "번 게시물 수정이 완료되었습니다.");
 
@@ -85,7 +86,7 @@ public class ArticleController {
 		}
 		int inputedId = Integer.parseInt(cmd.split(" ")[2]);
 
-		Article article = articleService.getArticle(inputedId);
+		Article article = articleService.getArticles(inputedId);
 
 		if (article == null) {
 			System.out.println("존재하지 않는 게시물 입니다.");
@@ -118,7 +119,7 @@ public class ArticleController {
 		}
 		int inputedId = Integer.parseInt(cmd.split(" ")[2]);
 
-		Article article = articleService.getArticle(inputedId);
+		Article article = articleService.getArticles(inputedId);
 
 		if (article == null) {
 			System.out.println("존재하지 않는 게시물 입니다.");

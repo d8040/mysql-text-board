@@ -16,21 +16,21 @@ public class ArticleService {
 		return articleDao.getArticles();
 	}
 
-	public Article getArticle(int id) {
-		return articleDao.getArticle(id);
+	public Article getArticles(int id) {
+		return articleDao.getArticles(id);
 	}
 
-	public int delete(int id) {
-		return articleDao.delete(id);
+	public void delete(int id) {
+		articleDao.delete(id);
 	}
 
-	public void modify(int inputedId, String title, String body) {
-		articleDao.modify(inputedId, title, body);
+	public void modify(int memberId, int inputedId, String title, String body) {
+		articleDao.modify(memberId, inputedId, title, body);
 		
 	}
 
-	public int write(int memberId, String title, String body) {
-		return articleDao.write(memberId, title, body);
+	public int add(int memberId, String title, String body) {
+		return articleDao.add(memberId, title, body);
 	}
 
 }
