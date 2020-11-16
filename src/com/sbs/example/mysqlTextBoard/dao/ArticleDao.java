@@ -8,8 +8,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.sbs.example.mysqlTextBoard.dto.Article;
+import com.sbs.example.mysqlTextBoard.mysqlutil.MysqlUtil;
+import com.sbs.example.mysqlTextBoard.mysqlutil.SecSql;
 
 public class ArticleDao {
 	Connection con = null;
@@ -70,87 +73,113 @@ public class ArticleDao {
 
 	public List<Article> getArticles() {
 		List<Article> articles = new ArrayList<>();
-
-		con = connect();
 		String sql = "select * from article order by id desc";
-
-		try {
-			pstmt = con.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				int id = rs.getInt("id");
-				String title = rs.getString("title");
-				String body = rs.getString("body");
-				int memberId = rs.getInt("memberId");
-				int boardId = rs.getInt("boardId");
-				String regDate = rs.getString("regDate");
-				String updateDate = rs.getString("updateDate");
-
-				article = new Article(id, title, body, memberId, boardId, regDate, updateDate);
-				
-				articles.add(article);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-
-			try {
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(new SecSql().append(sql));
+		
+		for (Map<String, Object> articleMap : articleMapList) {
+			Article article = new Article();
+			article.id = (int)articleMap.get("id");
+			article.title = (String)articleMap.get("title");
+			article.body = (String)articleMap.get("body");
+			article.memberId = (int)articleMap.get("memberId");
+			article.boardId = (int)articleMap.get("boardId");
+			article.regDate = (String)articleMap.get("regDate");
+			article.updateDate = (String)articleMap.get("updateDate");
+			
+			articles.add(article);		
 		}
+
+//		try {
+//			pstmt = con.prepareStatement(sql);
+//			rs = pstmt.executeQuery();
+//
+//			while (rs.next()) {
+//				int id = rs.getInt("id");
+//				String title = rs.getString("title");
+//				String body = rs.getString("body");
+//				int memberId = rs.getInt("memberId");
+//				int boardId = rs.getInt("boardId");
+//				String regDate = rs.getString("regDate");
+//				String updateDate = rs.getString("updateDate");
+//
+//				article = new Article(id, title, body, memberId, boardId, regDate, updateDate);
+//
+//				articles.add(article);
+//			}
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//
+//			try {
+//				if (con != null) {
+//					con.close();
+//				}
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
 
 		return articles;
 	}
 
 	public Article getArticles(int inputId) {
-		Article article = null;
-
-		con = connect();
+		List<Article> articles = new ArrayList<>();
 		String sql = "select * from article where id = ?";
+		Map<String, Object> articleMapList = MysqlUtil.selectRow(new SecSql().append(sql,inputId));
+		
+		Article article = new Article();
+		
+		article.id = (int)articleMapList.get("id");
+		article.title = (String)articleMapList.get("title");
+		article.body = (String)articleMapList.get("body");
+		article.memberId = (int)articleMapList.get("memberId");
+		article.boardId = (int)articleMapList.get("boardId");
+		article.regDate = (String)articleMapList.get("regDate");
+		article.updateDate = (String)articleMapList.get("updateDate");
+		
+		articles.add(article);
+//		Article article = null;
+//
+//		con = connect();
+//		String sql = "select * from article where id = ?";
+//
+//		try {
+//			pstmt = con.prepareStatement(sql);
+//			pstmt.setInt(1, inputId);
+//			rs = pstmt.executeQuery();
 
-		try {
-			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, inputId);
-			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				int id = rs.getInt("id");
-				String title = rs.getString("title");
-				String body = rs.getString("body");
-				int memberId = rs.getInt("memberId");
-				int boardId = rs.getInt("boardId");
-				String regDate = rs.getString("regDate");
-				String updateDate = rs.getString("updateDate");
-
-				article = new Article(id, title, body, memberId, boardId, regDate, updateDate);
-				
-				
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-
-			try {
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+//			if (rs.next()) {
+//				int id = rs.getInt("id");
+//				String title = rs.getString("title");
+//				String body = rs.getString("body");
+//				int memberId = rs.getInt("memberId");
+//				int boardId = rs.getInt("boardId");
+//				String regDate = rs.getString("regDate");
+//				String updateDate = rs.getString("updateDate");
+//
+//				article = new Article(id, title, body, memberId, boardId, regDate, updateDate);
+//
+//			}
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//
+//			try {
+//				if (con != null) {
+//					con.close();
+//				}
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
 
 		return article;
 	}
 
 	public void modify(int inputid, int memberId, String title, String body) {
-		
+
 		con = connect();
 		String sql = "update article set updateDate = NOW(), title = ?, body = ?, memberId = ? where id = ? ";
 
@@ -190,7 +219,7 @@ public class ArticleDao {
 			pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 			pstmt.setInt(1, inputId);
-			
+
 			pstmt.executeUpdate();
 
 			rs = pstmt.getGeneratedKeys();
