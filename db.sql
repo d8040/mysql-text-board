@@ -24,6 +24,25 @@ CREATE TABLE `member` (
     `name` CHAR(200) NOT NULL
 );
 
+#게시판 테이블 생성
+CREATE TABLE board (
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,   
+    `name` CHAR(200) NOT NULL
+);
+
+#게시판 데이터 2개 생성
+INSERT INTO BOARD 
+SET regDate = NOW(),
+updateDate = NOW(),
+`name` = 'notice';
+
+INSERT INTO BOARD 
+SET regDate = NOW(),
+updateDate = NOW(),
+`name` = 'free';
+
 #멥버 데이터 2개 생성
 INSERT INTO MEMBER
 SET regDate = NOW(),
@@ -66,3 +85,4 @@ boardId = 1;
 
 SELECT * FROM article;
 SELECT * FROM `member`;
+SELECT * FROM board;

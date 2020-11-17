@@ -28,7 +28,7 @@ public class MemberController {
 
 	private void showWhoami(String cmd) {
 		System.out.println("== 로그인 정보 ==");
-		if (Container.session.loginedMemberId == 0) {
+		if (Container.session.isLogined() == false) {
 			System.out.println("로그인 후 이용해주세요.");
 			return;
 		}
@@ -44,7 +44,10 @@ public class MemberController {
 
 	private void dologout(String cmd) {
 		System.out.println("== 로그아웃 ==");
-		
+		if (Container.session.isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}		
 		Container.session.logout();
 	}
 
