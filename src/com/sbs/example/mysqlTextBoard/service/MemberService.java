@@ -19,11 +19,7 @@ public class MemberService {
 	public Member getMemberByLoginId(String loginId) {
 		return memberDao.getMemberByLoginId(loginId);
 	}
-
-	public void login(String loginId, String loginPw) {
-		memberDao.login(loginId, loginPw);
-	}
-
+	
 	public Member getMemberByMemberId(int memberId) {
 		return memberDao.getMemberByMemberId(memberId);
 	}

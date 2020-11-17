@@ -1,169 +1,52 @@
 package com.sbs.example.mysqlTextBoard.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Map;
 
 import com.sbs.example.mysqlTextBoard.dto.Member;
+import com.sbs.example.mysqlTextBoard.mysqlutil.MysqlUtil;
+import com.sbs.example.mysqlTextBoard.mysqlutil.SecSql;
 
 public class MemberDao {
-	Connection con = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
 
-	public Connection connect() {
-
-		// MySQL 드라이버 등록
-		try {
-			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
-			String dbmsLoginId = "sbsst";
-			String dbmsLoginPw = "sbs123414";
-
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return con;
-
-	}
 
 	public int join(String loginId, String loginPw, String name) {
-		int id = 0;
-		try {
-			con = connect();
-			String sql = "INSERT INTO member SET regDate = NOW(), updateDate = NOW(), loginId = ?, loginPw = ?, name = ?";
+		SecSql sql = new SecSql();
 
-			try {
-				pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		sql.append("INSERT INTO member");
+		sql.append(" SET regDate = NOW()");
+		sql.append(", updateDate = NOW()");
+		sql.append(", loginId = ?", loginId);
+		sql.append(", loginPw = ?", loginPw);
+		sql.append(", name = ?", name);
 
-				pstmt.setString(1, loginId);
-				pstmt.setString(2, loginPw);
-				pstmt.setString(3, name);
-
-				pstmt.executeUpdate();
-
-				rs = pstmt.getGeneratedKeys();
-				rs.next();
-				id = rs.getInt(1);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-		} finally {
-			try {
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return id;
+		return MysqlUtil.insert(sql);
 	}
 
 	public Member getMemberByLoginId(String MemberId) {
-		Member member = null;
-
-		try {
-			con = connect();
-			String sql = "SELECT * FROM member WHERE loginid = ?";
-
-			try {
-				PreparedStatement pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, MemberId);
-				ResultSet rs = pstmt.executeQuery();
-
-				if (rs.next()) {
-					int id = rs.getInt("id");
-					String loginId = rs.getString("loginId");
-					String loginPw = rs.getString("loginPw");
-					String name = rs.getString("name");
-
-					member = new Member(loginId, loginPw, name, id);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-		} finally {
-			try {
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append("FROM member");
+		sql.append("WHERE loginId = ?", MemberId);
+		
+		Map<String, Object> memberMap = MysqlUtil.selectRow(sql);
+		if (memberMap.isEmpty()) {
+			return null;
 		}
-
-		return member;
-	}
-
-	public void login(String loginId, String loginPw) {
-		try {
-			con = connect();
-			try {
-				String SQL = "SELECT loginPw FROM `member` WHERE loginId = ?";
-
-				pstmt = con.prepareStatement(SQL);
-				pstmt.setString(1, loginId);
-				rs = pstmt.executeQuery();
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-		} finally {
-			try {
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-
+		return new Member(memberMap);
+		
 	}
 
 	public Member getMemberByMemberId(int memberId) {
-		Member member = null;
-
-		try {
-			con = connect();
-			String sql = "SELECT * FROM member WHERE id = ?";
-
-			try {
-				PreparedStatement pstmt = con.prepareStatement(sql);
-				pstmt.setInt(1, memberId);
-				ResultSet rs = pstmt.executeQuery();
-
-				if (rs.next()) {
-					int id = rs.getInt("id");
-					String loginId = rs.getString("loginId");
-					String loginPw = rs.getString("loginPw");
-					String name = rs.getString("name");
-
-					member = new Member(loginId, loginPw, name, id);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-		} finally {
-			try {
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append("FROM member");
+		sql.append("WHERE id = ?", memberId);
+		
+		Map<String, Object> memberMap = MysqlUtil.selectRow(sql);
+		if (memberMap.isEmpty()) {
+			return null;
 		}
-
-		return member;
+		return new Member(memberMap);
+		
 	}
 }

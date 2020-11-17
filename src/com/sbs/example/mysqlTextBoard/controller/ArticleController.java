@@ -26,7 +26,7 @@ public class ArticleController {
 			doDelete(cmd);
 		} else if (cmd.startsWith("article modify ")) {
 			doModify(cmd);
-		} else if (cmd.equals("article write")) {
+		} else if (cmd.equals("article add")) {
 			doWrite(cmd);
 		}
 	}
@@ -65,7 +65,10 @@ public class ArticleController {
 			System.out.println("존재하지 않는 게시물 입니다.");
 			return;
 		}
-
+		System.out.printf("번호 : %d\n", article.id);
+		System.out.printf("작성날짜 : %s\n", article.regDate);
+		System.out.printf("작성자 : %s\n", article.memberId);
+		
 		System.out.printf("제목 : ");
 		String title = Container.scanner.nextLine();
 		System.out.printf("내용 : ");
@@ -128,11 +131,13 @@ public class ArticleController {
 			System.out.println("존재하지 않는 게시물 입니다.");
 			return;
 		}
+		
+		Member member = memberService.getMemberByMemberId(article.memberId);
 
 		System.out.printf("번호 : %d\n", article.id);
 		System.out.printf("작성날짜 : %s\n", article.regDate);
 		System.out.printf("수정날짜 : %s\n", article.updateDate);
-		System.out.printf("작성자 : %s\n", article.memberId);
+		System.out.printf("작성자 : %s\n", member.name);
 		System.out.printf("제목 : %s\n", article.title);
 		System.out.printf("내용 : %s\n", article.body);
 	}

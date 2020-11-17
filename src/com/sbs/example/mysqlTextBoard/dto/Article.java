@@ -1,15 +1,8 @@
 package com.sbs.example.mysqlTextBoard.dto;
 
+import java.util.Map;
+
 public class Article {
-//	public Article(int id, String title, String body, int memberId, int boardId, String regDate, String updateDate) {
-//		this.id = id;
-//		this.title = title;
-//		this.body = body;
-//		this.memberId = memberId;
-//		this.boardId = boardId;
-//		this.regDate = regDate;
-//		this.updateDate = updateDate;
-//	}
 
 	public int id;
 	public String title;
@@ -19,6 +12,18 @@ public class Article {
 	public String regDate;
 	public String updateDate;
 	
+
+
+	public Article(Map<String, Object> articleMap) {
+		this.id = (int) articleMap.get("id");
+		this.regDate = (String) articleMap.get("regDate");
+		this.updateDate = (String) articleMap.get("updateDate");
+		this.title = (String) articleMap.get("title");
+		this.body = (String) articleMap.get("body");
+		this.memberId = (int) articleMap.get("memberId");
+		this.boardId = (int) articleMap.get("boardId");
+	}
+
 
 	@Override
 	public String toString() {

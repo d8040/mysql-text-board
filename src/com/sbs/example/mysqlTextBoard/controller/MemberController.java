@@ -19,13 +19,31 @@ public class MemberController {
 		} else if (cmd.equals("member login")) {
 			doLogin(cmd);
 		} else if (cmd.equals("member logout")) {
-			logout(cmd);
+			dologout(cmd);
+		}else if (cmd.equals("member whoami")) {
+			showWhoami(cmd);
 		}
 
 	}
 
-	private void logout(String cmd) {
-		System.out.println("== 로그인 ==");
+	private void showWhoami(String cmd) {
+		System.out.println("== 로그인 정보 ==");
+		if (Container.session.loginedMemberId == 0) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}
+		
+		int loginedId = Container.session.loginedMemberId;
+		Member member = memberService.getMemberByMemberId(loginedId);
+		
+		System.out.println("로그인 아이디: " + member.loginId);
+		System.out.println("사용자 이름: "+ member.name);
+		System.out.println("생성 일자: "+ member.regDate);
+		System.out.println("수정 일자: "+ member.updateDate);
+	}
+
+	private void dologout(String cmd) {
+		System.out.println("== 로그아웃 ==");
 		
 		Container.session.logout();
 	}
@@ -48,8 +66,6 @@ public class MemberController {
 			System.out.println("비밀번호가 일치하지 않습니다.");
 			return;
 		}
-		memberService.login(loginId, loginPw);
-
 		System.out.printf("로그인 성공, %s 님 반갑습니다.\n", member.name);
 
 		Container.session.loginedMemberId = member.id;
