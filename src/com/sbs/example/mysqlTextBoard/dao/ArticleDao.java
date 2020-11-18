@@ -165,9 +165,14 @@ public class ArticleDao {
 	public void deleteReply(int inputedId) {
 		SecSql sql = new SecSql();
 		sql.append("delete");
-		sql.append("FROM reply");
+		sql.append("FROM articleReply");
 		sql.append("WHERE id = ?", inputedId);
 
 		MysqlUtil.delete(sql);
+	}
+
+	public List<Article> getForPrintArticles(int boardId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

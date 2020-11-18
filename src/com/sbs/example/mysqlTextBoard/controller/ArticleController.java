@@ -258,10 +258,10 @@ public class ArticleController {
 
 	private void showDetail(String cmd) {
 		System.out.println("== 게시물 상세페이지 ==");
-		if (Container.session.isLogined() == false) {
-			System.out.println("로그인 후 이용해주세요.");
-			return;
-		}
+//		if (Container.session.isLogined() == false) {
+//			System.out.println("로그인 후 이용해주세요.");
+//			return;
+//		}
 		int inputedId = Integer.parseInt(cmd.split(" ")[2]);
 
 		Article article = articleService.getArticle(inputedId);
@@ -281,13 +281,15 @@ public class ArticleController {
 		System.out.printf("제목 : %s\n", article.title);
 		System.out.printf("내용 : %s\n", article.body);
 
-		if (replies != null) {
+		if (replies == null) {
+			return;
+		}
 			System.out.println("-----------------------------------------------------------");
 			System.out.println("댓글목록");
 			for (Reply reply : replies) {
 				System.out.printf("%d | 작성자(%s) | 댓글내용: %s \n", reply.id , member.name, reply.body);
 			}
-		}
+		
 	}
 
 }
