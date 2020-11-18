@@ -133,6 +133,14 @@ public class ArticleController {
 			System.out.println("존재하지 않는 게시물 입니다.");
 			return;
 		}
+
+		int memberId = Container.session.loginedMemberId;
+
+		if (article.memberId != memberId) {
+			System.out.println("수정권한이 없습니다.");
+			return;
+		}
+
 		System.out.printf("번호 : %d\n", article.id);
 		System.out.printf("작성날짜 : %s\n", article.regDate);
 		System.out.printf("작성자 : %s\n", article.memberId);
@@ -142,7 +150,6 @@ public class ArticleController {
 		System.out.printf("내용 : ");
 		String body = Container.scanner.nextLine();
 
-		int memberId = Container.session.loginedMemberId;
 		articleService.modify(memberId, inputedId, title, body);
 
 		System.out.println(inputedId + "번 게시물 수정이 완료되었습니다.");
