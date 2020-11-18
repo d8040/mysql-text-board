@@ -38,7 +38,32 @@ public class ArticleController {
 			doAddReply(cmd);
 		} else if (cmd.startsWith("article modifyReply ")) {
 			doModifyReply(cmd);
+		} else if (cmd.startsWith("article delReply ")) {
+			doDelReply(cmd);
 		}
+	}
+
+	private void doDelReply(String cmd) {
+		System.out.println("== 댓글 삭제 ==");
+		if (Container.session.isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}
+		int inputedId = Integer.parseInt(cmd.split(" ")[2]);
+
+		Reply reply = articleService.getReplyByArticleId(inputedId);
+		if (reply == null) {
+			System.out.println("존재하지 않는 게시물 입니다.");
+			return;
+		}
+		
+		if (reply.memberId != Container.session.loginedMemberId) {
+			System.out.println("권한이 없습니다.");
+			return;
+		}
+
+		articleService.deleteReply(inputedId);
+		System.out.printf("%d번 게시물을 삭제하였습니다.\n", inputedId);
 	}
 
 	private void doModifyReply(String cmd) {
@@ -233,10 +258,10 @@ public class ArticleController {
 
 	private void showDetail(String cmd) {
 		System.out.println("== 게시물 상세페이지 ==");
-//		if (Container.session.isLogined() == false) {
-//			System.out.println("로그인 후 이용해주세요.");
-//			return;
-//		}
+		if (Container.session.isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}
 		int inputedId = Integer.parseInt(cmd.split(" ")[2]);
 
 		Article article = articleService.getArticle(inputedId);

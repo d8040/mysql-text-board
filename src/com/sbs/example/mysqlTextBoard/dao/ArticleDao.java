@@ -161,4 +161,13 @@ public class ArticleDao {
 
 		MysqlUtil.update(sql);
 	}
+
+	public void deleteReply(int inputedId) {
+		SecSql sql = new SecSql();
+		sql.append("delete");
+		sql.append("FROM reply");
+		sql.append("WHERE id = ?", inputedId);
+
+		MysqlUtil.delete(sql);
+	}
 }
