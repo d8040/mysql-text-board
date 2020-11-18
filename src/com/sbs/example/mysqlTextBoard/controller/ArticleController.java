@@ -6,6 +6,7 @@ import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.Article;
 import com.sbs.example.mysqlTextBoard.dto.Board;
 import com.sbs.example.mysqlTextBoard.dto.Member;
+import com.sbs.example.mysqlTextBoard.dto.Reply;
 import com.sbs.example.mysqlTextBoard.service.ArticleService;
 import com.sbs.example.mysqlTextBoard.service.MemberService;
 
@@ -33,7 +34,37 @@ public class ArticleController {
 			doMakeBoard(cmd);
 		} else if (cmd.startsWith("article selectBoard ")) {
 			doSelectBoard(cmd);
+		} else if (cmd.startsWith("article addReply ")) {
+			doAddReply(cmd);
 		}
+	}
+
+	private void doAddReply(String cmd) {
+		if (Container.session.isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}
+		int inputedId = Integer.parseInt(cmd.split(" ")[2]);
+
+		Article article = articleService.getArticle(inputedId);
+		System.out.printf("== %d번 게시물 댓글 등록 ==\n", inputedId);
+		if (article == null) {
+			System.out.println("존재하지 않는 게시물 입니다.");
+			return;
+		}
+		System.out.printf("번호 : %d\n", article.id);
+		System.out.printf("작성날짜 : %s\n", article.regDate);
+		System.out.printf("작성자 : %s\n", article.memberId);
+		System.out.printf("제목 : %s\n", article.title);
+		System.out.printf("내용 : %s\n", article.body);
+
+		System.out.printf("댓글 : ");
+		String reply = Container.scanner.nextLine();
+
+		int memberId = Container.session.loginedMemberId;
+		int id = articleService.reply(memberId, inputedId, reply);
+
+		System.out.printf("%d번 게시물에 %d번 댓글이 입력되었습니다.\n", inputedId, id);
 	}
 
 	private void doSelectBoard(String cmd) {
@@ -43,11 +74,11 @@ public class ArticleController {
 			return;
 		}
 		String inputedName = cmd.split(" ")[2];
-		
+
 		Board board = articleService.getBoardByName(inputedName);
-		
+
 		Container.session.selectBoardId = board.id;
-		System.out.println(board.name +"로 이동되었습니다.");
+		System.out.println(board.name + "로 이동되었습니다.");
 	}
 
 	private void doMakeBoard(String cmd) {
@@ -63,7 +94,6 @@ public class ArticleController {
 
 		int loginedId = Container.session.loginedMemberId;
 		int boardId = articleService.makeBoard(loginedId, name);
-		
 
 		System.out.println(boardId + "번 게시판이 생성되었습니다.");
 	}
@@ -106,7 +136,7 @@ public class ArticleController {
 		System.out.printf("번호 : %d\n", article.id);
 		System.out.printf("작성날짜 : %s\n", article.regDate);
 		System.out.printf("작성자 : %s\n", article.memberId);
-		
+
 		System.out.printf("제목 : ");
 		String title = Container.scanner.nextLine();
 		System.out.printf("내용 : ");
@@ -169,8 +199,9 @@ public class ArticleController {
 			System.out.println("존재하지 않는 게시물 입니다.");
 			return;
 		}
-		
+
 		Member member = memberService.getMemberByMemberId(article.memberId);
+		List<Reply> replies = articleService.getReplyByArticleId(article.id);
 
 		System.out.printf("번호 : %d\n", article.id);
 		System.out.printf("작성날짜 : %s\n", article.regDate);
@@ -178,6 +209,11 @@ public class ArticleController {
 		System.out.printf("작성자 : %s\n", member.name);
 		System.out.printf("제목 : %s\n", article.title);
 		System.out.printf("내용 : %s\n", article.body);
+
+		for (Reply reply : replies) {
+			Member replyMember = memberService.getMemberByMemberId(reply.memberId);
+			System.out.println("댓글: " + reply.id + reply.reply + replyMember.name);
+		}
 	}
 
 }

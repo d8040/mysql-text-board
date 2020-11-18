@@ -78,11 +78,18 @@ public class MemberController {
 		System.out.println("== 회원 가입 ==");
 
 		System.out.printf("아이디 : ");
-		String loginId = Container.scanner.nextLine();
+		String loginId = Container.scanner.nextLine().trim();
+		
+		Member member = memberService.getMemberByLoginId(loginId);
+		if (member.loginId.equals(loginId)) {
+			System.out.println("이미 존재하는 아이디입니다.");
+			return;
+		}
+		
 		System.out.printf("비밀번호 : ");
-		String loginPw = Container.scanner.nextLine();
+		String loginPw = Container.scanner.nextLine().trim();
 		System.out.printf("사용자이름 : ");
-		String name = Container.scanner.nextLine();
+		String name = Container.scanner.nextLine().trim();
 
 		int id = memberService.join(loginId, loginPw, name);
 

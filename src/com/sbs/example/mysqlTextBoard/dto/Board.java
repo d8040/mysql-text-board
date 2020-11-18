@@ -13,10 +13,10 @@ public class Board {
 	public String name;
 	public String regDate;
 	public String updateDate;
+	public int id;
+
 	@Override
 	public String toString() {
 		return "Board [name=" + name + ", regDate=" + regDate + ", updateDate=" + updateDate + ", id=" + id + "]";
 	}
-	public int id;
-
 }

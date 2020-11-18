@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.sbs.example.mysqlTextBoard.dto.Article;
 import com.sbs.example.mysqlTextBoard.dto.Board;
+import com.sbs.example.mysqlTextBoard.dto.Reply;
 import com.sbs.example.mysqlTextBoard.mysqlutil.MysqlUtil;
 import com.sbs.example.mysqlTextBoard.mysqlutil.SecSql;
 
@@ -95,7 +96,7 @@ public class ArticleDao {
 	}
 
 	public Board getBoardByName(String inputName) {
-		
+
 		SecSql sql = new SecSql();
 		sql.append("SELECT *");
 		sql.append("FROM board");
@@ -108,4 +109,32 @@ public class ArticleDao {
 		return new Board(boardMap);
 	}
 
+	public int reply(int memberId, int inputedId, String reply) {
+		SecSql sql = new SecSql();
+		sql.append("INSERT INTO articleReply");
+		sql.append(" SET regDate = NOW()");
+		sql.append(", updateDate = NOW()");
+		sql.append(", memberId = ?", memberId);
+		sql.append(", reply = ?", reply);
+		sql.append(", articleId = ?", inputedId);
+
+		return MysqlUtil.insert(sql);
+	}
+
+	public List<Reply> getReplyByArticleId(int articleId) {
+		List<Reply> replies = new ArrayList<>();
+
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append("FROM articleReply");
+		sql.append("WHERE articleId = ?", articleId);
+		sql.append("ORDER BY id DESC");
+
+		List<Map<String, Object>> replyMapList = MysqlUtil.selectRows(sql);
+
+		for (Map<String, Object> replyMap : replyMapList) {
+			replies.add(new Reply(replyMap));
+		}
+		return replies;
+	}
 }

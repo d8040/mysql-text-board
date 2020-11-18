@@ -5,6 +5,7 @@ import java.util.List;
 import com.sbs.example.mysqlTextBoard.dao.ArticleDao;
 import com.sbs.example.mysqlTextBoard.dto.Article;
 import com.sbs.example.mysqlTextBoard.dto.Board;
+import com.sbs.example.mysqlTextBoard.dto.Reply;
 
 public class ArticleService {
 	private ArticleDao articleDao;
@@ -27,7 +28,7 @@ public class ArticleService {
 
 	public void modify(int memberId, int inputedId, String title, String body) {
 		articleDao.modify(memberId, inputedId, title, body);
-		
+
 	}
 
 	public int add(int boardId, int memberId, String title, String body) {
@@ -40,6 +41,15 @@ public class ArticleService {
 
 	public Board getBoardByName(String inputName) {
 		return articleDao.getBoardByName(inputName);
+	}
+
+	public int reply(int memberId, int inputedId, String reply) {
+		return articleDao.reply(memberId, inputedId, reply);
+
+	}
+
+	public List<Reply> getReplyByArticleId(int articleId) {
+		return articleDao.getReplyByArticleId(articleId);
 	}
 
 }
