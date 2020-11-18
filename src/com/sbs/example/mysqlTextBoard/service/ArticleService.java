@@ -43,13 +43,22 @@ public class ArticleService {
 		return articleDao.getBoardByName(inputName);
 	}
 
-	public int reply(int memberId, int inputedId, String reply) {
-		return articleDao.reply(memberId, inputedId, reply);
+	public int reply(int memberId, int inputedId, String body) {
+		return articleDao.reply(memberId, inputedId, body);
 
 	}
 
-	public List<Reply> getReplyByArticleId(int articleId) {
-		return articleDao.getReplyByArticleId(articleId);
+	public List<Reply> getRepliesByArticleId(int articleId) {
+		return articleDao.getRepliesByArticleId(articleId);
+	}
+
+	public Reply getReplyByArticleId(int inputedId) {
+		return articleDao.getReplyByArticleId(inputedId);
+	}
+
+	public void replyModify(int memberId, int inputedId, String body) {
+		articleDao.replyModify(memberId, inputedId, body);
+		
 	}
 
 }

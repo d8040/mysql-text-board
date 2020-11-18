@@ -36,7 +36,46 @@ public class ArticleController {
 			doSelectBoard(cmd);
 		} else if (cmd.startsWith("article addReply ")) {
 			doAddReply(cmd);
+		} else if (cmd.startsWith("article modifyReply ")) {
+			doModifyReply(cmd);
 		}
+	}
+
+	private void doModifyReply(String cmd) {
+		if (Container.session.isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}
+
+		int inputedId = Integer.parseInt(cmd.split(" ")[2]);
+
+		Reply reply = articleService.getReplyByArticleId(inputedId);
+
+		System.out.printf("== %d번 댓글 수정 ==\n", inputedId);
+
+		if (reply == null) {
+			System.out.println("존재하지 않는 댓글 입니다.");
+			return;
+		}
+
+		int memberId = Container.session.loginedMemberId;
+
+		if (reply.memberId != memberId) {
+			System.out.println("수정권한이 없습니다.");
+			return;
+		}
+
+		System.out.printf("번호 : %d\n", reply.id);
+		System.out.printf("작성날짜 : %s\n", reply.regDate);
+		System.out.printf("작성자 : %s\n", reply.memberId);
+
+		System.out.printf("내용 : ");
+		String body = Container.scanner.nextLine();
+
+		articleService.replyModify(memberId, inputedId, body);
+
+		System.out.println(inputedId + "번 게시물 수정이 완료되었습니다.");
+
 	}
 
 	private void doAddReply(String cmd) {
@@ -194,10 +233,10 @@ public class ArticleController {
 
 	private void showDetail(String cmd) {
 		System.out.println("== 게시물 상세페이지 ==");
-		if (Container.session.isLogined() == false) {
-			System.out.println("로그인 후 이용해주세요.");
-			return;
-		}
+//		if (Container.session.isLogined() == false) {
+//			System.out.println("로그인 후 이용해주세요.");
+//			return;
+//		}
 		int inputedId = Integer.parseInt(cmd.split(" ")[2]);
 
 		Article article = articleService.getArticle(inputedId);
@@ -208,7 +247,7 @@ public class ArticleController {
 		}
 
 		Member member = memberService.getMemberByMemberId(article.memberId);
-		List<Reply> replies = articleService.getReplyByArticleId(article.id);
+		List<Reply> replies = articleService.getRepliesByArticleId(article.id);
 
 		System.out.printf("번호 : %d\n", article.id);
 		System.out.printf("작성날짜 : %s\n", article.regDate);
@@ -217,9 +256,12 @@ public class ArticleController {
 		System.out.printf("제목 : %s\n", article.title);
 		System.out.printf("내용 : %s\n", article.body);
 
-		for (Reply reply : replies) {
-			Member replyMember = memberService.getMemberByMemberId(reply.memberId);
-			System.out.println("댓글: " + reply.id + reply.reply + replyMember.name);
+		if (replies != null) {
+			System.out.println("-----------------------------------------------------------");
+			System.out.println("댓글목록");
+			for (Reply reply : replies) {
+				System.out.printf("%d | 작성자(%s) | 댓글내용: %s \n", reply.id , member.name, reply.body);
+			}
 		}
 	}
 

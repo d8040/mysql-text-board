@@ -17,7 +17,7 @@ public class MemberDao {
 		sql.append(", updateDate = NOW()");
 		sql.append(", loginId = ?", loginId);
 		sql.append(", loginPw = ?", loginPw);
-		sql.append(", name = ?", name);
+		sql.append(", `name` = ?", name);
 
 		return MysqlUtil.insert(sql);
 	}

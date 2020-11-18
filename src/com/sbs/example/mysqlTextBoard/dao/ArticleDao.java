@@ -109,19 +109,19 @@ public class ArticleDao {
 		return new Board(boardMap);
 	}
 
-	public int reply(int memberId, int inputedId, String reply) {
+	public int reply(int memberId, int inputedId, String body) {
 		SecSql sql = new SecSql();
 		sql.append("INSERT INTO articleReply");
 		sql.append(" SET regDate = NOW()");
 		sql.append(", updateDate = NOW()");
 		sql.append(", memberId = ?", memberId);
-		sql.append(", reply = ?", reply);
+		sql.append(", body = ?", body);
 		sql.append(", articleId = ?", inputedId);
 
 		return MysqlUtil.insert(sql);
 	}
 
-	public List<Reply> getReplyByArticleId(int articleId) {
+	public List<Reply> getRepliesByArticleId(int articleId) {
 		List<Reply> replies = new ArrayList<>();
 
 		SecSql sql = new SecSql();
@@ -136,5 +136,29 @@ public class ArticleDao {
 			replies.add(new Reply(replyMap));
 		}
 		return replies;
+	}
+
+	public Reply getReplyByArticleId(int inputedId) {
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append("FROM articleReply");
+		sql.append("WHERE id = ?", inputedId);
+
+		Map<String, Object> replyMap = MysqlUtil.selectRow(sql);
+		if (replyMap.isEmpty()) {
+			return null;
+		}
+		return new Reply(replyMap);
+	}
+
+	public void replyModify(int memberId, int inputedId, String body) {
+		SecSql sql = new SecSql();
+		sql.append("UPDATE articleReply");
+		sql.append("SET updateDate = NOW()");
+		sql.append(", memberId = ?", memberId);
+		sql.append(", body = ?", body);
+		sql.append("where id = ?", inputedId);
+
+		MysqlUtil.update(sql);
 	}
 }
