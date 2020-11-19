@@ -115,7 +115,8 @@ UPDATE article SET rcmCount = (SELECT COUNT(memberId) FROM article WHERE memberI
 INSERT INTO article SET rcmCount  = (SELECT COUNT(memberId) FROM article WHERE memberId = 2);
 UPDATE article SET rcmCount = (SELECT COUNT(memberId) FROM recommand WHERE memberId = 1) WHERE id = 2;
 INSERT INTO recommand SET updateDate = NOW(), memberId = 1, articleId = 1 WHERE NOT EXISTS (SELECT * FROM recommand WHERE memberId = 1 AND articleId = 1);
-
+SELECT * FROM article WHERE id = 1; 
+UPDATE article SET hit = hit + 1 WHERE id = 1;
 INSERT INTO recommand 
 (updateDate, memberId, articleId) 
 SELECT NOW(), 1 , 3 
