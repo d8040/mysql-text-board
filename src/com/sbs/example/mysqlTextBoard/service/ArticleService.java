@@ -98,4 +98,8 @@ public class ArticleService {
 		return articleDao.cancleRcmd(memberId, articleId);
 	}
 
+	public void addHitCount(int inputedId) {
+		articleDao.addHitCount(inputedId);
+	}
+
 }

@@ -157,9 +157,12 @@ public class ArticleController {
 			System.out.println("존재하지 않는 게시물 입니다.");
 			return;
 		}
+		
+		Member member = memberService.getMemberByMemberId(article.memberId);
+		
 		System.out.printf("번호 : %d\n", article.id);
 		System.out.printf("작성날짜 : %s\n", article.regDate);
-		System.out.printf("작성자 : %s\n", article.memberId);
+		System.out.printf("작성자 : %s\n", member.name);
 		System.out.printf("제목 : %s\n", article.title);
 		System.out.printf("내용 : %s\n", article.body);
 
@@ -343,16 +346,16 @@ public class ArticleController {
 //			return;
 //		}
 		int inputedId = Integer.parseInt(cmd.split(" ")[2]);
-
+		articleService.addHitCount(inputedId);
 		Article article = articleService.getArticle(inputedId);
-
+		
 		if (article == null) {
 			System.out.println("존재하지 않는 게시물 입니다.");
 			return;
 		}
 
 		Member member = memberService.getMemberByMemberId(article.memberId);
-		List<Reply> replies = articleService.getRepliesByArticleId(article.id);
+		
 
 		System.out.printf("번호 : %d\n", article.id);
 		System.out.printf("작성날짜 : %s\n", article.regDate);
@@ -360,10 +363,14 @@ public class ArticleController {
 		System.out.printf("작성자 : %s\n", member.name);
 		System.out.printf("제목 : %s\n", article.title);
 		System.out.printf("내용 : %s\n", article.body);
+		System.out.printf("조회수 : %s\n", article.hit);
 		System.out.printf("추천수: %d\n", article.rcmCount);
 
+		List<Reply> replies = articleService.getRepliesByArticleId(article.id);
+		if(replies.size() != 0) {
 		System.out.println("-----------------------------------------------------------");
 		System.out.println("댓글목록");
+		}
 		for (Reply reply : replies) {
 			System.out.printf("%d | 작성자(%s) | 댓글내용: %s \n", reply.id, member.name, reply.body);
 		}

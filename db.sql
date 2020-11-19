@@ -12,7 +12,8 @@ CREATE TABLE article (
     `body` TEXT NOT NULL,
     memberId INT(10) UNSIGNED NOT NULL,
     boardId INT(10) UNSIGNED NOT NULL,
-    rcmCount INT(10) UNSIGNED NOT NULL
+    rcmCount INT(10) UNSIGNED NOT NULL,
+    hit INT(10) UNSIGNED NOT NULL
 );
 
 #멤버 테이블 생성

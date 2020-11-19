@@ -13,6 +13,7 @@ public class Article {
 	public String updateDate;
 	public String extra_writer;
 	public int rcmCount;
+	public int hit;
 	
 
 
@@ -25,6 +26,7 @@ public class Article {
 		this.memberId = (int) articleMap.get("memberId");
 		this.boardId = (int) articleMap.get("boardId");
 		this.rcmCount = (int) articleMap.get("rcmCount");
+		this.hit = (int) articleMap.get("hit");
 		if(articleMap.containsKey("extra_writer")) {
 			this.extra_writer = (String)articleMap.get("extra_writer");
 		}
@@ -36,6 +38,7 @@ public class Article {
 	public String toString() {
 		return "Article [id=" + id + ", title=" + title + ", body=" + body + ", memberId=" + memberId + ", boardId="
 				+ boardId + ", regDate=" + regDate + ", updateDate=" + updateDate + ", extra_writer=" + extra_writer
-				+ "]";
+				+ ", rcmCount=" + rcmCount + ", hit=" + hit + "]";
 	}
+
 }

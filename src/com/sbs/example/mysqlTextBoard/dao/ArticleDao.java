@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.Article;
 import com.sbs.example.mysqlTextBoard.dto.Board;
 import com.sbs.example.mysqlTextBoard.dto.Reply;
 import com.sbs.example.mysqlTextBoard.mysqlutil.MysqlUtil;
 import com.sbs.example.mysqlTextBoard.mysqlutil.SecSql;
+import com.sbs.example.mysqlTextBoard.service.ArticleService;
 
 public class ArticleDao {
+
+
 
 	public int add(int boardId, int memberId, String title, String body) {
 		SecSql sql = new SecSql();
@@ -23,6 +27,7 @@ public class ArticleDao {
 		sql.append(", title = ?", title);
 		sql.append(", body = ?", body);
 		sql.append(", rcmCount = ?", 0);
+		sql.append(", hit = ?", 0);
 
 		return MysqlUtil.insert(sql);
 
@@ -258,6 +263,16 @@ public class ArticleDao {
 		sql.append("DELETE FROM recommand WHERE memberId = ? and articleId = ?", memberId, articleId);
 
 		return MysqlUtil.delete(sql);
+	}
+
+	public void addHitCount(int inputedId) {
+		
+		SecSql sql = new SecSql();
+		sql.append("UPDATE article");
+		sql.append("SET hit = hit + 1");
+		sql.append("WHERE id = ?", inputedId);
+		
+		MysqlUtil.update(sql);
 	}
 
 }
