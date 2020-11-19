@@ -22,6 +22,7 @@ public class ArticleDao {
 		sql.append(", memberId = ?", memberId);
 		sql.append(", title = ?", title);
 		sql.append(", body = ?", body);
+		sql.append(", rcmCount = ?", 0);
 
 		return MysqlUtil.insert(sql);
 
@@ -83,24 +84,24 @@ public class ArticleDao {
 
 	}
 
-	public int makeBoard(int memberId, String name) {
+	public int makeBoard( String name, String code) {
 		SecSql sql = new SecSql();
 
 		sql.append("INSERT INTO board");
 		sql.append(" SET regDate = NOW()");
 		sql.append(", updateDate = NOW()");
-		sql.append(", memberId = memberId");
 		sql.append(", name = ?", name);
+		sql.append(", code = ?", code);
 
 		return MysqlUtil.insert(sql);
 	}
 
-	public Board getBoardByName(String inputName) {
+	public Board getBoardByCode(String inputCode) {
 
 		SecSql sql = new SecSql();
 		sql.append("SELECT *");
 		sql.append("FROM board");
-		sql.append("WHERE name = ?", inputName);
+		sql.append("WHERE `code` = ?", inputCode);
 
 		Map<String, Object> boardMap = MysqlUtil.selectRow(sql);
 		if (boardMap.isEmpty()) {
@@ -180,7 +181,9 @@ public class ArticleDao {
 		sql.append("FROM article AS A");
 		sql.append("INNER JOIN `member` AS M");
 		sql.append("ON A.memberId = M.id");
-		sql.append("WHERE boardId = ?", boardId);
+		if (boardId != 0) {
+			sql.append("WHERE boardId = ?", boardId);
+		}
 		sql.append("ORDER BY A.id DESC");
 
 		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
@@ -197,15 +200,64 @@ public class ArticleDao {
 		sql.append("INSERT INTO recommand");
 		sql.append("(updateDate, memberId, articleId)");
 		sql.append("SELECT NOW(), ?, ?", memberId, articleId);
-		sql.append(", articleId = ?", articleId);
-//		sql.append("WHERE NOT EXISTS(SELECT * FROM recommand WHERE memberId = ? AND articleId = ?", memberId, articleId);
+		sql.append("FROM DUAL WHERE NOT EXISTS");
+		sql.append("(SELECT * FROM recommand WHERE memberId = ? AND articleId = ?)", memberId, articleId);
+
 		MysqlUtil.insert(sql);
 		SecSql sql1 = new SecSql();
 		sql1.append(
 				"UPDATE article SET rcmCount = (SELECT COUNT(articleId) FROM recommand WHERE articleId = ?) WHERE id = ?",
 				articleId, articleId);
-		
+
 		return MysqlUtil.update(sql1);
 
 	}
+
+	public Board getBoardByName(String name) {
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append("FROM board");
+		sql.append("WHERE `name` = ?", name);
+
+		Map<String, Object> boardMap = MysqlUtil.selectRow(sql);
+		if (boardMap.isEmpty()) {
+			return null;
+		}
+		return new Board(boardMap);
+	}
+
+	public List<Board> getForPrintBoards() {
+		List<Board> boards = new ArrayList<>();
+
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append("FROM board");
+		sql.append("ORDER BY id DESC");
+
+		List<Map<String, Object>> boardMapList = MysqlUtil.selectRows(sql);
+
+		for (Map<String, Object> boardMap : boardMapList) {
+			boards.add(new Board(boardMap));
+		}
+
+		return boards;
+	}
+
+	public int getArticlesCount(int boardId) {
+
+		SecSql sql = new SecSql();
+		sql.append("SELECT COUNT(*)");
+		sql.append("FROM article");
+		sql.append("WHERE boardId = ?", boardId);
+
+		return MysqlUtil.selectRowIntValue(sql);
+	}
+
+	public int cancleRcmd(int memberId, int articleId) {
+		SecSql sql = new SecSql();
+		sql.append("DELETE FROM recommand WHERE memberId = ? and articleId = ?", memberId, articleId);
+
+		return MysqlUtil.delete(sql);
+	}
+
 }

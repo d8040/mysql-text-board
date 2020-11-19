@@ -32,7 +32,7 @@ public class ArticleController {
 			doWrite(cmd);
 		} else if (cmd.equals("article makeBoard")) {
 			doMakeBoard(cmd);
-		} else if (cmd.startsWith("article selectBoard ")) {
+		} else if (cmd.equals("article selectBoard")) {
 			doSelectBoard(cmd);
 		} else if (cmd.startsWith("article addReply ")) {
 			doAddReply(cmd);
@@ -40,25 +40,48 @@ public class ArticleController {
 			doModifyReply(cmd);
 		} else if (cmd.startsWith("article delReply ")) {
 			doDelReply(cmd);
-		} else if (cmd.startsWith("article recommand ")) {
-			doRecommand(cmd);
+		} else if (cmd.startsWith("article recommend ")) {
+			doRecommend(cmd);
+		} else if (cmd.startsWith("article canlclerecommend ")) {
+			doCancleRcmd(cmd);
 		}
 	}
 
-	private void doRecommand(String cmd) {
+	private void doCancleRcmd(String cmd) {
+		System.out.println("== 게시물 추천취소 ==");
+		if (Container.session.isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}
+		int inputId = Integer.parseInt(cmd.split(" ")[2]);
+
+		int memberId = Container.session.loginedMemberId;
+		Article article = articleService.getArticle(inputId);
+		
+		if (article.memberId != memberId) {
+			System.out.println("수정권한이 없습니다.");
+			return;
+		}
+		
+		int id = articleService.cancleRcmd(memberId, article.id);
+
+		System.out.println(id + "추천이 취소 되었습니다.");
+	}
+
+	private void doRecommend(String cmd) {
 		System.out.println("== 게시물 추천 ==");
 		if (Container.session.isLogined() == false) {
 			System.out.println("로그인 후 이용해주세요.");
 			return;
 		}
 		int inputId = Integer.parseInt(cmd.split(" ")[2]);
-		
+
 		int memberId = Container.session.loginedMemberId;
 		Article article = articleService.getArticle(inputId);
 
 		int id = articleService.recommand(memberId, article.id);
 
-		System.out.println(id+"추천 되었습니다.");
+		System.out.println(id + "추천 되었습니다.");
 	}
 
 	private void doDelReply(String cmd) {
@@ -155,11 +178,29 @@ public class ArticleController {
 			System.out.println("로그인 후 이용해주세요.");
 			return;
 		}
-		String inputedName = cmd.split(" ")[2];
 
-		Board board = articleService.getBoardByName(inputedName);
+		System.out.println("= 게시판 목록 =");
+		System.out.println("번호 / 생성날짜 / 코드 / 이름 / 게시물 수량");
 
-		Container.session.selectBoardId = board.id;
+		List<Board> boards = articleService.getForPrintBoards();
+
+		for (Board board : boards) {
+			int articlesCount = articleService.getArticlesCount(board.id);
+			System.out.printf("%d / %s / %s / %s / %d \n", board.id, board.regDate, board.code, board.name,
+					articlesCount);
+		}
+		
+		System.out.printf("게시판 코드: ");
+		String inputCode = Container.scanner.nextLine().trim();
+		
+		Board board = articleService.getBoardByCode(inputCode);
+		
+		if (board == null) {
+			System.out.println("코드를 잘 못 입력하였습니다.");
+			return;
+		}
+		
+		Container.session.setCurrentBoardCode(board.code);
 		System.out.println(board.name + "로 이동되었습니다.");
 	}
 
@@ -171,11 +212,30 @@ public class ArticleController {
 			return;
 		}
 
+		Member member = memberService.getMemberByMemberId(Container.session.loginedMemberId);
+
+		if (member.isAdmin() == false) {
+			System.out.println("관리자만 생성할 수 있습니다.");
+			return;
+		}
+
 		System.out.printf("게시판 이름 : ");
 		String name = Container.scanner.nextLine().trim();
 
-		int loginedId = Container.session.loginedMemberId;
-		int boardId = articleService.makeBoard(loginedId, name);
+		if (articleService.isMakeBoardAvailableName(name) == false) {
+			System.out.println("중복 게시판이 있습니다.");
+			return;
+		}
+
+		System.out.printf("게시판 코드 : ");
+		String code = Container.scanner.nextLine().trim();
+
+		if (articleService.isMakeBoardAvailableCode(code) == false) {
+			System.out.println("중복 게시판이 있습니다.");
+			return;
+		}
+
+		int boardId = articleService.makeBoard(name, code);
 
 		System.out.println(boardId + "번 게시판이 생성되었습니다.");
 	}
@@ -194,9 +254,9 @@ public class ArticleController {
 		String body = Container.scanner.nextLine();
 
 		int memberId = Container.session.loginedMemberId;
-		int boardId = Container.session.selectBoardId;
+		Board board = articleService.getBoardByCode(Container.session.getCurrentBoardCode());
 
-		int id = articleService.add(boardId, memberId, title, body);
+		int id = articleService.add(board.id, memberId, title, body);
 
 		System.out.println(id + "번 게시물이 생성되었습니다.");
 
@@ -261,16 +321,18 @@ public class ArticleController {
 	}
 
 	private void showList(String cmd) {
-		System.out.println("== 게시물 리스트 ==");
-		int boardId = Container.session.selectBoardId;
-		List<Article> articles = articleService.getForPrintArticles(boardId);
+
+		String boardCode = Container.session.getCurrentBoardCode();
+		Board board = articleService.getBoardByCode(boardCode);
+		System.out.printf("== %s 게시판 리스트 ==\n", board.name);
+		List<Article> articles = articleService.getForPrintArticles(board.id);
 
 		System.out.println("번호 / 작성 / 수정 / 작성자 / 제목 / 추천수");
 
 		for (Article article : articles) {
 			Member member = memberService.getMemberByMemberId(article.memberId);
-			System.out.printf("%d / %s / %s / %s / %s / %d\n", article.id, article.regDate, article.updateDate, member.name,
-					article.title, article.rcmCount);
+			System.out.printf("%d / %s / %s / %s / %s / %d\n", article.id, article.regDate, article.updateDate,
+					member.name, article.title, article.rcmCount);
 		}
 	}
 

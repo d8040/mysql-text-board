@@ -36,10 +36,14 @@ public class MemberController {
 		int loginedId = Container.session.loginedMemberId;
 		Member member = memberService.getMemberByMemberId(loginedId);
 
+		System.out.println("번호: " + member.id);
+		System.out.println("가입 일자: " + member.regDate);
+		System.out.println("수정 일자: " + member.updateDate);
 		System.out.println("로그인 아이디: " + member.loginId);
 		System.out.println("사용자 이름: " + member.name);
-		System.out.println("생성 일자: " + member.regDate);
-		System.out.println("수정 일자: " + member.updateDate);
+		System.out.println("회원 종류: " + member.getType());
+		
+		
 	}
 
 	private void dologout(String cmd) {

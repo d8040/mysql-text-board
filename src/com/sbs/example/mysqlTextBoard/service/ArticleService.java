@@ -35,12 +35,12 @@ public class ArticleService {
 		return articleDao.add(boardId, memberId, title, body);
 	}
 
-	public int makeBoard(int loginedId, String name) {
-		return articleDao.makeBoard(loginedId, name);
+	public int makeBoard( String name, String code) {
+		return articleDao.makeBoard(name, code);
 	}
 
-	public Board getBoardByName(String inputName) {
-		return articleDao.getBoardByName(inputName);
+	public Board getBoardByCode(String inputCode) {
+		return articleDao.getBoardByCode(inputCode);
 	}
 
 	public int reply(int memberId, int inputedId, String body) {
@@ -72,6 +72,30 @@ public class ArticleService {
 
 	public int recommand(int memberId, int articleId) {
 		return articleDao.recommand(memberId, articleId);
+	}
+
+	public boolean isMakeBoardAvailableName(String name) {
+		Board board = articleDao.getBoardByName(name);
+
+		return board == null;
+	}
+
+	public boolean isMakeBoardAvailableCode(String code) {
+		Board board = articleDao.getBoardByCode(code);
+
+		return board == null;
+	}
+
+	public List<Board> getForPrintBoards() {
+		return articleDao.getForPrintBoards();
+	}
+
+	public int getArticlesCount(int BoardId) {
+		return articleDao.getArticlesCount(BoardId);
+	}
+
+	public int cancleRcmd(int memberId, int articleId) {
+		return articleDao.cancleRcmd(memberId, articleId);
 	}
 
 }

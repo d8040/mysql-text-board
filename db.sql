@@ -20,9 +20,9 @@ CREATE TABLE `member` (
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
     updateDate DATETIME NOT NULL,
-    loginId CHAR(200) NOT NULL,
-    loginPw CHAR(200) NOT NULL,
-    `name` CHAR(200) NOT NULL
+    loginId CHAR(20) NOT NULL,
+    loginPw CHAR(20) NOT NULL,
+    `name` CHAR(20) NOT NULL
 );
 
 #게시판 테이블 생성
@@ -30,7 +30,8 @@ CREATE TABLE board (
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
     updateDate DATETIME NOT NULL,   
-    `name` CHAR(200) NOT NULL
+    `name` CHAR(20) NOT NULL,
+    `code` CHAR(20) NOT NULL
 );
 
 #댓글 테이블 생성
@@ -40,7 +41,7 @@ CREATE TABLE articleReply (
     updateDate DATETIME NOT NULL,   
     memberId INT(10) UNSIGNED NOT NULL,
     articleId INT(10) UNSIGNED NOT NULL,
-    `body` CHAR(200) NOT NULL
+    `body` CHAR(20) NOT NULL
 );
 
 #게시물 추천 테이블 생성
@@ -50,26 +51,31 @@ CREATE TABLE recommand (
     memberId INT(10) UNSIGNED NOT NULL,
     articleId INT(10) UNSIGNED NOT NULL
 );
-#게시판 데이터 2개 생성
-INSERT INTO BOARD 
-SET regDate = NOW(),
-updateDate = NOW(),
-`name` = 'notice';
 
-INSERT INTO BOARD 
+#게시판 데이터 2개 생성
+INSERT INTO board 
 SET regDate = NOW(),
 updateDate = NOW(),
-`name` = 'free';
+`name` = '공지사항',
+`code` = 'notice';
+
+INSERT INTO board 
+SET regDate = NOW(),
+updateDate = NOW(),
+`name` = '자유',
+`code` = 'free';
+
+UPDATE article SET boardId = 2 LIMIT 2;
 
 #멥버 데이터 2개 생성
-INSERT INTO MEMBER
+INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
 loginId = 'aaa',
 loginPw = 'aaa',
 `name` = 'aaa';
 
-INSERT INTO MEMBER
+INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
 loginId = 'bbb',
@@ -112,8 +118,7 @@ INSERT INTO recommand SET updateDate = NOW(), memberId = 1, articleId = 1 WHERE 
 INSERT INTO recommand 
 (updateDate, memberId, articleId) 
 SELECT NOW(), 1 , 3 
-FROM DUAL 
-WHERE NOT EXISTS 
+FROM DUAL WHERE NOT EXISTS 
 (SELECT * FROM recommand WHERE memberId = 1 AND articleId = 3);
 
 # aritcle에 추천 카운트 칼럼 추가

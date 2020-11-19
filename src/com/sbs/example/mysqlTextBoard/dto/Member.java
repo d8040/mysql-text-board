@@ -19,9 +19,18 @@ public class Member {
 	public int id;
 	public String regDate;
 	public String updateDate;
-	
+
+	public String getType() {
+		return isAdmin() ? "관리자" :"일번회원";
+	}
+
+	public boolean isAdmin() {
+		return loginId.equals("aaa");
+	}
+
 	@Override
 	public String toString() {
-		return "Member [name=" + name + ", loginId=" + loginId + ", loginPw=" + loginPw + ", id=" + id + "]";
+		return "Member [name=" + name + ", loginId=" + loginId + ", loginPw=" + loginPw + ", id=" + id + ", regDate="
+				+ regDate + ", updateDate=" + updateDate + "]";
 	}
 }
