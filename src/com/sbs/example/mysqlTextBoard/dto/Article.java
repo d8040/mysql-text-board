@@ -11,6 +11,8 @@ public class Article {
 	public int boardId;
 	public String regDate;
 	public String updateDate;
+	public String extra_writer;
+	public int rcmCount;
 	
 
 
@@ -22,13 +24,18 @@ public class Article {
 		this.body = (String) articleMap.get("body");
 		this.memberId = (int) articleMap.get("memberId");
 		this.boardId = (int) articleMap.get("boardId");
+		this.rcmCount = (int) articleMap.get("rcmCount");
+		if(articleMap.containsKey("extra_writer")) {
+			this.extra_writer = (String)articleMap.get("extra_writer");
+		}
 	}
+
 
 
 	@Override
 	public String toString() {
-		return "Article [id=" + id + ", regDate=" + regDate + ", updateDate=" + updateDate + ", title=" + title
-				+ ", body=" + body + ", memberId=" + memberId + ", boardId=" + boardId + "]";
+		return "Article [id=" + id + ", title=" + title + ", body=" + body + ", memberId=" + memberId + ", boardId="
+				+ boardId + ", regDate=" + regDate + ", updateDate=" + updateDate + ", extra_writer=" + extra_writer
+				+ "]";
 	}
-
 }

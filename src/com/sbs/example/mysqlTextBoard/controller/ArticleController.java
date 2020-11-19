@@ -40,7 +40,25 @@ public class ArticleController {
 			doModifyReply(cmd);
 		} else if (cmd.startsWith("article delReply ")) {
 			doDelReply(cmd);
+		} else if (cmd.startsWith("article recommand ")) {
+			doRecommand(cmd);
 		}
+	}
+
+	private void doRecommand(String cmd) {
+		System.out.println("== 게시물 추천 ==");
+		if (Container.session.isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}
+		int inputId = Integer.parseInt(cmd.split(" ")[2]);
+		
+		int memberId = Container.session.loginedMemberId;
+		Article article = articleService.getArticle(inputId);
+
+		int id = articleService.recommand(memberId, article.id);
+
+		System.out.println(id+"추천 되었습니다.");
 	}
 
 	private void doDelReply(String cmd) {
@@ -56,7 +74,7 @@ public class ArticleController {
 			System.out.println("존재하지 않는 게시물 입니다.");
 			return;
 		}
-		
+
 		if (reply.memberId != Container.session.loginedMemberId) {
 			System.out.println("권한이 없습니다.");
 			return;
@@ -245,14 +263,14 @@ public class ArticleController {
 	private void showList(String cmd) {
 		System.out.println("== 게시물 리스트 ==");
 		int boardId = Container.session.selectBoardId;
-		List<Article> articles = articleService.getArticles(boardId);
+		List<Article> articles = articleService.getForPrintArticles(boardId);
 
-		System.out.println("번호 / 작성 / 수정 / 작성자 / 제목");
+		System.out.println("번호 / 작성 / 수정 / 작성자 / 제목 / 추천수");
 
 		for (Article article : articles) {
 			Member member = memberService.getMemberByMemberId(article.memberId);
-			System.out.printf("%d / %s / %s / %s / %s\n", article.id, article.regDate, article.updateDate, member.name,
-					article.title);
+			System.out.printf("%d / %s / %s / %s / %s / %d\n", article.id, article.regDate, article.updateDate, member.name,
+					article.title, article.rcmCount);
 		}
 	}
 
@@ -280,16 +298,14 @@ public class ArticleController {
 		System.out.printf("작성자 : %s\n", member.name);
 		System.out.printf("제목 : %s\n", article.title);
 		System.out.printf("내용 : %s\n", article.body);
+		System.out.printf("추천수: %d\n", article.rcmCount);
 
-		if (replies == null) {
-			return;
+		System.out.println("-----------------------------------------------------------");
+		System.out.println("댓글목록");
+		for (Reply reply : replies) {
+			System.out.printf("%d | 작성자(%s) | 댓글내용: %s \n", reply.id, member.name, reply.body);
 		}
-			System.out.println("-----------------------------------------------------------");
-			System.out.println("댓글목록");
-			for (Reply reply : replies) {
-				System.out.printf("%d | 작성자(%s) | 댓글내용: %s \n", reply.id , member.name, reply.body);
-			}
-		
+
 	}
 
 }

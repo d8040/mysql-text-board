@@ -172,7 +172,40 @@ public class ArticleDao {
 	}
 
 	public List<Article> getForPrintArticles(int boardId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Article> articles = new ArrayList<>();
+
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append(", M.name AS extra_writer");
+		sql.append("FROM article AS A");
+		sql.append("INNER JOIN `member` AS M");
+		sql.append("ON A.memberId = M.id");
+		sql.append("WHERE boardId = ?", boardId);
+		sql.append("ORDER BY A.id DESC");
+
+		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
+
+		for (Map<String, Object> articleMap : articleMapList) {
+			articles.add(new Article(articleMap));
+		}
+
+		return articles;
+	}
+
+	public int recommand(int memberId, int articleId) {
+		SecSql sql = new SecSql();
+		sql.append("INSERT INTO recommand");
+		sql.append("(updateDate, memberId, articleId)");
+		sql.append("SELECT NOW(), ?, ?", memberId, articleId);
+		sql.append(", articleId = ?", articleId);
+//		sql.append("WHERE NOT EXISTS(SELECT * FROM recommand WHERE memberId = ? AND articleId = ?", memberId, articleId);
+		MysqlUtil.insert(sql);
+		SecSql sql1 = new SecSql();
+		sql1.append(
+				"UPDATE article SET rcmCount = (SELECT COUNT(articleId) FROM recommand WHERE articleId = ?) WHERE id = ?",
+				articleId, articleId);
+		
+		return MysqlUtil.update(sql1);
+
 	}
 }
