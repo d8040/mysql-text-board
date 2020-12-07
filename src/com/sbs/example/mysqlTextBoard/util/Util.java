@@ -1,6 +1,7 @@
 package com.sbs.example.mysqlTextBoard.util;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -22,6 +23,14 @@ public class Util {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+	}
+
+	public static void mkdirs(String path) {
+		File HtmlFolder = new File(path);
+
+		if ( HtmlFolder.exists() == false ) {
+			HtmlFolder.mkdir();
 		}
 	}
 

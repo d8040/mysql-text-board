@@ -20,28 +20,44 @@ public class ExportService {
 
 	public void makeHtml() {
 		List<Article> articles = articleService.getForPrintArticles();
-		File HtmlFolder = new File("site");
-
-		if ( HtmlFolder.exists() == false ) {
-			HtmlFolder.mkdir();
-		}
+		
+		Util.mkdirs("site/article");
+		
 		
 		for (Article article : articles) {
 			Member member = memberService.getMemberByMemberId(article.memberId);
+			StringBuffer sb = new StringBuffer();
 			
 			String fileName = article.id + ".html";
-			String html = "<meta charset=\"UTF-8\">";
-			html += "<div>번호: " + article.id +"</div>";
-			html += "<div>날짜: " + article.regDate +"</div>";
-			html += "<div>작성자: " + member.name +"</div>";
-			html += "<div>제목: " + article.title +"</div>";
-			html += "<div>내용: " + article.body +"</div>";
-			if (article.id >1) {
-				html += "<div><a href=\"" + (article.id -1) + ".html\">이전글</a></div>";
-			}
-			html += "<div><a href=\"" + (article.id +1) + ".html\">다음글</a></div>";
+			sb.append("<!DOCTYPE html>");
+			sb.append("<html lang=\"ko\">");
 			
-			Util.writeFileContents("site/"+fileName, html);
+			sb.append("<head>");
+			sb.append("<meta charset=\"UTF-8\">");
+			sb.append("<meta name=\"viewport\" content=\"width=device-width, inital-scale=1\">");
+			sb.append("<title>게시물 상세페이지 - "+article.title + "</title>");
+			sb.append("</head>");
+			
+			sb.append("<body>");
+			sb.append("<h1>게시물 상세페이지</h1>");
+			sb.append("<div>번호: " + article.id +"</div>");
+			sb.append("<div>날짜: " + article.regDate +"</div>");
+			sb.append("<div>작성자: " + member.name +"</div>");
+			sb.append("<div>제목: " + article.title +"</div>");
+			sb.append("<div>내용: " + article.body +"</div>");
+			
+			if (article.id >1) {
+				sb.append("<div><a href=\"" + (article.id -1) + ".html\">이전글</a></div>");
+			}
+			sb.append("<div><a href=\"" + (article.id +1) + ".html\">다음글</a></div>");
+			
+			sb.append("</body>");
+			
+			sb.append("</html>");			
+			
+			Util.writeFileContents("site/article/"+fileName, sb.toString());
+			
+			System.out.println("site/article/"+fileName+"생성");
 		}
 	}
 
