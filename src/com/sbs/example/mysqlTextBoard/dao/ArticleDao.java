@@ -11,8 +11,7 @@ import com.sbs.example.mysqlTextBoard.mysqlutil.MysqlUtil;
 import com.sbs.example.mysqlTextBoard.mysqlutil.SecSql;
 
 public class ArticleDao {
-
-
+	private List<Article> articles;
 
 	public int add(int boardId, int memberId, String title, String body) {
 		SecSql sql = new SecSql();
@@ -38,6 +37,23 @@ public class ArticleDao {
 		sql.append("SELECT *");
 		sql.append("FROM article");
 		sql.append("WHERE boardId = ?", boardId);
+		sql.append("ORDER BY id DESC");
+
+		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
+
+		for (Map<String, Object> articleMap : articleMapList) {
+			articles.add(new Article(articleMap));
+		}
+
+		return articles;
+	}
+
+	public List<Article> getArticles() {
+		List<Article> articles = new ArrayList<>();
+
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append("FROM article");
 		sql.append("ORDER BY id DESC");
 
 		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
@@ -87,7 +103,7 @@ public class ArticleDao {
 
 	}
 
-	public int makeBoard( String name, String code) {
+	public int makeBoard(String name, String code) {
 		SecSql sql = new SecSql();
 
 		sql.append("INSERT INTO board");
@@ -264,12 +280,12 @@ public class ArticleDao {
 	}
 
 	public void addHitCount(int inputedId) {
-		
+
 		SecSql sql = new SecSql();
 		sql.append("UPDATE article");
 		sql.append("SET hit = hit + 1");
 		sql.append("WHERE id = ?", inputedId);
-		
+
 		MysqlUtil.update(sql);
 	}
 

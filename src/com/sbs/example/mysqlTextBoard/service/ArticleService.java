@@ -102,4 +102,8 @@ public class ArticleService {
 		articleDao.addHitCount(inputedId);
 	}
 
+	public List<Article> getForPrintArticles() {
+		return articleDao.getArticles();
+	}
+
 }

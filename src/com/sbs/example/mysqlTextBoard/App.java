@@ -3,14 +3,17 @@ package com.sbs.example.mysqlTextBoard;
 import java.util.Scanner;
 
 import com.sbs.example.mysqlTextBoard.controller.ArticleController;
+import com.sbs.example.mysqlTextBoard.controller.ExportController;
 import com.sbs.example.mysqlTextBoard.controller.MemberController;
 import com.sbs.example.mysqlTextBoard.mysqlutil.MysqlUtil;
 
 public class App {
 	private MemberController memberController;
+	private ExportController exportController;
 	
 	public App() {
 		memberController = Container.memberController;
+		exportController = Container.exportController;
 	}
 
 	public void run() {
@@ -29,6 +32,9 @@ public class App {
 				MysqlUtil.closeConnection();
 			} else if (cmd.startsWith("member ")) {
 				memberController.doCommand(cmd);
+				MysqlUtil.closeConnection();
+			}  else if (cmd.startsWith("build ")) {
+				exportController.doCommand(cmd);
 				MysqlUtil.closeConnection();
 			} 
 			
