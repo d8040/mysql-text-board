@@ -2,6 +2,7 @@ package com.sbs.example.mysqlTextBoard.util;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -33,5 +34,25 @@ public class Util {
 			HtmlFolder.mkdir();
 		}
 	}
+	public static String getFileContents(String filePath) {
+		String rs = null;
+		try {
+			// 바이트 단위로 파일읽기
+			FileInputStream fileStream = null; // 파일 스트림
 
+			fileStream = new FileInputStream(filePath);// 파일 스트림 생성
+			// 버퍼 선언
+			byte[] readBuffer = new byte[fileStream.available()];
+			while (fileStream.read(readBuffer) != -1) {
+			}
+
+			rs = new String(readBuffer);
+
+			fileStream.close(); // 스트림 닫기
+		} catch (Exception e) {
+			e.getStackTrace();
+		}
+
+		return rs;
+	}
 }
