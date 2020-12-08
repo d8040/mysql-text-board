@@ -1,5 +1,7 @@
 package com.sbs.example.mysqlTextBoard.service;
 
+import java.util.List;
+
 import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dao.MemberDao;
 import com.sbs.example.mysqlTextBoard.dto.Member;
@@ -22,6 +24,10 @@ public class MemberService {
 	
 	public Member getMemberByMemberId(int memberId) {
 		return memberDao.getMemberByMemberId(memberId);
+	}
+
+	public List<Member> getForPrintMembers() {
+		return memberDao.getMembers();
 	}
 
 }

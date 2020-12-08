@@ -42,8 +42,7 @@ public class MemberController {
 		System.out.println("로그인 아이디: " + member.loginId);
 		System.out.println("사용자 이름: " + member.name);
 		System.out.println("회원 종류: " + member.getType());
-		
-		
+
 	}
 
 	private void dologout(String cmd) {
@@ -85,21 +84,23 @@ public class MemberController {
 
 	private void doJoin(String cmd) {
 		System.out.println("== 회원 가입 ==");
-		
+
 		if (Container.session.isLogined()) {
 			System.out.println("로그아웃 이후 이용해주세요!");
 			return;
 		}
-		
+
 		System.out.printf("아이디 : ");
 		String loginId = Container.scanner.nextLine().trim();
 
 		Member member = memberService.getMemberByLoginId(loginId);
-		if (member.loginId.equals(loginId)) {
-			System.out.println("이미 존재하는 아이디입니다.");
-			return;
+		if(member != null) {
+			if (member.loginId.equals(loginId)) {
+				System.out.println("이미 존재하는 아이디입니다.");
+				return;
+			}	
 		}
-
+		
 		System.out.printf("비밀번호 : ");
 		String loginPw = Container.scanner.nextLine().trim();
 		System.out.printf("사용자이름 : ");
@@ -108,6 +109,6 @@ public class MemberController {
 		int id = memberService.join(loginId, loginPw, name);
 
 		System.out.println(id + "번 회원가입이 완료되었습니다.");
-	}
 
+	}
 }
