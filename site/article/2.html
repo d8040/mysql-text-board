@@ -1,48 +1,43 @@
 <!-- 폰트어썸 불러오기 -->
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
 <header class="logo-bar con-min-width">
-	<div class="con text-align-center">
-		<a href="./" class="logo"> <i class="fab fa-jenkins"></i> <span>Developers</span>
-		</a>
-	</div>
+  <div class="con text-align-center">
+    <a href="./" class="logo"> <i class="fab fa-jenkins"></i> <span>Developers</span>
+    </a>
+  </div>
 </header>
 
 <header class="menu-bar con-min-width">
-	<div class="con">
-		<nav class="menu-bar__menu-1">
-			<ul class="float-grid">
-				<li><a href="./" class="block"> <i class="fas fa-home"></i>
-						<span>HOME</span>
-				</a></li>
-				<li><a href="article_list.html" class="block"> <i class="fas fa-list"></i> <span>ARTICLES</span>
-				</a>
-					<ul>
-						<li><a href="article_free_list.html" class="block"> <i
-								class="fab fa-free-code-camp"></i> <span>FREE</span>
-						</a></li>
-						<li><a href="article_notice_list.html" class="block"> <i
-								class="fas fa-flag"></i> <span>NOTICE</span>
-						</a></li>
-					</ul></li>
-				<li><a class="block"> <i class="fas fa-link"></i> <span>LINK</span>
-				</a>
-					<ul>
-						<li><a href="https://d8040.tistory.com/" target="_blank"
-							class="block"> <i class="fab fa-blogger-b"></i> <span>BLOG</span>
-						</a></li>
-						<li><a href="https://github.com/" target="_blank"
-							class="block"> <i class="fab fa-github"></i> <span>GITHUB</span>
-						</a></li>
-					</ul></li>
-				<li><a href="index.html" class="block"> <i
-						class="fas fa-chart-pie"></i> <span>STATISTICS</span>
-				</a></li>
-			</ul>
-		</nav>
-	</div>
-	<style>
+  <div class="con">
+    <nav class="menu-bar__menu-1">
+      <ul class="float-grid">
+        <li><a href="./" class="block"> <i class="fas fa-home"></i>
+          <span>HOME</span>
+          </a></li>
+        <li><a href="article_list1.html" class="block"> <i class="fas fa-list"></i> <span>ARTICLES</span>
+          </a>
+          <ul>
+            <li><a href="article_free_list1.html" class="block"> <i class="fab fa-free-code-camp"></i> <span>FREE</span>
+              </a></li>
+            <li><a href="article_notice_list1.html" class="block"> <i class="fas fa-flag"></i> <span>NOTICE</span>
+              </a></li>
+          </ul></li>
+        <li><a class="block"> <i class="fas fa-link"></i> <span>LINK</span>
+          </a>
+          <ul>
+            <li><a href="https://d8040.tistory.com/" target="_blank" class="block"> <i class="fab fa-blogger-b"></i> <span>BLOG</span>
+              </a></li>
+            <li><a href="https://github.com/" target="_blank" class="block"> <i class="fab fa-github"></i> <span>GITHUB</span>
+              </a></li>
+          </ul></li>
+        <li><a href="index.html" class="block"> <i class="fas fa-chart-pie"></i> <span>STATISTICS</span>
+          </a></li>
+      </ul>
+    </nav>
+  </div>
+  <style>
 		html {
   font-family: 'LotteMartDream', sans-serif;
 }
@@ -60,6 +55,9 @@ a {
 }
 
 /* 라이브러리 */
+.flex{
+  display:flex;
+}
 .hover-underline:hover {
   text-decoration:underline;
 }
@@ -231,7 +229,22 @@ a {
   width: 800px;
 }
 /* 하단 바 끝 */
-
+/* 메인화면크기 */
+body > main{
+  height:570px;
+}
+/* 메인화면크기 끝  */
+/* 페이징 */
+.page{
+  display:flex;  
+  justify-content:center;
+  margin-top:20px;
+}
+.page-no > a {
+  justify-content:center;
+  width:60px;
+}
+/* 페이징끝 */
 
 /* 게시물 리스트 */
 :root {
@@ -300,9 +313,14 @@ a {
   border-top:1px solid black;
 }
 
-	</style>
+  </style>
 </header>
-<main><div class="title-bar con-min-width"><h1 class="con"><i class="fas fa-flag"></i><span>게시물 상세페이지</span></h1></div><section class="section-1 con-min-width"><div class="con"><div class="article-detail"><div>번호: 2</div><div>날짜: 2020-12-09 10:32:35</div><div>작성자: aaa</div><div>제목: 제목2</div><div>내용: 내용2</div></div></div></section><div><a href="1.html">이전글</a></div><div><a href="3.html">다음글</a></div></section>
+<main>
+
+
+               
+               
+<div class="title-bar con-min-width"><h1 class="con"><i class="fas fa-flag"></i><span>게시물 상세페이지</span></h1></div><section class="section-1 con-min-width"><div class="con"><div class="article-detail"><div>번호: 2</div><div>날짜: 2020-12-09 18:51:59</div><div>작성자: aaa</div><div>제목: 제목2</div><div>내용: 내용2</div></div></div></section><div><a href="1.html">이전글</a></div><div><a href="3.html">다음글</a></div></section>
 </main>
 <footer class="bottom-bar con-min-width">
 	<div class="con float-grid">

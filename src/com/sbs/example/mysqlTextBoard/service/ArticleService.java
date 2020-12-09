@@ -106,4 +106,16 @@ public class ArticleService {
 		return articleDao.getArticles();
 	}
 
+	public Article getForPrintArticle(int articleId, int boardId) {
+		return articleDao.getForPrintArticle(articleId, boardId);
+	}
+
+	public List<Article> getArticlesByPaging(int boardId, int end, int paging) {
+	return articleDao.getArticlesByPaging(boardId, end, paging);
+	}
+
+	public List<Article> getArticlesByPagingAll(int start, int page) {
+		return articleDao.getArticlesByPagingAll(start, page);
+	}
+
 }

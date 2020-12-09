@@ -19,7 +19,7 @@ public class ExportService {
 
 	public void makeHtml() {
 		List<Article> articles = articleService.getForPrintArticles();
-
+		System.out.println(articles.size());
 		Util.mkdirs("site/article");
 
 		String head = Util.getFileContents("site_template/part/head.html");
@@ -51,7 +51,9 @@ public class ExportService {
 			if (article.id > 1) {
 				sb.append("<div><a href=\"" + (article.id - 1) + ".html\">이전글</a></div>");
 			}
-			sb.append("<div><a href=\"" + (article.id + 1) + ".html\">다음글</a></div>");
+			if (articles.size() >= article.id) {
+				sb.append("<div><a href=\"" + (article.id + 1) + ".html\">다음글</a></div>");
+			}
 			sb.append(foot);
 
 			Util.writeFileContents("site/article/" + fileName, sb.toString());
@@ -59,6 +61,12 @@ public class ExportService {
 			System.out.println("site/article/" + fileName + "생성");
 		}
 		// 전체 게시판리스트
+		
+		List<Article> articles_listArticle = articleService.getForPrintArticles();
+		int start = 0;
+		int page = 10;
+		for (int i = 1; i <= (articles_listArticle.size() / 10) + 1; i++) {
+			List<Article> articles_Paging = articleService.getArticlesByPagingAll(start, page);
 		StringBuffer sb = new StringBuffer();
 		sb.append(head);
 		sb.append("<div class=\"title-bar con-min-width\">");
@@ -78,7 +86,7 @@ public class ExportService {
 		sb.append("<div class=\"article-list__cell-title\">제목</div>");
 		sb.append("</div></header>");
 		sb.append("<main>");
-		for (Article article : articles) {
+		for (Article article : articles_Paging) {
 			Member member = memberService.getMemberByMemberId(article.memberId);
 			sb.append("<div>");
 			sb.append("<div class=article-list__cell-id>" + article.id + "</div>");
@@ -90,36 +98,32 @@ public class ExportService {
 			sb.append("</div>");
 		}
 		sb.append("</main>");
+		sb.append("<div class=\"page-box con-min-witdh\">");
+		sb.append("<div class=\"page con flex\">");
+		for (int k = 1; k <= (articles_listArticle.size() / 10) + 1; k++) {
+			sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" + k
+					+ ".html\">" + k + "</a></div>");
+		}
+		sb.append("</div>");
+		sb.append("</div>");
 		sb.append(foot);
-		Util.writeFileContents("site/article/" + "article_list.html", sb.toString());
-		System.out.println("site/article/" + "article_list.html" + "생성");
+		start = start + 10;
+		Util.writeFileContents("site/article/" + "article_list" + i + ".html", sb.toString());
+		System.out.println("site/article/" + "article_list" + i + ".html" + "생성");
+		}
+		start = 0;
+		page = 10;
+		// 공지 게시판 페이징
+		List<Article> articles_noticeListarticle = articleService.getForPrintArticles(1);
+		for (int i = 1; i <= (articles_noticeListarticle.size() / 10) + 1; i++) {
 
-		// 공지 게시판 리스트
-		
-		
-		
-//		start -= ((articles.size() / 10) - 1) * page;
-//		int end = start - (page - 1);
-//
-//		if (end < 0) {
-//			end = 0;
-//		}
-		List<Article> articles_noticeListarti = articleService.getForPrintArticles(1);
-		int start = articles_noticeListarti.size() - 1;
-		int page = 10;
-		for (int i = 1; i <=(articles_noticeListarti.size() / 10)+1 ; i++) {			
-			start -= (i-1) * page;
-			int end = start - (page - 1); 
-
-			if (end < 0) {
-				end = 0;
-			}
-			StringBuffer sb_noticeList = new StringBuffer();			
+			List<Article> articles_Paging = articleService.getArticlesByPaging(1, start, page);
+			StringBuffer sb_noticeList = new StringBuffer();
 			sb_noticeList.append(head);
 			sb_noticeList.append("<div class=\"title-bar con-min-width\">");
 			sb_noticeList.append("<h1 class=\"con\">");
 			sb_noticeList.append("<i class=\"fas fa-flag\"></i>");
-			sb_noticeList.append("<span>공지 게시판</span>");
+			sb_noticeList.append("<span>공지 게시판"+i+"페이지" +"</span>");
 			sb_noticeList.append("</h1>");
 			sb_noticeList.append("</div>");
 			sb_noticeList.append("<section class=\"section-1 con-min-width\">");
@@ -133,60 +137,86 @@ public class ExportService {
 			sb_noticeList.append("<div class=\"article-list__cell-title\">제목</div>");
 			sb_noticeList.append("</div></header>");
 			sb_noticeList.append("<main>");
-		for (int j = start; j >= end; j--) {
-			Article article = articleService.getArticle(j);
-			Member member = memberService.getMemberByMemberId(article.memberId);
-			sb_noticeList.append("<div>");
-			sb_noticeList.append("<div class=article-list__cell-id>" + article.id + "</div>");
-			sb_noticeList.append("<div class=article-list__cell-reg-date>" + article.regDate + "</div>");
-			sb_noticeList.append("<div class=article-list__cell-writer>" + member.name + "</div>");
-			sb_noticeList.append("<div class=article-list__cell-rcm>" + article.rcmCount + "</div>");
-			sb_noticeList.append("<div class=article-list__cell-title><a href=" + article.id
-					+ ".html class=hover-underline>" + article.title + "</a></div>");
+			for (Article article : articles_Paging) {
+				Member member = memberService.getMemberByMemberId(article.memberId);
+				sb_noticeList.append("<div>");
+				sb_noticeList.append("<div class=article-list__cell-id>" + article.id + "</div>");
+				sb_noticeList.append("<div class=article-list__cell-reg-date>" + article.regDate + "</div>");
+				sb_noticeList.append("<div class=article-list__cell-writer>" + member.name + "</div>");
+				sb_noticeList.append("<div class=article-list__cell-rcm>" + article.rcmCount + "</div>");
+				sb_noticeList.append("<div class=article-list__cell-title><a href=" + article.id
+						+ ".html class=hover-underline>" + article.title + "</a></div>");
+				sb_noticeList.append("</div>");
+			}
+			sb_noticeList.append("</main>");
 			sb_noticeList.append("</div>");
+			sb_noticeList.append("</div>");
+			sb_noticeList.append("<div class=\"page-box con-min-witdh\">");
+			sb_noticeList.append("<div class=\"page con flex\">");
+			for (int k = 1; k <= (articles_noticeListarticle.size() / 10) + 1; k++) {
+				sb_noticeList.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_notice_list" + k
+						+ ".html\">" + k + "</a></div>");
+			}
+			sb_noticeList.append("</div>");
+			sb_noticeList.append("</div>");
+			sb_noticeList.append(foot);
+			start = start + 10;
+			Util.writeFileContents("site/article/" + "article_notice_list" + i + ".html", sb_noticeList.toString());
+			System.out.println("site/article/" + "article_notice_list" + i + ".html" + "생성");
 		}
-		sb_noticeList.append("</main>");
-		sb_noticeList.append(foot);
-		Util.writeFileContents("site/article/" + "article_notice_list"+i+".html", sb_noticeList.toString());
-		System.out.println("site/article/" + "article_notice_list"+i+".html" + "생성");
-		}
-		// 자유 게시판 리스트
-		StringBuffer sb_freeList = new StringBuffer();
-		List<Article> articles_freeList = articleService.getForPrintArticles(2);
-		sb_freeList.append(head);
-		sb_freeList.append("<div class=\"title-bar con-min-width\">");
-		sb_freeList.append("<h1 class=\"con\">");
-		sb_freeList.append("<i class=\"fas fa-flag\"></i>");
-		sb_freeList.append("<span>자유 게시판</span>");
-		sb_freeList.append("</h1>");
-		sb_freeList.append("</div>");
-		sb_freeList.append("<section class=\"section-1 con-min-width\">");
-		sb_freeList.append("<div class=\"con\">");
-		sb_freeList.append("<div class=\"article-list\">");
-		sb_freeList.append("<header><div>");
-		sb_freeList.append("<div class=\"article-list__cell-id\">번호</div>");
-		sb_freeList.append("<div class=\"article-list__cell-reg-date\">날짜</div>");
-		sb_freeList.append("<div class=\"article-list__cell-writer\">작성자</div>");
-		sb_freeList.append("<div class=\"article-list__cell-rcm\">추천수</div>");
-		sb_freeList.append("<div class=\"article-list__cell-title\">제목</div>");
-		sb_freeList.append("</div></header>");
-		sb_freeList.append("<main>");
-		for (Article article : articles_freeList) {
-			Member member = memberService.getMemberByMemberId(article.memberId);
-			sb_freeList.append("<div>");
-			sb_freeList.append("<div class=article-list__cell-id>" + article.id + "</div>");
-			sb_freeList.append("<div class=article-list__cell-reg-date>" + article.regDate + "</div>");
-			sb_freeList.append("<div class=article-list__cell-writer>" + member.name + "</div>");
-			sb_freeList.append("<div class=article-list__cell-rcm>" + article.rcmCount + "</div>");
-			sb_freeList.append("<div class=article-list__cell-title><a href=" + article.id
-					+ ".html class=hover-underline>" + article.title + "</a></div>");
-			sb_freeList.append("</div>");
-		}
-		sb_freeList.append("</main>");
-		sb_freeList.append(foot);
-		Util.writeFileContents("site/article/" + "article_free_list.html", sb_freeList.toString());
-		System.out.println("site/article/" + "article_free_list.html" + "생성");
 
+		// 자유 게시판 페이징
+		List<Article> articles_freeList = articleService.getForPrintArticles(2);
+		start = 0;
+		page = 10;
+		for (int i = 1; i <= (articles_freeList.size() / 10) + 1; i++) {
+			List<Article> articles_Paging = articleService.getArticlesByPaging(2, start, page);
+			StringBuffer sb_freeList = new StringBuffer();
+			sb_freeList.append(head);
+			sb_freeList.append("<div class=\"title-bar con-min-width\">");
+			sb_freeList.append("<h1 class=\"con\">");
+			sb_freeList.append("<i class=\"fas fa-flag\"></i>");
+			sb_freeList.append("<span>자유 게시판"+i+"페이지" +"</span>");
+			sb_freeList.append("</h1>");
+			sb_freeList.append("</div>");
+			sb_freeList.append("<section class=\"section-1 con-min-width\">");
+			sb_freeList.append("<div class=\"con\">");
+			sb_freeList.append("<div class=\"article-list\">");
+			sb_freeList.append("<header><div>");
+			sb_freeList.append("<div class=\"article-list__cell-id\">번호</div>");
+			sb_freeList.append("<div class=\"article-list__cell-reg-date\">날짜</div>");
+			sb_freeList.append("<div class=\"article-list__cell-writer\">작성자</div>");
+			sb_freeList.append("<div class=\"article-list__cell-rcm\">추천수</div>");
+			sb_freeList.append("<div class=\"article-list__cell-title\">제목</div>");
+			sb_freeList.append("</div></header>");
+			sb_freeList.append("<main>");
+			for (Article article : articles_Paging) {
+				Member member = memberService.getMemberByMemberId(article.memberId);
+				sb_freeList.append("<div>");
+				sb_freeList.append("<div class=article-list__cell-id>" + article.id + "</div>");
+				sb_freeList.append("<div class=article-list__cell-reg-date>" + article.regDate + "</div>");
+				sb_freeList.append("<div class=article-list__cell-writer>" + member.name + "</div>");
+				sb_freeList.append("<div class=article-list__cell-rcm>" + article.rcmCount + "</div>");
+				sb_freeList.append("<div class=article-list__cell-title><a href=" + article.id
+						+ ".html class=hover-underline>" + article.title + "</a></div>");
+				sb_freeList.append("</div>");
+			}
+			sb_freeList.append("</main>");
+			sb_freeList.append("</div>");
+			sb_freeList.append("</div>");
+			sb_freeList.append("<div class=\"page-box con-min-witdh\">");
+			sb_freeList.append("<div class=\"page con flex\">");
+			for (int k = 1; k <= (articles_freeList.size() / 10) + 1; k++) {
+				sb_freeList.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list" + k
+						+ ".html\">" + k + "</a></div>");
+			}
+			sb_freeList.append("</div>");
+			sb_freeList.append("</div>");
+			sb_freeList.append(foot);
+			Util.writeFileContents("site/article/" + "article_free_list" + i + ".html", sb_freeList.toString());
+			System.out.println("site/article/" + "article_free_list" + i + ".html" + "생성");
+			start = start + 10;
+		}
 		// 통계
 		StringBuffer sb_statastics = new StringBuffer();
 //		List<Article> articles_statastics = articleService.getForPrintArticles();

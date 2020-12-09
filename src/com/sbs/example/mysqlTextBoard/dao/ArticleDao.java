@@ -288,4 +288,58 @@ public class ArticleDao {
 
 		MysqlUtil.update(sql);
 	}
+
+	public Article getForPrintArticle(int articleId, int boardId) {
+		
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append("FROM article");
+		sql.append("WHERE boardId = ?", boardId);
+		sql.append("AND id = ?", articleId);
+
+		Map<String, Object> articleMap = MysqlUtil.selectRow(sql);
+		if (articleMap.isEmpty()) {
+			return null;
+		}
+		return new Article(articleMap);
+	}
+
+	public List<Article> getArticlesByPaging(int boardId, int end, int paging) {
+		List<Article> articles = new ArrayList<>();
+
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append("FROM article");
+		if (boardId != 0) {
+			sql.append("WHERE boardId = ?", boardId);
+		}
+		sql.append("ORDER BY id DESC");
+		sql.append("LIMIT ?, ?", end, paging);
+
+		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
+
+		for (Map<String, Object> articleMap : articleMapList) {
+			articles.add(new Article(articleMap));
+		}
+
+		return articles;
+	}
+
+	public List<Article> getArticlesByPagingAll(int start, int page) {
+		List<Article> articles = new ArrayList<>();
+
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append("FROM article");
+		sql.append("ORDER BY id DESC");
+		sql.append("LIMIT ?, ?", start, page);
+
+		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
+
+		for (Map<String, Object> articleMap : articleMapList) {
+			articles.add(new Article(articleMap));
+		}
+
+		return articles;
+	}
 }

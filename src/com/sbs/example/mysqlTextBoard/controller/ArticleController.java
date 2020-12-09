@@ -78,7 +78,7 @@ public class ArticleController {
 		System.out.println("번호 / 작성 / 수정 / 작성자 / 제목 / 추천수");
 
 		for (int i = start; i >= end; i--) {			
-			Article article = articleService.getArticle(i);
+			Article article = articleService.getForPrintArticle(i, board.id);
 			if (article == null ) {
 				return;
 			}
@@ -99,7 +99,7 @@ public class ArticleController {
 		int memberId = Container.session.loginedMemberId;
 		Board board = articleService.getBoardByCode(Container.session.getCurrentBoardCode());
 		
-		for(int i = 1; i<20;i++) {
+		for(int i = 1; i<=20;i++) {
 			
 			int id = articleService.add(board.id, memberId, "제목"+i, "내용"+i);
 			
