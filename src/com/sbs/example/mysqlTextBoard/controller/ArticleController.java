@@ -44,6 +44,66 @@ public class ArticleController {
 			doRecommend(cmd);
 		} else if (cmd.startsWith("article canlclerecommend ")) {
 			doCancleRcmd(cmd);
+		} else if (cmd.startsWith("article list ")) {
+			showListPaging(cmd);
+		}
+		else if (cmd.startsWith("article 20")) {
+			do20(cmd);
+		}
+	}
+
+	private void showListPaging(String cmd) {
+		int inputId = Integer.parseInt(cmd.split(" ")[2]);
+		if (inputId <= 1) {
+			inputId = 1;
+		}
+
+		String boardCode = Container.session.getCurrentBoardCode();
+		Board board = articleService.getBoardByCode(boardCode);
+		System.out.printf("== %s 게시판 리스트 ==\n", board.name);
+		List<Article> articles = articleService.getForPrintArticles(board.id);
+		int page = 10;
+		int start = articles.size() - 1;
+		start -= (inputId - 1) * page;
+		int end = start - (page - 1);
+
+		if (end < 0) {
+			end = 0;
+		}
+		if (start < 0 ) {
+			System.out.println(inputId+"페이지는 존재하지 않습니다.");
+			return;
+		}
+
+		System.out.println("번호 / 작성 / 수정 / 작성자 / 제목 / 추천수");
+
+		for (int i = start; i >= end; i--) {			
+			Article article = articleService.getArticle(i);
+			if (article == null ) {
+				return;
+			}
+			Member member = memberService.getMemberByMemberId(article.memberId);
+			System.out.printf("%d / %s / %s / %s / %s / %d\n", article.id, article.regDate, article.updateDate,
+					member.name, article.title, article.rcmCount);
+		}
+	}
+// 게시물 20개 자동 생성
+	private void do20(String cmd) {
+		System.out.println("== 게시물 등록 ==");
+
+		if (Container.session.isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}
+
+		int memberId = Container.session.loginedMemberId;
+		Board board = articleService.getBoardByCode(Container.session.getCurrentBoardCode());
+		
+		for(int i = 1; i<20;i++) {
+			
+			int id = articleService.add(board.id, memberId, "제목"+i, "내용"+i);
+			
+			System.out.println(id + "번 게시물이 생성되었습니다.");
 		}
 	}
 
@@ -57,12 +117,12 @@ public class ArticleController {
 
 		int memberId = Container.session.loginedMemberId;
 		Article article = articleService.getArticle(inputId);
-		
+
 		if (article.memberId != memberId) {
 			System.out.println("수정권한이 없습니다.");
 			return;
 		}
-		
+
 		int id = articleService.cancleRcmd(memberId, article.id);
 
 		System.out.println(id + "추천이 취소 되었습니다.");
@@ -157,9 +217,9 @@ public class ArticleController {
 			System.out.println("존재하지 않는 게시물 입니다.");
 			return;
 		}
-		
+
 		Member member = memberService.getMemberByMemberId(article.memberId);
-		
+
 		System.out.printf("번호 : %d\n", article.id);
 		System.out.printf("작성날짜 : %s\n", article.regDate);
 		System.out.printf("작성자 : %s\n", member.name);
@@ -192,17 +252,17 @@ public class ArticleController {
 			System.out.printf("%d / %s / %s / %s / %d \n", board.id, board.regDate, board.code, board.name,
 					articlesCount);
 		}
-		
+
 		System.out.printf("게시판 코드: ");
 		String inputCode = Container.scanner.nextLine().trim();
-		
+
 		Board board = articleService.getBoardByCode(inputCode);
-		
+
 		if (board == null) {
 			System.out.println("코드를 잘 못 입력하였습니다.");
 			return;
 		}
-		
+
 		Container.session.setCurrentBoardCode(board.code);
 		System.out.println(board.name + "로 이동되었습니다.");
 	}
@@ -348,14 +408,13 @@ public class ArticleController {
 		int inputedId = Integer.parseInt(cmd.split(" ")[2]);
 		articleService.addHitCount(inputedId);
 		Article article = articleService.getArticle(inputedId);
-		
+
 		if (article == null) {
 			System.out.println("존재하지 않는 게시물 입니다.");
 			return;
 		}
 
 		Member member = memberService.getMemberByMemberId(article.memberId);
-		
 
 		System.out.printf("번호 : %d\n", article.id);
 		System.out.printf("작성날짜 : %s\n", article.regDate);
@@ -367,9 +426,9 @@ public class ArticleController {
 		System.out.printf("추천수: %d\n", article.rcmCount);
 
 		List<Reply> replies = articleService.getRepliesByArticleId(article.id);
-		if(replies.size() != 0) {
-		System.out.println("-----------------------------------------------------------");
-		System.out.println("댓글목록");
+		if (replies.size() != 0) {
+			System.out.println("-----------------------------------------------------------");
+			System.out.println("댓글목록");
 		}
 		for (Reply reply : replies) {
 			System.out.printf("%d | 작성자(%s) | 댓글내용: %s \n", reply.id, member.name, reply.body);

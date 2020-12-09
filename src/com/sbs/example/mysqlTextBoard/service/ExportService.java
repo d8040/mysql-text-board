@@ -95,27 +95,46 @@ public class ExportService {
 		System.out.println("site/article/" + "article_list.html" + "생성");
 
 		// 공지 게시판 리스트
-		StringBuffer sb_noticeList = new StringBuffer();
-		List<Article> articles_noticeList = articleService.getForPrintArticles(1);
-		sb_noticeList.append(head);
-		sb_noticeList.append("<div class=\"title-bar con-min-width\">");
-		sb_noticeList.append("<h1 class=\"con\">");
-		sb_noticeList.append("<i class=\"fas fa-flag\"></i>");
-		sb_noticeList.append("<span>공지 게시판</span>");
-		sb_noticeList.append("</h1>");
-		sb_noticeList.append("</div>");
-		sb_noticeList.append("<section class=\"section-1 con-min-width\">");
-		sb_noticeList.append("<div class=\"con\">");
-		sb_noticeList.append("<div class=\"article-list\">");
-		sb_noticeList.append("<header><div>");
-		sb_noticeList.append("<div class=\"article-list__cell-id\">번호</div>");
-		sb_noticeList.append("<div class=\"article-list__cell-reg-date\">날짜</div>");
-		sb_noticeList.append("<div class=\"article-list__cell-writer\">작성자</div>");
-		sb_noticeList.append("<div class=\"article-list__cell-rcm\">추천수</div>");
-		sb_noticeList.append("<div class=\"article-list__cell-title\">제목</div>");
-		sb_noticeList.append("</div></header>");
-		sb_noticeList.append("<main>");
-		for (Article article : articles_noticeList) {
+		
+		
+		
+//		start -= ((articles.size() / 10) - 1) * page;
+//		int end = start - (page - 1);
+//
+//		if (end < 0) {
+//			end = 0;
+//		}
+		List<Article> articles_noticeListarti = articleService.getForPrintArticles(1);
+		int start = articles_noticeListarti.size() - 1;
+		int page = 10;
+		for (int i = 1; i <=(articles_noticeListarti.size() / 10)+1 ; i++) {			
+			start -= (i-1) * page;
+			int end = start - (page - 1); 
+
+			if (end < 0) {
+				end = 0;
+			}
+			StringBuffer sb_noticeList = new StringBuffer();			
+			sb_noticeList.append(head);
+			sb_noticeList.append("<div class=\"title-bar con-min-width\">");
+			sb_noticeList.append("<h1 class=\"con\">");
+			sb_noticeList.append("<i class=\"fas fa-flag\"></i>");
+			sb_noticeList.append("<span>공지 게시판</span>");
+			sb_noticeList.append("</h1>");
+			sb_noticeList.append("</div>");
+			sb_noticeList.append("<section class=\"section-1 con-min-width\">");
+			sb_noticeList.append("<div class=\"con\">");
+			sb_noticeList.append("<div class=\"article-list\">");
+			sb_noticeList.append("<header><div>");
+			sb_noticeList.append("<div class=\"article-list__cell-id\">번호</div>");
+			sb_noticeList.append("<div class=\"article-list__cell-reg-date\">날짜</div>");
+			sb_noticeList.append("<div class=\"article-list__cell-writer\">작성자</div>");
+			sb_noticeList.append("<div class=\"article-list__cell-rcm\">추천수</div>");
+			sb_noticeList.append("<div class=\"article-list__cell-title\">제목</div>");
+			sb_noticeList.append("</div></header>");
+			sb_noticeList.append("<main>");
+		for (int j = start; j >= end; j--) {
+			Article article = articleService.getArticle(j);
 			Member member = memberService.getMemberByMemberId(article.memberId);
 			sb_noticeList.append("<div>");
 			sb_noticeList.append("<div class=article-list__cell-id>" + article.id + "</div>");
@@ -128,9 +147,9 @@ public class ExportService {
 		}
 		sb_noticeList.append("</main>");
 		sb_noticeList.append(foot);
-		Util.writeFileContents("site/article/" + "article_notice_list.html", sb_noticeList.toString());
-		System.out.println("site/article/" + "article_notice_list.html" + "생성");
-
+		Util.writeFileContents("site/article/" + "article_notice_list"+i+".html", sb_noticeList.toString());
+		System.out.println("site/article/" + "article_notice_list"+i+".html" + "생성");
+		}
 		// 자유 게시판 리스트
 		StringBuffer sb_freeList = new StringBuffer();
 		List<Article> articles_freeList = articleService.getForPrintArticles(2);
@@ -183,7 +202,7 @@ public class ExportService {
 		sb_statastics.append("<main>");
 		sb_statastics.append("<div class=satastics>");
 		sb_statastics.append("<div class=satastics__member>" + "회원수" + members.size() + "</div>");
-		sb_statastics.append("<div class=satastics__member>" + "전체 게시물 수" +articles.size() + "</div>");
+		sb_statastics.append("<div class=satastics__member>" + "전체 게시물 수" + articles.size() + "</div>");
 		sb_statastics.append("<div class=satastics__member>" + "각 게시판별 게시물 수" + articles.size() + "</div>");
 		sb_statastics.append("<div class=satastics__member>" + "전체 게시물 조회 수" + articles.size() + "</div>");
 		sb_statastics.append("<div class=satastics__member>" + "각 게시판별 게시물 조회 수" + articles.size() + "</div>");
