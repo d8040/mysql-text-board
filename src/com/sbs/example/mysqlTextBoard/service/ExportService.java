@@ -85,7 +85,7 @@ public class ExportService {
 		sb.append("<div class=\"article-list__cell-rcm\">추천수</div>");
 		sb.append("<div class=\"article-list__cell-title\">제목</div>");
 		sb.append("</div></header>");
-		sb.append("<main>");
+		sb.append("<main class=\"article-box\">");
 		for (Article article : articles_Paging) {
 			Member member = memberService.getMemberByMemberId(article.memberId);
 			sb.append("<div>");
@@ -97,15 +97,17 @@ public class ExportService {
 					+ article.title + "</a></div>");
 			sb.append("</div>");
 		}
-		sb.append("</main>");
+		sb.append("</main></div></div>");
+		sb.append("<main class=\"paging\">");
 		sb.append("<div class=\"page-box con-min-witdh\">");
-		sb.append("<div class=\"page con flex\">");
+		sb.append("<div class=\"page con flex flex-end\">");
 		for (int k = 1; k <= (articles_listArticle.size() / 10) + 1; k++) {
 			sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" + k
 					+ ".html\">" + k + "</a></div>");
 		}
 		sb.append("</div>");
 		sb.append("</div>");
+		sb.append("</main>");
 		sb.append(foot);
 		start = start + 10;
 		Util.writeFileContents("site/article/" + "article_list" + i + ".html", sb.toString());
@@ -136,7 +138,7 @@ public class ExportService {
 			sb_noticeList.append("<div class=\"article-list__cell-rcm\">추천수</div>");
 			sb_noticeList.append("<div class=\"article-list__cell-title\">제목</div>");
 			sb_noticeList.append("</div></header>");
-			sb_noticeList.append("<main>");
+			sb_noticeList.append("<main class=\"article-box\">");
 			for (Article article : articles_Paging) {
 				Member member = memberService.getMemberByMemberId(article.memberId);
 				sb_noticeList.append("<div>");
@@ -151,14 +153,16 @@ public class ExportService {
 			sb_noticeList.append("</main>");
 			sb_noticeList.append("</div>");
 			sb_noticeList.append("</div>");
+			sb_noticeList.append("<main class=\"paging\">");
 			sb_noticeList.append("<div class=\"page-box con-min-witdh\">");
-			sb_noticeList.append("<div class=\"page con flex\">");
+			sb_noticeList.append("<div class=\"page con flex flex-end\">");
 			for (int k = 1; k <= (articles_noticeListarticle.size() / 10) + 1; k++) {
 				sb_noticeList.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_notice_list" + k
 						+ ".html\">" + k + "</a></div>");
 			}
 			sb_noticeList.append("</div>");
 			sb_noticeList.append("</div>");
+			sb_noticeList.append("</main>");
 			sb_noticeList.append(foot);
 			start = start + 10;
 			Util.writeFileContents("site/article/" + "article_notice_list" + i + ".html", sb_noticeList.toString());
@@ -189,7 +193,7 @@ public class ExportService {
 			sb_freeList.append("<div class=\"article-list__cell-rcm\">추천수</div>");
 			sb_freeList.append("<div class=\"article-list__cell-title\">제목</div>");
 			sb_freeList.append("</div></header>");
-			sb_freeList.append("<main>");
+			sb_freeList.append("<main class=\"article-box\">");
 			for (Article article : articles_Paging) {
 				Member member = memberService.getMemberByMemberId(article.memberId);
 				sb_freeList.append("<div>");
@@ -204,6 +208,7 @@ public class ExportService {
 			sb_freeList.append("</main>");
 			sb_freeList.append("</div>");
 			sb_freeList.append("</div>");
+			sb_freeList.append("<main class=\"paging\">");
 			sb_freeList.append("<div class=\"page-box con-min-witdh\">");
 			sb_freeList.append("<div class=\"page con flex\">");
 			for (int k = 1; k <= (articles_freeList.size() / 10) + 1; k++) {
@@ -212,6 +217,7 @@ public class ExportService {
 			}
 			sb_freeList.append("</div>");
 			sb_freeList.append("</div>");
+			sb_freeList.append("</main>");
 			sb_freeList.append(foot);
 			Util.writeFileContents("site/article/" + "article_free_list" + i + ".html", sb_freeList.toString());
 			System.out.println("site/article/" + "article_free_list" + i + ".html" + "생성");

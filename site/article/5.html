@@ -3,8 +3,10 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
 <header class="logo-bar con-min-width">
-  <div class="con text-align-center">
-    <a href="./" class="logo"> <i class="fab fa-jenkins"></i> <span>Developers</span>
+  <div class="con flex flex-jc-c">
+    <a href="./" class="logo "> 
+      <i class="fab fa-jenkins"></i> 
+      <span>Developers</span>
     </a>
   </div>
 </header>
@@ -12,27 +14,31 @@
 <header class="menu-bar con-min-width">
   <div class="con">
     <nav class="menu-bar__menu-1">
-      <ul class="float-grid">
-        <li><a href="./" class="block"> <i class="fas fa-home"></i>
+      <ul class="flex ">
+        <li><a href="./" class="flex flex-jc-c flex-ai-c "> <i class="fas fa-home"></i>
           <span>HOME</span>
           </a></li>
-        <li><a href="article_list1.html" class="block"> <i class="fas fa-list"></i> <span>ARTICLES</span>
+        <li><a href="#" class="flex flex-jc-c flex-ai-c "> 
+          <i class="fas fa-list"></i> 
+          <span>ARTICLES</span>
           </a>
           <ul>
-            <li><a href="article_free_list1.html" class="block"> <i class="fab fa-free-code-camp"></i> <span>FREE</span>
+            <li><a href="article_list1.html" class="flex flex-jc-c flex-ai-c "> <i class="fab fa-free-code-camp"></i> <span>ALL</span>
               </a></li>
-            <li><a href="article_notice_list1.html" class="block"> <i class="fas fa-flag"></i> <span>NOTICE</span>
+            <li><a href="article_free_list1.html" class="flex flex-jc-c flex-ai-c "> <i class="fab fa-free-code-camp"></i> <span>FREE</span>
+              </a></li>
+            <li><a href="article_notice_list1.html" class="flex flex-jc-c flex-ai-c "> <i class="fas fa-flag"></i> <span>NOTICE</span>
               </a></li>
           </ul></li>
-        <li><a class="block"> <i class="fas fa-link"></i> <span>LINK</span>
+        <li><a class="flex flex-jc-c flex-ai-c "> <i class="fas fa-link"></i> <span>LINK</span>
           </a>
           <ul>
-            <li><a href="https://d8040.tistory.com/" target="_blank" class="block"> <i class="fab fa-blogger-b"></i> <span>BLOG</span>
+            <li><a href="https://d8040.tistory.com/" target="_blank" class="flex flex-jc-c flex-ai-c"> <i class="fab fa-blogger-b"></i> <span>BLOG</span>
               </a></li>
-            <li><a href="https://github.com/" target="_blank" class="block"> <i class="fab fa-github"></i> <span>GITHUB</span>
+            <li><a href="https://github.com/" target="_blank" class="flex flex-jc-c flex-ai-c"> <i class="fab fa-github"></i> <span>GITHUB</span>
               </a></li>
           </ul></li>
-        <li><a href="index.html" class="block"> <i class="fas fa-chart-pie"></i> <span>STATISTICS</span>
+        <li><a href="index.html" class="flex flex-jc-c flex-ai-c "> <i class="fas fa-chart-pie"></i> <span>STATISTICS</span>
           </a></li>
       </ul>
     </nav>
@@ -58,6 +64,15 @@ a {
 .flex{
   display:flex;
 }
+.flex-jc-c{
+  justify-content:center
+}
+.flex-ai-c{
+  align-items:center;
+}
+.flex-end{
+  align-items:flex-end;
+}
 .hover-underline:hover {
   text-decoration:underline;
 }
@@ -70,14 +85,14 @@ a {
 .bg-black {
   background-color:black;
 }
+.bl-r{
+  border: 2px solid red;
+}
 
 .color-white {
   color:white;
 }
 
-.text-align-center {
-  text-align:center;
-}
 
 .float-grid::after {
   content:"";
@@ -93,13 +108,6 @@ a {
   padding: 20px 0px;
 }
 
-.float-right {
-  float:right;
-}
-
-.block {
-  display:block;
-}
 
 .bg-red {
   background-color:red;
@@ -141,7 +149,6 @@ a {
 /* 로고 시작 */
 .logo {
   font-size:3rem;
-  display:inline-block;
   padding:40px 0;
 }
 
@@ -234,15 +241,21 @@ body > main{
   height:570px;
 }
 /* 메인화면크기 끝  */
+/* 게시판박스 */
+.article-box{
+  height:470px;
+}
 /* 페이징 */
+.page-box{
+  height:0;
+  display:flex;
+}
 .page{
-  display:flex;  
   justify-content:center;
-  margin-top:20px;
 }
 .page-no > a {
   justify-content:center;
-  width:60px;
+  width:40px;
 }
 /* 페이징끝 */
 
@@ -312,15 +325,9 @@ body > main{
 .article-list > main > div {
   border-top:1px solid black;
 }
-
   </style>
-</header>
-<main>
-
-
-               
-               
-<div class="title-bar con-min-width"><h1 class="con"><i class="fas fa-flag"></i><span>게시물 상세페이지</span></h1></div><section class="section-1 con-min-width"><div class="con"><div class="article-detail"><div>번호: 5</div><div>날짜: 2020-12-09 18:53:46</div><div>작성자: 디케이</div><div>제목: 제목2</div><div>내용: 내용2</div></div></div></section><div><a href="4.html">이전글</a></div><div><a href="6.html">다음글</a></div></section>
+  </header>
+<main><div class="title-bar con-min-width"><h1 class="con"><i class="fas fa-flag"></i><span>게시물 상세페이지</span></h1></div><section class="section-1 con-min-width"><div class="con"><div class="article-detail"><div>번호: 5</div><div>날짜: 2020-12-09 10:33:52</div><div>작성자: 디케이</div><div>제목: 제목2</div><div>내용: 내용2</div></div></div></section><div><a href="4.html">이전글</a></div><div><a href="6.html">다음글</a></div></section>
 </main>
 <footer class="bottom-bar con-min-width">
 	<div class="con float-grid">
