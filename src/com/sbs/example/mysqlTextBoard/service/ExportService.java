@@ -37,17 +37,30 @@ public class ExportService {
 			sb.append("<span>게시물 상세페이지</span>");
 			sb.append("</h1>");
 			sb.append("</div>");
-			sb.append("<section class=\"section-1 con-min-width\">");
-			sb.append("<div class=\"con\">");
-			sb.append("<div class=\"article-detail\">");
-			sb.append("<div>번호: " + article.id + "</div>");
-			sb.append("<div>날짜: " + article.regDate + "</div>");
-			sb.append("<div>작성자: " + member.name + "</div>");
-			sb.append("<div>제목: " + article.title + "</div>");
-			sb.append("<div>내용: " + article.body + "</div>");
-			sb.append("</div>");
-			sb.append("</div>");
-			sb.append("</section>");
+			sb.append("<detail class=\"detail-box con-min-width\">");
+			sb.append("<div class=\"con flex flex-dr-c\">");
+			sb.append("<subject class=\"title\">");
+			sb.append("<ul class=\"flex flex-jc-c\">");
+			sb.append("<li><a href=\"#\">제목:"+article.title+" </a></li></ul>");
+			sb.append("</subject>");
+			sb.append(" <info class=\"information\">");
+			sb.append("<ul class=\"flex\">");
+			sb.append("<li class=\"flex-g-1\"><a href=\"#\">작성자: </a></li>");
+			sb.append("<li><a href=\"#\">조회수:"+article.hit+" </a></li>");
+			sb.append("<li><a href=\"#\">작성일: </a></li></ul></info>");
+			sb.append(" <contents class=\"contents flex-g-1\">");
+			sb.append("<ul class=\"flex flex-jc-c\">");
+			sb.append("<il></il></ul>");
+			sb.append("</contents>");
+			sb.append("<buttom>");
+			sb.append("<ul class=\"flex\">");
+			sb.append("<li>추천수</li>");
+			sb.append(" <li class=\"flex-g-1\"></li>");
+			sb.append("<li><a href=\"\"><이전글</a></li>");
+			sb.append("<li><a href=\"\"> 다음글> </a></li>");
+			sb.append("</ul></buttom></div></detail>");
+			sb.append(foot);
+			
 
 			if (article.id > 1) {
 				sb.append("<div><a href=\"" + (article.id - 1) + ".html\">이전글</a></div>");
