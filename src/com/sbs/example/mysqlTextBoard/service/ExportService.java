@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.Article;
+import com.sbs.example.mysqlTextBoard.dto.Board;
 import com.sbs.example.mysqlTextBoard.dto.Member;
 import com.sbs.example.mysqlTextBoard.util.Util;
 
@@ -22,7 +23,7 @@ public class ExportService {
 		System.out.println(articles.size());
 		Util.mkdirs("site/article");
 
-		String head = Util.getFileContents("site_template/part/head.html");
+		String head = getHeadHtml();
 		String foot = Util.getFileContents("site_template/part/foot.html");
 
 		for (Article article : articles) {
@@ -247,6 +248,31 @@ public class ExportService {
 		sb_statastics.append(foot);
 		Util.writeFileContents("site/article/" + "index.html", sb_statastics.toString());
 		System.out.println("site/article/" + "index.html" + "생성");
+		
 	}
-
+	//메뉴바 자동생성
+	private String getHeadHtml() {
+		String head = Util.getFileContents("site_template/part/head.html");
+		StringBuilder boardMenuContent = new StringBuilder();
+		List<Board> forPrintBoard = articleService.getForPrintBoards();
+		
+		for (Board board : forPrintBoard) {
+			boardMenuContent.append("<li>");
+			
+			String link = "article_"+board.code + "_list1.html";
+			boardMenuContent.append("<a href=\""+link+"\" class=\"flex flex-jc-c flex-ai-c \">");
+			
+			String icon = "<i class=\"fab fa-free-code-camp\"></i>";
+			if (board.code.contains("notice")) {
+				icon = "<i class=\"far fa-clipboard\"></i>";
+			}else if (board.code.contains("free")) {
+				icon = "<i class=\"fas fa-comment-medical\"></i>";
+			}
+			boardMenuContent.append(icon);
+			boardMenuContent.append("<span>"+board.code+"</span>");
+			boardMenuContent.append("</a></li>");
+		}
+		head = head.replace("[manu-bar-add]", boardMenuContent.toString());
+		return head;
+	}
 }
