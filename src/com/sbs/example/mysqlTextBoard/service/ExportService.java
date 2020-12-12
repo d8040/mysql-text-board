@@ -20,15 +20,16 @@ public class ExportService {
 	public void makeHtml() {
 		List<Article> articles = articleService.getForPrintArticles();
 		System.out.println(articles.size());
-		Util.mkdirs("site/article");
+		Util.rmdir("site");
+		Util.mkdirs("site");
 
 		String head = Util.getFileContents("site_template/part/head.html");
 		String foot = Util.getFileContents("site_template/part/foot.html");
-
+		// 상세 페이지
 		for (Article article : articles) {
 			Member member = memberService.getMemberByMemberId(article.memberId);
 			StringBuffer sb = new StringBuffer();
-			String fileName = article.id + ".html";
+			
 			sb.append(head);
 			sb.append("<div class=\"title-bar con-min-width\">");
 			sb.append("<h1 class=\"con\">");
@@ -63,10 +64,10 @@ public class ExportService {
 			sb.append("");
 			
 			sb.append(foot);
+			String fileName = article.id + ".html";
+			Util.writeFileContents("site/" + fileName, sb.toString());
 
-			Util.writeFileContents("site/article/" + fileName, sb.toString());
-
-			System.out.println("site/article/" + fileName + "생성");
+			System.out.println("site/" + fileName + "생성");
 		}
 		// 전체 게시판리스트
 
