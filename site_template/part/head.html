@@ -1,3 +1,4 @@
+<section>
 <!-- 폰트어썸 불러오기 -->
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
@@ -70,13 +71,30 @@ a {
 .flex-ai-c{
   align-items:center;
 }
-.flex-end{
+.flex-ai-end{
   align-items:flex-end;
+}
+.flex-jc-end{
+  justify-content:flex-end;
+}
+.flex-dr-r{
+  flex-direction:row;
+}
+.flex-dr-c{
+  flex-direction:column;
+}
+.flex-g-1{
+  flex-grow:1;
+}
+.flex-jc-start{
+  justify-content:flex-start;
 }
 .hover-underline:hover {
   text-decoration:underline;
 }
-
+.width-100p{
+  height:100%;
+}
 .con {
   margin-left:auto;
   margin-right:auto;
@@ -323,11 +341,50 @@ body > main{
 .article-list > main .article-list__cell-title {
   text-align:left;
   padding-left:10px;
+  height:auto;
 }
 
 .article-list > main > div {
   border-top:1px solid black;
 }
+
+/* detail page start */
+.detail-box > div{
+  width: 700px;
+  height:auto;
+}
+.title{
+ font-size:2rem;
+  font-weight:bold;
+}
+.detail-box > div > info {
+  padding:10px 5px;  
+}
+.detail-box > div > info > ul {
+  flex-wrap:wrap;
+}
+
+.detail-box > div > info > ul > li:nth-child(3) {
+  display:flex;
+  width:100%;
+}
+.detail-box > div > info > ul > li{
+  padding: 0 
+}
+.detail-box > div > contents {
+  padding:10px 5px;
+  border-bottom:2px solid;
+  border-top:2px solid;
+  height:auto;
+  min-height:50vh;
+}
+.detail-box > div > buttom {
+  margin:10px 5px;
+}
+.detail-box > div > buttom > ul > li:nth-child(n+3){
+ flex-basis:70px;
+}
+/* detail page end */
   </style>
   </header>
 <main>

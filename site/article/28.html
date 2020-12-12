@@ -1,3 +1,4 @@
+<section>
 <!-- 폰트어썸 불러오기 -->
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
@@ -70,13 +71,30 @@ a {
 .flex-ai-c{
   align-items:center;
 }
-.flex-end{
+.flex-ai-end{
   align-items:flex-end;
+}
+.flex-jc-end{
+  justify-content:flex-end;
+}
+.flex-dr-r{
+  flex-direction:row;
+}
+.flex-dr-c{
+  flex-direction:column;
+}
+.flex-g-1{
+  flex-grow:1;
+}
+.flex-jc-start{
+  justify-content:flex-start;
 }
 .hover-underline:hover {
   text-decoration:underline;
 }
-
+.width-100p{
+  height:100%;
+}
 .con {
   margin-left:auto;
   margin-right:auto;
@@ -323,14 +341,53 @@ body > main{
 .article-list > main .article-list__cell-title {
   text-align:left;
   padding-left:10px;
+  height:auto;
 }
 
 .article-list > main > div {
   border-top:1px solid black;
 }
+
+/* detail page start */
+.detail-box > div{
+  width: 700px;
+  height:auto;
+}
+.title{
+ font-size:2rem;
+  font-weight:bold;
+}
+.detail-box > div > info {
+  padding:10px 5px;  
+}
+.detail-box > div > info > ul {
+  flex-wrap:wrap;
+}
+
+.detail-box > div > info > ul > li:nth-child(3) {
+  display:flex;
+  width:100%;
+}
+.detail-box > div > info > ul > li{
+  padding: 0 
+}
+.detail-box > div > contents {
+  padding:10px 5px;
+  border-bottom:2px solid;
+  border-top:2px solid;
+  height:auto;
+  min-height:50vh;
+}
+.detail-box > div > buttom {
+  margin:10px 5px;
+}
+.detail-box > div > buttom > ul > li:nth-child(n+3){
+ flex-basis:70px;
+}
+/* detail page end */
   </style>
   </header>
-<main><div class="title-bar con-min-width"><h1 class="con"><i class="fas fa-flag"></i><span>게시물 상세페이지</span></h1></div><section class="section-1 con-min-width"><div class="con"><div class="article-detail"><div>번호: 28</div><div>날짜: 2020-12-09 10:34:24</div><div>작성자: 디케이</div><div>제목: 제목6</div><div>내용: 내용6</div></div></div></section><div><a href="27.html">이전글</a></div><div><a href="29.html">다음글</a></div></section>
+<main><div class="title-bar con-min-width"><h1 class="con"><i class="fas fa-flag"></i><span>게시물 상세페이지</span></h1></div><detail class="detail-box con-min-width"><div class="con flex flex-dr-c"><subject class="title"><ul class="flex flex-jc-c"><li><a href="#">제목6</a></li></ul></subject><info class="information"><ul class="flex"><li class="flex-g-1"><a href="#">작성자: 디케이</a></li><li><a href="#">조회수: 0</a></li><li><a href="#">작성일: 2020-12-09 18:54:00</a></li></ul></info><contents class="contents flex-g-1"><ul class="flex flex-jc-c"><il>내용6</il></ul></ul></contents><buttom><ul class="flex"><li>추천수: 0</li><li class="flex-g-1"></li><li><a href="27.html"><이전글</a></li><li><a href="29.html"> 다음글> </a></li></ul></buttom></div></detail>
 </main>
 <footer class="bottom-bar con-min-width">
 	<div class="con float-grid">
@@ -343,3 +400,4 @@ body > main{
 			nemo maiores fuga quibusdam?</div>
 	</div>
 </footer>
+</section>

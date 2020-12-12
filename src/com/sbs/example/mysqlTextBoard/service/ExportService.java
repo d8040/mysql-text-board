@@ -36,24 +36,32 @@ public class ExportService {
 			sb.append("<span>게시물 상세페이지</span>");
 			sb.append("</h1>");
 			sb.append("</div>");
-			sb.append("<section class=\"section-1 con-min-width\">");
-			sb.append("<div class=\"con\">");
-			sb.append("<div class=\"article-detail\">");
-			sb.append("<div>번호: " + article.id + "</div>");
-			sb.append("<div>날짜: " + article.regDate + "</div>");
-			sb.append("<div>작성자: " + member.name + "</div>");
-			sb.append("<div>제목: " + article.title + "</div>");
-			sb.append("<div>내용: " + article.body + "</div>");
-			sb.append("</div>");
-			sb.append("</div>");
-			sb.append("</section>");
-
+			sb.append("<detail class=\"detail-box con-min-width\">");
+			sb.append("<div class=\"con flex flex-dr-c\">");
+			sb.append("<subject class=\"title\">");
+			sb.append("<ul class=\"flex flex-jc-c\">");
+			sb.append("<li><a href=\"#\">"+article.title+"</a></li></ul></subject>");
+			sb.append("<info class=\"information\">");
+			sb.append("<ul class=\"flex\">");
+			sb.append("<li class=\"flex-g-1\"><a href=\"#\">작성자: "+member.name+"</a></li>");
+			sb.append("<li><a href=\"#\">조회수: "+article.hit+"</a></li>");
+			sb.append("<li><a href=\"#\">작성일: "+article.regDate+"</a></li></ul></info>");
+			sb.append("<contents class=\"contents flex-g-1\">");
+			sb.append("<ul class=\"flex flex-jc-c\">");
+			sb.append("<il>"+article.body+"</il></ul></ul></contents>");
+			sb.append("<buttom>");
+			sb.append("<ul class=\"flex\">");
+			sb.append("<li>추천수: "+article.rcmCount+"</li>");
+			sb.append("<li class=\"flex-g-1\"></li>");
 			if (article.id > 1) {
-				sb.append("<div><a href=\"" + (article.id - 1) + ".html\">이전글</a></div>");
+			sb.append("<li><a href=\""+(article.id-1)+".html\"><이전글</a></li>");
 			}
 			if (articles.size() >= article.id) {
-				sb.append("<div><a href=\"" + (article.id + 1) + ".html\">다음글</a></div>");
+			sb.append("<li><a href=\""+(article.id+1)+".html\"> 다음글> </a></li>");
 			}
+			sb.append("</ul></buttom></div></detail>");
+			sb.append("");
+			
 			sb.append(foot);
 
 			Util.writeFileContents("site/article/" + fileName, sb.toString());
@@ -61,57 +69,57 @@ public class ExportService {
 			System.out.println("site/article/" + fileName + "생성");
 		}
 		// 전체 게시판리스트
-		
+
 		List<Article> articles_listArticle = articleService.getForPrintArticles();
 		int start = 0;
 		int page = 10;
 		for (int i = 1; i <= (articles_listArticle.size() / 10) + 1; i++) {
 			List<Article> articles_Paging = articleService.getArticlesByPagingAll(start, page);
-		StringBuffer sb = new StringBuffer();
-		sb.append(head);
-		sb.append("<div class=\"title-bar con-min-width\">");
-		sb.append("<h1 class=\"con\">");
-		sb.append("<i class=\"fas fa-flag\"></i>");
-		sb.append("<span>전체 게시물 리스트</span>");
-		sb.append("</h1>");
-		sb.append("</div>");
-		sb.append("<section class=\"section-1 con-min-width\">");
-		sb.append("<div class=\"con\">");
-		sb.append("<div class=\"article-list\">");
-		sb.append("<header><div>");
-		sb.append("<div class=\"article-list__cell-id\">번호</div>");
-		sb.append("<div class=\"article-list__cell-reg-date\">날짜</div>");
-		sb.append("<div class=\"article-list__cell-writer\">작성자</div>");
-		sb.append("<div class=\"article-list__cell-rcm\">추천수</div>");
-		sb.append("<div class=\"article-list__cell-title\">제목</div>");
-		sb.append("</div></header>");
-		sb.append("<main class=\"article-box\">");
-		for (Article article : articles_Paging) {
-			Member member = memberService.getMemberByMemberId(article.memberId);
-			sb.append("<div>");
-			sb.append("<div class=article-list__cell-id>" + article.id + "</div>");
-			sb.append("<div class=article-list__cell-reg-date>" + article.regDate + "</div>");
-			sb.append("<div class=article-list__cell-writer>" + member.name + "</div>");
-			sb.append("<div class=article-list__cell-rcm>" + article.rcmCount + "</div>");
-			sb.append("<div class=article-list__cell-title><a href=" + article.id + ".html class=hover-underline>"
-					+ article.title + "</a></div>");
+			StringBuffer sb = new StringBuffer();
+			sb.append(head);
+			sb.append("<div class=\"title-bar con-min-width\">");
+			sb.append("<h1 class=\"con\">");
+			sb.append("<i class=\"fas fa-flag\"></i>");
+			sb.append("<span>전체 게시물 리스트</span>");
+			sb.append("</h1>");
 			sb.append("</div>");
-		}
-		sb.append("</main></div></div>");
-		sb.append("<main class=\"paging\">");
-		sb.append("<div class=\"page-box con-min-witdh\">");
-		sb.append("<div class=\"page con flex flex-end\">");
-		for (int k = 1; k <= (articles_listArticle.size() / 10) + 1; k++) {
-			sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" + k
-					+ ".html\">" + k + "</a></div>");
-		}
-		sb.append("</div>");
-		sb.append("</div>");
-		sb.append("</main>");
-		sb.append(foot);
-		start = start + 10;
-		Util.writeFileContents("site/article/" + "article_list" + i + ".html", sb.toString());
-		System.out.println("site/article/" + "article_list" + i + ".html" + "생성");
+			sb.append("<section class=\"section-1 con-min-width\">");
+			sb.append("<div class=\"con\">");
+			sb.append("<div class=\"article-list\">");
+			sb.append("<header><div>");
+			sb.append("<div class=\"article-list__cell-id\">번호</div>");
+			sb.append("<div class=\"article-list__cell-reg-date\">날짜</div>");
+			sb.append("<div class=\"article-list__cell-writer\">작성자</div>");
+			sb.append("<div class=\"article-list__cell-rcm\">추천수</div>");
+			sb.append("<div class=\"article-list__cell-title\">제목</div>");
+			sb.append("</div></header>");
+			sb.append("<main class=\"article-box\">");
+			for (Article article : articles_Paging) {
+				Member member = memberService.getMemberByMemberId(article.memberId);
+				sb.append("<div>");
+				sb.append("<div class=article-list__cell-id>" + article.id + "</div>");
+				sb.append("<div class=article-list__cell-reg-date>" + article.regDate + "</div>");
+				sb.append("<div class=article-list__cell-writer>" + member.name + "</div>");
+				sb.append("<div class=article-list__cell-rcm>" + article.rcmCount + "</div>");
+				sb.append("<div class=article-list__cell-title><a href=" + article.id + ".html class=hover-underline>"
+						+ article.title + "</a></div>");
+				sb.append("</div>");
+			}
+			sb.append("</main></div></div>");
+			sb.append("<main class=\"paging\">");
+			sb.append("<div class=\"page-box con-min-witdh\">");
+			sb.append("<div class=\"page con flex flex-end\">");
+			for (int k = 1; k <= (articles_listArticle.size() / 10) + 1; k++) {
+				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" + k + ".html\">" + k
+						+ "</a></div>");
+			}
+			sb.append("</div>");
+			sb.append("</div>");
+			sb.append("</main>");
+			sb.append(foot);
+			start = start + 10;
+			Util.writeFileContents("site/article/" + "article_list" + i + ".html", sb.toString());
+			System.out.println("site/article/" + "article_list" + i + ".html" + "생성");
 		}
 		start = 0;
 		page = 10;
@@ -125,7 +133,7 @@ public class ExportService {
 			sb_noticeList.append("<div class=\"title-bar con-min-width\">");
 			sb_noticeList.append("<h1 class=\"con\">");
 			sb_noticeList.append("<i class=\"fas fa-flag\"></i>");
-			sb_noticeList.append("<span>공지 게시판"+i+"페이지" +"</span>");
+			sb_noticeList.append("<span>공지 게시판" + i + "페이지" + "</span>");
 			sb_noticeList.append("</h1>");
 			sb_noticeList.append("</div>");
 			sb_noticeList.append("<section class=\"section-1 con-min-width\">");
@@ -180,7 +188,7 @@ public class ExportService {
 			sb_freeList.append("<div class=\"title-bar con-min-width\">");
 			sb_freeList.append("<h1 class=\"con\">");
 			sb_freeList.append("<i class=\"fas fa-flag\"></i>");
-			sb_freeList.append("<span>자유 게시판"+i+"페이지" +"</span>");
+			sb_freeList.append("<span>자유 게시판" + i + "페이지" + "</span>");
 			sb_freeList.append("</h1>");
 			sb_freeList.append("</div>");
 			sb_freeList.append("<section class=\"section-1 con-min-width\">");
@@ -212,8 +220,8 @@ public class ExportService {
 			sb_freeList.append("<div class=\"page-box con-min-witdh\">");
 			sb_freeList.append("<div class=\"page con flex\">");
 			for (int k = 1; k <= (articles_freeList.size() / 10) + 1; k++) {
-				sb_freeList.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list" + k
-						+ ".html\">" + k + "</a></div>");
+				sb_freeList.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list" + k + ".html\">"
+						+ k + "</a></div>");
 			}
 			sb_freeList.append("</div>");
 			sb_freeList.append("</div>");

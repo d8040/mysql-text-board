@@ -1,3 +1,4 @@
+<section>
 <!-- 폰트어썸 불러오기 -->
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
@@ -70,13 +71,30 @@ a {
 .flex-ai-c{
   align-items:center;
 }
-.flex-end{
+.flex-ai-end{
   align-items:flex-end;
+}
+.flex-jc-end{
+  justify-content:flex-end;
+}
+.flex-dr-r{
+  flex-direction:row;
+}
+.flex-dr-c{
+  flex-direction:column;
+}
+.flex-g-1{
+  flex-grow:1;
+}
+.flex-jc-start{
+  justify-content:flex-start;
 }
 .hover-underline:hover {
   text-decoration:underline;
 }
-
+.width-100p{
+  height:100%;
+}
 .con {
   margin-left:auto;
   margin-right:auto;
@@ -323,14 +341,53 @@ body > main{
 .article-list > main .article-list__cell-title {
   text-align:left;
   padding-left:10px;
+  height:auto;
 }
 
 .article-list > main > div {
   border-top:1px solid black;
 }
+
+/* detail page start */
+.detail-box > div{
+  width: 700px;
+  height:auto;
+}
+.title{
+ font-size:2rem;
+  font-weight:bold;
+}
+.detail-box > div > info {
+  padding:10px 5px;  
+}
+.detail-box > div > info > ul {
+  flex-wrap:wrap;
+}
+
+.detail-box > div > info > ul > li:nth-child(3) {
+  display:flex;
+  width:100%;
+}
+.detail-box > div > info > ul > li{
+  padding: 0 
+}
+.detail-box > div > contents {
+  padding:10px 5px;
+  border-bottom:2px solid;
+  border-top:2px solid;
+  height:auto;
+  min-height:50vh;
+}
+.detail-box > div > buttom {
+  margin:10px 5px;
+}
+.detail-box > div > buttom > ul > li:nth-child(n+3){
+ flex-basis:70px;
+}
+/* detail page end */
   </style>
   </header>
-<main><div class="title-bar con-min-width"><h1 class="con"><i class="fas fa-flag"></i><span>전체 게시물 리스트</span></h1></div><section class="section-1 con-min-width"><div class="con"><div class="article-list"><header><div><div class="article-list__cell-id">번호</div><div class="article-list__cell-reg-date">날짜</div><div class="article-list__cell-writer">작성자</div><div class="article-list__cell-rcm">추천수</div><div class="article-list__cell-title">제목</div></div></header><main class="article-box"><div><div class=article-list__cell-id>41</div><div class=article-list__cell-reg-date>2020-12-09 10:34:24</div><div class=article-list__cell-writer>디케이</div><div class=article-list__cell-rcm>0</div><div class=article-list__cell-title><a href=41.html class=hover-underline>제목19</a></div></div><div><div class=article-list__cell-id>40</div><div class=article-list__cell-reg-date>2020-12-09 10:34:24</div><div class=article-list__cell-writer>디케이</div><div class=article-list__cell-rcm>0</div><div class=article-list__cell-title><a href=40.html class=hover-underline>제목18</a></div></div><div><div class=article-list__cell-id>39</div><div class=article-list__cell-reg-date>2020-12-09 10:34:24</div><div class=article-list__cell-writer>디케이</div><div class=article-list__cell-rcm>0</div><div class=article-list__cell-title><a href=39.html class=hover-underline>제목17</a></div></div><div><div class=article-list__cell-id>38</div><div class=article-list__cell-reg-date>2020-12-09 10:34:24</div><div class=article-list__cell-writer>디케이</div><div class=article-list__cell-rcm>0</div><div class=article-list__cell-title><a href=38.html class=hover-underline>제목16</a></div></div><div><div class=article-list__cell-id>37</div><div class=article-list__cell-reg-date>2020-12-09 10:34:24</div><div class=article-list__cell-writer>디케이</div><div class=article-list__cell-rcm>0</div><div class=article-list__cell-title><a href=37.html class=hover-underline>제목15</a></div></div><div><div class=article-list__cell-id>36</div><div class=article-list__cell-reg-date>2020-12-09 10:34:24</div><div class=article-list__cell-writer>디케이</div><div class=article-list__cell-rcm>0</div><div class=article-list__cell-title><a href=36.html class=hover-underline>제목14</a></div></div><div><div class=article-list__cell-id>35</div><div class=article-list__cell-reg-date>2020-12-09 10:34:24</div><div class=article-list__cell-writer>디케이</div><div class=article-list__cell-rcm>0</div><div class=article-list__cell-title><a href=35.html class=hover-underline>제목13</a></div></div><div><div class=article-list__cell-id>34</div><div class=article-list__cell-reg-date>2020-12-09 10:34:24</div><div class=article-list__cell-writer>디케이</div><div class=article-list__cell-rcm>0</div><div class=article-list__cell-title><a href=34.html class=hover-underline>제목12</a></div></div><div><div class=article-list__cell-id>33</div><div class=article-list__cell-reg-date>2020-12-09 10:34:24</div><div class=article-list__cell-writer>디케이</div><div class=article-list__cell-rcm>0</div><div class=article-list__cell-title><a href=33.html class=hover-underline>제목11</a></div></div><div><div class=article-list__cell-id>32</div><div class=article-list__cell-reg-date>2020-12-09 10:34:24</div><div class=article-list__cell-writer>디케이</div><div class=article-list__cell-rcm>0</div><div class=article-list__cell-title><a href=32.html class=hover-underline>제목10</a></div></div></main></div></div><main class="paging"><div class="page-box con-min-witdh"><div class="page con flex flex-end"><div class="page-no"><a class="flex" href="article_list1.html">1</a></div><div class="page-no"><a class="flex" href="article_list2.html">2</a></div><div class="page-no"><a class="flex" href="article_list3.html">3</a></div><div class="page-no"><a class="flex" href="article_list4.html">4</a></div><div class="page-no"><a class="flex" href="article_list5.html">5</a></div></div></div></main></section>
+<main><div class="title-bar con-min-width"><h1 class="con"><i class="fas fa-flag"></i><span>전체 게시물 리스트</span></h1></div><section class="section-1 con-min-width"><div class="con"><div class="article-list"><header><div><div class="article-list__cell-id">번호</div><div class="article-list__cell-reg-date">날짜</div><div class="article-list__cell-writer">작성자</div><div class="article-list__cell-rcm">추천수</div><div class="article-list__cell-title">제목</div></div></header><main class="article-box"><div><div class=article-list__cell-id>41</div><div class=article-list__cell-reg-date>2020-12-09 18:54:00</div><div class=article-list__cell-writer>디케이</div><div class=article-list__cell-rcm>0</div><div class=article-list__cell-title><a href=41.html class=hover-underline>제목19</a></div></div><div><div class=article-list__cell-id>40</div><div class=article-list__cell-reg-date>2020-12-09 18:54:00</div><div class=article-list__cell-writer>디케이</div><div class=article-list__cell-rcm>0</div><div class=article-list__cell-title><a href=40.html class=hover-underline>제목18</a></div></div><div><div class=article-list__cell-id>39</div><div class=article-list__cell-reg-date>2020-12-09 18:54:00</div><div class=article-list__cell-writer>디케이</div><div class=article-list__cell-rcm>0</div><div class=article-list__cell-title><a href=39.html class=hover-underline>제목17</a></div></div><div><div class=article-list__cell-id>38</div><div class=article-list__cell-reg-date>2020-12-09 18:54:00</div><div class=article-list__cell-writer>디케이</div><div class=article-list__cell-rcm>0</div><div class=article-list__cell-title><a href=38.html class=hover-underline>제목16</a></div></div><div><div class=article-list__cell-id>37</div><div class=article-list__cell-reg-date>2020-12-09 18:54:00</div><div class=article-list__cell-writer>디케이</div><div class=article-list__cell-rcm>0</div><div class=article-list__cell-title><a href=37.html class=hover-underline>제목15</a></div></div><div><div class=article-list__cell-id>36</div><div class=article-list__cell-reg-date>2020-12-09 18:54:00</div><div class=article-list__cell-writer>디케이</div><div class=article-list__cell-rcm>0</div><div class=article-list__cell-title><a href=36.html class=hover-underline>제목14</a></div></div><div><div class=article-list__cell-id>35</div><div class=article-list__cell-reg-date>2020-12-09 18:54:00</div><div class=article-list__cell-writer>디케이</div><div class=article-list__cell-rcm>0</div><div class=article-list__cell-title><a href=35.html class=hover-underline>제목13</a></div></div><div><div class=article-list__cell-id>34</div><div class=article-list__cell-reg-date>2020-12-09 18:54:00</div><div class=article-list__cell-writer>디케이</div><div class=article-list__cell-rcm>0</div><div class=article-list__cell-title><a href=34.html class=hover-underline>제목12</a></div></div><div><div class=article-list__cell-id>33</div><div class=article-list__cell-reg-date>2020-12-09 18:54:00</div><div class=article-list__cell-writer>디케이</div><div class=article-list__cell-rcm>0</div><div class=article-list__cell-title><a href=33.html class=hover-underline>제목11</a></div></div><div><div class=article-list__cell-id>32</div><div class=article-list__cell-reg-date>2020-12-09 18:54:00</div><div class=article-list__cell-writer>디케이</div><div class=article-list__cell-rcm>0</div><div class=article-list__cell-title><a href=32.html class=hover-underline>제목10</a></div></div></main></div></div><main class="paging"><div class="page-box con-min-witdh"><div class="page con flex flex-end"><div class="page-no"><a class="flex" href="article_list1.html">1</a></div><div class="page-no"><a class="flex" href="article_list2.html">2</a></div><div class="page-no"><a class="flex" href="article_list3.html">3</a></div><div class="page-no"><a class="flex" href="article_list4.html">4</a></div><div class="page-no"><a class="flex" href="article_list5.html">5</a></div></div></div></main>
 </main>
 <footer class="bottom-bar con-min-width">
 	<div class="con float-grid">
@@ -343,3 +400,4 @@ body > main{
 			nemo maiores fuga quibusdam?</div>
 	</div>
 </footer>
+</section>
