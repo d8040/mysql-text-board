@@ -11,7 +11,6 @@ import com.sbs.example.mysqlTextBoard.mysqlutil.MysqlUtil;
 import com.sbs.example.mysqlTextBoard.mysqlutil.SecSql;
 
 public class ArticleDao {
-	private List<Article> articles;
 
 	public int add(int boardId, int memberId, String title, String body) {
 		SecSql sql = new SecSql();
@@ -341,5 +340,13 @@ public class ArticleDao {
 		}
 
 		return articles;
+	}
+
+	public int getHitByAllArticles() {
+				
+		SecSql sql = new SecSql();
+		sql.append("SELECT SUM(hit) FROM article");
+				
+		return MysqlUtil.selectRowIntValue(sql);
 	}
 }

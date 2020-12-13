@@ -42,6 +42,8 @@ public class ExportService {
 //		List<Article> articles_statastics = articleService.getForPrintArticles();
 		List<Member> members = memberService.getForPrintMembers();
 		List<Article> articles = articleService.getForPrintArticles();
+		int hitByAllArticles = articleService.getHitByAllArticles();
+		System.out.println("조회수"+hitByAllArticles);
 		sb_statastics.append(head);
 		sb_statastics.append("<div class=\"title-bar con-min-width\">");
 		sb_statastics.append("<h1 class=\"con\">");

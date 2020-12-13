@@ -118,4 +118,8 @@ public class ArticleService {
 		return articleDao.getArticlesByPagingAll(start, page);
 	}
 
+	public int getHitByAllArticles() {
+		return articleDao.getHitByAllArticles();
+	}
+
 }

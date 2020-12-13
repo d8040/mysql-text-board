@@ -26,7 +26,7 @@ public class App {
 			String cmd = sc.nextLine();
 			MysqlUtil.setDBInfo("localhost", "sbsst", "sbs123414", "textBoard");
 			MysqlUtil.setDevMode(true);
-
+			
 			if (cmd.startsWith("article ")) {
 				articleController.doCommand(cmd);
 				MysqlUtil.closeConnection();
