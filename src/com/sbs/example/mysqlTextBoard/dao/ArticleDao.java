@@ -349,4 +349,24 @@ public class ArticleDao {
 				
 		return MysqlUtil.selectRowIntValue(sql);
 	}
+
+	public int getHitByBoardArticles(int boardId) {
+		SecSql sql = new SecSql();
+		sql.append("SELECT SUM(hit) FROM article WHERE boardId = ?", boardId);
+				
+		return MysqlUtil.selectRowIntValue(sql);
+	}
+
+	public Board getBoardByid(int boardId) {
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append("FROM board");
+		sql.append("WHERE `id` = ?", boardId);
+
+		Map<String, Object> boardMap = MysqlUtil.selectRow(sql);
+		if (boardMap.isEmpty()) {
+			return null;
+		}
+		return new Board(boardMap);
+	}
 }

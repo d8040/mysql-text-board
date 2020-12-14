@@ -42,8 +42,12 @@ public class ExportService {
 //		List<Article> articles_statastics = articleService.getForPrintArticles();
 		List<Member> members = memberService.getForPrintMembers();
 		List<Article> articles = articleService.getForPrintArticles();
-		int hitByAllArticles = articleService.getHitByAllArticles();
-		System.out.println("조회수"+hitByAllArticles);
+		int articleQtyBynoticeBoard = articleService.getArticlesCount(1);
+		int articleQtyByfreeBoard = articleService.getArticlesCount(2);
+		int hitByAllBoardArticles = articleService.getHitByAllArticles();
+		int hitByNoticeBoardArticles = articleService.getHitByBoardArticles(1);
+		int hitByFreeBoardArticles = articleService.getHitByBoardArticles(2);
+		
 		sb_statastics.append(head);
 		sb_statastics.append("<div class=\"title-bar con-min-width\">");
 		sb_statastics.append("<h1 class=\"con\">");
@@ -52,18 +56,20 @@ public class ExportService {
 		sb_statastics.append("</h1>");
 		sb_statastics.append("</div>");
 		sb_statastics.append("<section class=\"section-1 con-min-width\">");
-		sb_statastics.append("<main>");
-		sb_statastics.append("<div class=satastics>");
+		sb_statastics.append("<main class=\"con-min-width\">");
+		sb_statastics.append("<div class=con satastics>");
 		sb_statastics.append("<div class=satastics__member>" + "회원수" + members.size() + "</div>");
 		sb_statastics.append("<div class=satastics__member>" + "전체 게시물 수" + articles.size() + "</div>");
-		sb_statastics.append("<div class=satastics__member>" + "각 게시판별 게시물 수" + articles.size() + "</div>");
-		sb_statastics.append("<div class=satastics__member>" + "전체 게시물 조회 수" + articles.size() + "</div>");
-		sb_statastics.append("<div class=satastics__member>" + "각 게시판별 게시물 조회 수" + articles.size() + "</div>");
+		sb_statastics.append("<div class=satastics__member>" + "공지게시판 게시물 수" + articleQtyBynoticeBoard + "</div>");
+		sb_statastics.append("<div class=satastics__member>" + "자유게시판 게시물 수" + articleQtyByfreeBoard + "</div>");
+		sb_statastics.append("<div class=satastics__member>" + "전체 게시물 조회 수" + hitByAllBoardArticles + "</div>");
+		sb_statastics.append("<div class=satastics__member>" + "공지게시판 게시물 조회 수" + hitByNoticeBoardArticles + "</div>");
+		sb_statastics.append("<div class=satastics__member>" + "자유게시판 게시물 조회 수" + hitByFreeBoardArticles + "</div>");
 		sb_statastics.append("</div>");
 		sb_statastics.append("</main>");
 		sb_statastics.append(foot);
-		Util.writeFileContents("site/article/" + "index.html", sb_statastics.toString());
-		System.out.println("site/article/" + "index.html" + "생성");
+		Util.writeFileContents("site/" + "index.html", sb_statastics.toString());
+		System.out.println("site/" + "index.html" + "생성");
 	}
 
 	// 자유 게시판 페이징
@@ -102,7 +108,7 @@ public class ExportService {
 				sb_freeList.append("<div class=article-list__cell-reg-date>" + article.regDate + "</div>");
 				sb_freeList.append("<div class=article-list__cell-writer>" + member.name + "</div>");
 				sb_freeList.append("<div class=article-list__cell-rcm>" + article.rcmCount + "</div>");
-				sb_freeList.append("<div class=article-list__cell-title><a href=\"../" + article.id
+				sb_freeList.append("<div class=article-list__cell-title><a href=\"" + article.id
 						+ ".html\" class=hover-underline>" + article.title + "</a></div>");
 				sb_freeList.append("</div>");
 			}
@@ -120,8 +126,8 @@ public class ExportService {
 			sb_freeList.append("</div>");
 			sb_freeList.append("</main>");
 			sb_freeList.append(foot);
-			Util.writeFileContents("site/article/" + "article_free_list" + i + ".html", sb_freeList.toString());
-			System.out.println("site/article/" + "article_free_list" + i + ".html" + "생성");
+			Util.writeFileContents("site/" + "article_free_list" + i + ".html", sb_freeList.toString());
+			System.out.println("site/" + "article_free_list" + i + ".html" + "생성");
 			start = start + 10;
 		}
 	}
@@ -160,7 +166,7 @@ public class ExportService {
 				sb_noticeList.append("<div class=article-list__cell-reg-date>" + article.regDate + "</div>");
 				sb_noticeList.append("<div class=article-list__cell-writer>" + member.name + "</div>");
 				sb_noticeList.append("<div class=article-list__cell-rcm>" + article.rcmCount + "</div>");
-				sb_noticeList.append("<div class=article-list__cell-title><a href=\"../" + article.id
+				sb_noticeList.append("<div class=article-list__cell-title><a href=\"" + article.id
 						+ ".html\" class=hover-underline>" + article.title + "</a></div>");
 				sb_noticeList.append("</div>");
 			}
@@ -179,8 +185,8 @@ public class ExportService {
 			sb_noticeList.append("</main>");
 			sb_noticeList.append(foot);
 			start = start + 10;
-			Util.writeFileContents("site/article/" + "article_notice_list" + i + ".html", sb_noticeList.toString());
-			System.out.println("site/article/" + "article_notice_list" + i + ".html" + "생성");
+			Util.writeFileContents("site/" + "article_notice_list" + i + ".html", sb_noticeList.toString());
+			System.out.println("site/" + "article_notice_list" + i + ".html" + "생성");
 		}
 	}
 
@@ -220,7 +226,7 @@ public class ExportService {
 				sb.append("<div class=article-list__cell-reg-date>" + article.regDate + "</div>");
 				sb.append("<div class=article-list__cell-writer>" + member.name + "</div>");
 				sb.append("<div class=article-list__cell-rcm>" + article.rcmCount + "</div>");
-				sb.append("<div class=article-list__cell-title><a href=../" + article.id
+				sb.append("<div class=article-list__cell-title><a href=" + article.id
 						+ ".html class=hover-underline>" + article.title + "</a></div>");
 				sb.append("</div>");
 			}
@@ -237,8 +243,8 @@ public class ExportService {
 			sb.append("</main>");
 			sb.append(foot);
 			start = start + 10;
-			Util.writeFileContents("site/article/" + "article_list" + i + ".html", sb.toString());
-			System.out.println("site/article/" + "article_list" + i + ".html" + "생성");
+			Util.writeFileContents("site/" + "article_list" + i + ".html", sb.toString());
+			System.out.println("site/" + "article_list" + i + ".html" + "생성");
 		}
 		start = 0;
 		page = 10;
@@ -273,17 +279,24 @@ public class ExportService {
 			sb.append("<li><a href=\"#\">조회수: " + article.hit + "</a></li>");
 			sb.append("<li><a href=\"#\">작성일: " + article.regDate + "</a></li></ul></info>");
 			sb.append("<contents class=\"contents flex-g-1\">");
-			sb.append("<ul class=\"flex flex-jc-c\">");
+			sb.append("<ul class=\"flex\">");
 			sb.append("<il>" + article.body + "</il></ul></ul></contents>");
 			sb.append("<buttom>");
 			sb.append("<ul class=\"flex\">");
 			sb.append("<li>추천수: " + article.rcmCount + "</li>");
 			sb.append("<li class=\"flex-g-1\"></li>");
 			if (article.id > 1) {
-				sb.append("<li><a href=\"" + (article.id - 1) + ".html\"><이전글</a></li>");
+				sb.append("<li><a href=\"" + (article.id - 1) + ".html\">&lt; 이전글</a></li>");
 			}
+			Board board = articleService.getBoardByid(article.boardId);
+			System.out.println(board.code);
+			if (board.code.contains("notice")) {
+				sb.append("<li><a href=\"article_notice_list1.html\">목록</a></li>");
+			} if (board.code.contains("free")) {
+				sb.append("<li><a href=\"article_free_list1.html\">목록</a></li>");
+			}	
 			if (articles.size() >= article.id) {
-				sb.append("<li><a href=\"" + (article.id + 1) + ".html\"> 다음글> </a></li>");
+				sb.append("<li><a href=\"" + (article.id + 1) + ".html\"> 다음글 &gt;</a></li>");
 			}
 			sb.append("</ul></buttom></div></detail>");
 			sb.append("");
@@ -306,7 +319,7 @@ public class ExportService {
 			boardMenuContent.append("<li>");
 
 			String link = "article_" + board.code + "_list1.html";
-			boardMenuContent.append("<a href=\"article/" + link + "\" class=\"flex flex-jc-c flex-ai-c \">");
+			boardMenuContent.append("<a href=\"" + link + "\" class=\"flex flex-jc-c flex-ai-c \">");
 
 			String icon = "<i class=\"fab fa-free-code-camp\"></i>";
 			if (board.code.contains("notice")) {

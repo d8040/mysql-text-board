@@ -223,6 +223,9 @@ i {
   justify-content:center;
   width:40px;
 }
+.page-no > a:hover {
+	color: red;
+	}
 /* 페이징끝 */
 
 /* 게시물 리스트 */
@@ -303,7 +306,6 @@ i {
 /* detail page start */
 .detail-box > div{
   width: 700px;
-  height:auto;
 }
 .title{
   font-size:2rem;
@@ -327,13 +329,15 @@ i {
   padding:10px 5px;
   border-bottom:2px solid;
   border-top:2px solid;
-  height:auto;
-  min-height:50vh;
+  min-height: 340px;
 }
 .detail-box > div > buttom {
   margin:10px 5px;
 }
 .detail-box > div > buttom > ul > li:nth-child(n+3){
-  flex-basis:70px;
+  display:flex;
+  flex-basis:65px;
+  justify-content:center;  
 }
+
 /* detail page end */

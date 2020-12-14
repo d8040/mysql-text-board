@@ -122,4 +122,12 @@ public class ArticleService {
 		return articleDao.getHitByAllArticles();
 	}
 
+	public int getHitByBoardArticles(int boardId) {
+		return articleDao.getHitByBoardArticles(boardId);
+	}
+
+	public Board getBoardByid(int boardId) {
+		return articleDao.getBoardByid(boardId);
+	}
+
 }
