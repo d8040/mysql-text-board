@@ -1,3 +1,22 @@
+/* 폰트 */
+@font-face {
+  font-family: 'LotteMartDream';
+  font-style: normal;
+  font-weight: 400;
+  src: url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff2') format('woff2'), url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff') format('woff');
+}
+@font-face {
+  font-family: 'LotteMartDream';
+  font-style: normal;
+  font-weight: 700;
+  src: url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff2') format('woff2'), url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff') format('woff');
+}
+@font-face {
+  font-family: 'LotteMartDream';
+  font-style: normal;
+  font-weight: 300;
+  src: url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff2') format('woff2'), url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff') format('woff');
+}
 html {
   font-family: 'LotteMartDream', sans-serif;
 }
@@ -205,27 +224,30 @@ i {
 /* 메인화면크기 */
 
 .article-box{
-  height:470px;
+  min-height:470px;
 }
+
 /* 페이징 */
-.page-box{
-  /*   height:0; */
-  display:flex;
-}
-.page{
-  background:url(//i1.daumcdn.net/deco/contents/horizontalrule/line03.gif?v=2) repeat-x scroll left;
+.page{  background:url(https://i1.daumcdn.net/deco/contents/horizontalrule/line03.gif?v=2) repeat-x scroll left;
   height: 0px;
   justify-content:center;
-  padding-top:6px;
-  
+  padding-top:6px;  
 }
-.page-no > a {
+.page > .page-no > a {
+  padding:7px;
+}
+.page > .page-no > a {
   justify-content:center;
-  width:40px;
+  min-width:15px;
+  border: 1px solid transparent;
 }
-.page-no > a:hover {
+.page > .page-no:not(:first-child):not(:last-child):hover > a {
 	color: red;
+  border-color: #afafaf;
 	}
+.selected {
+  color:red;
+}
 /* 페이징끝 */
 
 /* 게시물 리스트 */
@@ -236,6 +258,9 @@ i {
   --article-list__cell-rcm__width:100px;
   --article-list__cell-title__width:calc(100% - var(--article-list__cell-id__width) - var(--article-list__cell-reg-date__width) - var(--article-list__cell-writer__width) - var(--article-list__cell-rcm__width));
 }
+.article-list{
+  width:1100px;
+} 
 .article-list > header > div{
   position:relative;
 }
