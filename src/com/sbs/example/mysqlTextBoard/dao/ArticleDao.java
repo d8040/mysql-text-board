@@ -257,7 +257,6 @@ public class ArticleDao {
 		for (Map<String, Object> boardMap : boardMapList) {
 			boards.add(new Board(boardMap));
 		}
-
 		return boards;
 	}
 

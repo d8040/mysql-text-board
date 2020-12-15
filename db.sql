@@ -108,7 +108,21 @@ title = '제목3',
 memberId = 1,
 boardId = 1;
 
+# 게시물 랜덤 생성
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+title = CONCAT('제목_',RAND()),
+`body` = CONCAT('내용_',RAND()),
+memberId = IF(RAND() > 0.5, 1, 2),
+boardId = IF(RAND() > 0.5, 1, 2);
 
+SELECT FLOOR(RAND()*10+1); # 
+SELECT SUM(hit) FROM article;
+SELECT SUM(CONVERT(INT,hit)) FROM article;
+SELECT COUNT(hit) FROM article;
+SELECT hit FROM article WHERE id=1;
+SELECT * FROM article;
 INSERT INTO article(rcmCount) VALUE(SELECT COUNT(memberId) FROM article WHERE memberId = 1);
 SELECT COUNT(articleId) FROM recommand WHERE articleId = 1;
 UPDATE article SET rcmCount = (SELECT COUNT(memberId) FROM article WHERE memberId = 2) WHERE id = 3;
@@ -131,11 +145,16 @@ ALTER TABLE article ADD COLUMN hit INT(10) UNSIGNED NOT NULL;
 
 ALTER TABLE aritcle CHANGE COLUMN rcmCount rcmCount = DATETIME NOT NULL;
 
-SELECT * FROM article;
+SELECT * FROM article WHERE boardId = 2;
 SELECT * FROM `member`;
 SELECT * FROM board;
 SELECT * FROM articleReply;
 SELECT * FROM recommand;
+SELECT * FROM article WHERE boardId = 1 ORDER BY id DESC;
+SELECT * FROM article WHERE boardId = 1 ORDER BY id DESC LIMIT 0,10;
+SELECT * FROM article WHERE boardId = 1 ORDER BY id DESC LIMIT 10,10;
+SELECT * FROM article WHERE boardId = 1 ORDER BY id DESC LIMIT 20,10;
+SELECT * , M.name AS extra_writer FROM article AS A INNER JOIN `member` AS M ON A.memberId = M.id WHERE boardId = 2;
 
 SELECT *,
 M.name AS extra_writer

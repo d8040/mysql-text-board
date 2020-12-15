@@ -12,19 +12,24 @@ public class ExportService {
 
 	private ArticleService articleService;
 	private MemberService memberService;
-	int start = 0;
-	int page = 10;
 
 	public ExportService() {
 		articleService = Container.articleService;
 		memberService = Container.memberService;
 	}
+	
+	int articleStart = 0;
+	int totalPages = 0;
+	int pages = 10;
+	int pageQty = 0;
+	int startPage = 0;
+	int endPage = 0;
 
 	public void makeHtml() {
 
 		Util.rmdir("site");
 		Util.mkdirs("site");
-
+		
 		Util.copy("site_template/part/app.css", "site/app.css");
 
 		detail();
@@ -74,20 +79,15 @@ public class ExportService {
 
 	// 자유 게시판 페이징
 	private void articleListFree() {
-		Util.copy("site_template/part/app.css", "site/article/app.css");
-		List<Article> articles = articleService.getForPrintArticles(2);
 		String head = getHeadHtml();
 		String foot = Util.getFileContents("site_template/part/foot.html");
-		start = 0;
-		page = 10;
-		int pageId = 0;
-		if (articles.size() % 10 == 0) {
-			pageId = (articles.size() / 10);
-		} else if (articles.size() % 10 != 0) {
-			pageId = (articles.size() / 10) + 1;
-		}
-		for (int i = 1; i <= pageId; i++) {
-			List<Article> articles_Paging = articleService.getArticlesByPaging(2, start, page);
+		List<Article> articles = articleService.getForPrintArticles(2);
+		articleStart = 0;
+		totalPages = (int) Math.ceil((double) articles.size() / pages);
+		startPage = 1;
+		endPage = startPage + pages - 1;
+		for (int i = 1; i <= totalPages; i++) {
+			List<Article> articles_Paging = articleService.getArticlesByPaging(2, articleStart, pages);
 			StringBuffer sb = new StringBuffer();
 			sb.append(head);
 			sb.append("<div class=\"title-bar con-min-width\">");
@@ -125,10 +125,19 @@ public class ExportService {
 			sb.append("<div class=\"page-box con-min-witdh\">");
 			sb.append("<div class=\"page con flex\">");
 			if (i > 1) {
+				if ((i - 1) % pages == 0) {
+					startPage = startPage + pages;
+					endPage = startPage + pages - 1;
+					if (endPage >= totalPages) {
+						endPage = totalPages;
+					}
+				}
+			}
+			if (i > 1) {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list" + (i - 1)
 						+ ".html\">&lt; 이전</a></div>");
 			}
-			for (int k = 1; k <= pageId; k++) {
+			for (int k = startPage; k <= endPage; k++) {
 				if (k == i) {
 					sb.append("<div class=\"page-no selected\"><a class=\"flex\" href=\"article_free_list" + k
 							+ ".html\">" + k + "</a></div>");
@@ -137,7 +146,7 @@ public class ExportService {
 							+ "</a></div>");
 				}
 			}
-			if (i < pageId) {
+			if (i < totalPages) {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list" + (i + 1)
 						+ ".html\">다음 &gt;</a></div>");
 			}
@@ -145,28 +154,27 @@ public class ExportService {
 			sb.append("</div>");
 			sb.append("</main>");
 			sb.append(foot);
+			articleStart = articleStart + 10;
 			Util.writeFileContents("site/" + "article_free_list" + i + ".html", sb.toString());
 			System.out.println("site/" + "article_free_list" + i + ".html" + "생성");
-			start = start + 10;
+
 		}
 	}
 
 	// 공지 게시판 페이징
 	private void articleListNotice() {
-		List<Article> articles = articleService.getForPrintArticles(1);
 		String head = getHeadHtml();
 		String foot = Util.getFileContents("site_template/part/foot.html");
-		start = 0;
-		page = 10;
-		int pageId = 0;
-		if (articles.size() % 10 == 0) {
-			pageId = (articles.size() / 10);
-		} else if (articles.size() % 10 != 0) {
-			pageId = (articles.size() / 10) + 1;
-		}
-		for (int i = 1; i <= pageId; i++) {
+		List<Article> articles = articleService.getForPrintArticles(1);
 
-			List<Article> articles_Paging = articleService.getArticlesByPaging(1, start, page);
+		totalPages = (int) Math.ceil((double) articles.size() / pages);
+		startPage = 1;
+		endPage = startPage + pages - 1;
+		articleStart = 0;
+
+		for (int i = 1; i <= totalPages; i++) {
+
+			List<Article> articles_Paging = articleService.getArticlesByPaging(1, articleStart, pages);
 			StringBuffer sb = new StringBuffer();
 			sb.append(head);
 			sb.append("<div class=\"title-bar con-min-width\">");
@@ -204,10 +212,19 @@ public class ExportService {
 			sb.append("<div class=\"page-box con-min-witdh\">");
 			sb.append("<div class=\"page con flex flex-end\">");
 			if (i > 1) {
+				if ((i - 1) % pages == 0) {
+					startPage = startPage + pages;
+					endPage = startPage + pages - 1;
+					if (endPage >= totalPages) {
+						endPage = totalPages;
+					}
+				}
+			}
+			if (i > 1) {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_notice_list" + (i - 1)
 						+ ".html\">&lt; 이전</a></div>");
 			}
-			for (int k = 1; k <= pageId; k++) {
+			for (int k = startPage; k <= endPage; k++) {
 				if (k == i) {
 					sb.append("<div class=\"page-no selected\"><a class=\"flex\" href=\"article_notice_list" + k
 							+ ".html\">" + k + "</a></div>");
@@ -216,7 +233,7 @@ public class ExportService {
 							+ "</a></div>");
 				}
 			}
-			if (i < pageId) {
+			if (i < totalPages) {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_notice_list" + (i + 1)
 						+ ".html\">다음 &gt;</a></div>");
 			}
@@ -224,7 +241,7 @@ public class ExportService {
 			sb.append("</div>");
 			sb.append("</main>");
 			sb.append(foot);
-			start = start + 10;
+			articleStart = articleStart + 10;
 			Util.writeFileContents("site/" + "article_notice_list" + i + ".html", sb.toString());
 			System.out.println("site/" + "article_notice_list" + i + ".html" + "생성");
 		}
@@ -232,23 +249,17 @@ public class ExportService {
 
 	// 전체 게시판리스트
 	private void articleListAll() {
-		Util.rmdir("site/article");
-		Util.mkdirs("site/article");
-
 		String head = getHeadHtml();
 		String foot = Util.getFileContents("site_template/part/foot.html");
-		
-		int pageId = 0;
-		
-		List<Board> boards = articleService.getForPrintBoards();
+
 		List<Article> articles = articleService.getForPrintArticles();
-		if (articles.size() % 10 == 0) {
-			pageId = (articles.size() / 10);
-		} else if (articles.size() % 10 != 0) {
-			pageId = (articles.size() / 10) + 1;
-		}
-		for (int i = 1; i <= pageId; i++) {
-			List<Article> articles_Paging = articleService.getArticlesByPagingAll(start, page);
+
+		totalPages = (int) Math.ceil((double) articles.size() / pages);
+		startPage = 1;
+		endPage = startPage + pages - 1;
+
+		for (int i = 1; i <= totalPages; i++) {
+			List<Article> articles_Paging = articleService.getArticlesByPagingAll(articleStart, pages);
 			StringBuffer sb = new StringBuffer();
 			sb.append(head);
 			sb.append("<div class=\"title-bar con-min-width\">");
@@ -285,10 +296,20 @@ public class ExportService {
 			sb.append("<div class=\"page-box con-min-witdh\">");
 			sb.append("<div class=\"page flex flex-jc-c con\">");
 			if (i > 1) {
+				if ((i - 1) % pages == 0) {
+					startPage = startPage + pages;
+					endPage = startPage + pages - 1;
+					if (endPage >= totalPages) {
+						endPage = totalPages;
+					}
+				}
+			}
+			if (i > 1) {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" + (i - 1)
 						+ ".html\">&lt; 이전</a></div>");
 			}
-			for (int k = 1; k <= pageId; k++) {
+
+			for (int k = startPage; k <= endPage; k++) {
 				if (k == i) {
 					sb.append("<div class=\"page-no selected\"><a class=\"flex\" href=\"article_list" + k + ".html\">"
 							+ k + "</a></div>");
@@ -297,7 +318,7 @@ public class ExportService {
 							+ "</a></div>");
 				}
 			}
-			if (i < pageId) {
+			if (i < totalPages) {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" + (i + 1)
 						+ ".html\">다음 &gt;</a></div>");
 			}
@@ -305,7 +326,8 @@ public class ExportService {
 			sb.append("</div>");
 			sb.append("</main>");
 			sb.append(foot);
-			start = start + 10;
+
+			articleStart = articleStart + 10;
 			Util.writeFileContents("site/" + "article_list" + i + ".html", sb.toString());
 			System.out.println("site/" + "article_list" + i + ".html" + "생성");
 		}
@@ -314,18 +336,16 @@ public class ExportService {
 //상세페이지
 	private void detail() {
 		List<Board> boards = articleService.getForPrintBoards();
-		Util.copy("site_template/part/app.css", "site/app.css");
 		String head = getHeadHtml();
 		String foot = Util.getFileContents("site_template/part/foot.html");
 
 		for (Board board : boards) {
 			List<Article> articles = articleService.getForPrintArticles(board.id);
-			int id = articles.size();
+			int i = 0;
 
 			for (Article article : articles) {
 				Member member = memberService.getMemberByMemberId(article.memberId);
 				StringBuffer sb = new StringBuffer();
-
 				sb.append(head);
 				sb.append("<div class=\"title-bar con-min-width\">");
 				sb.append("<h1 class=\"con\">");
@@ -350,16 +370,14 @@ public class ExportService {
 				sb.append("<ul class=\"flex\">");
 				sb.append("<li>추천수: " + article.rcmCount + "</li>");
 				sb.append("<li class=\"flex-g-1\"></li>");
-				if (id > 1) {
-					sb.append("<li class=\"hover-underline\"><a href=\"" + board.code + (article.id - 1)
+				if (i > 0) {
+					sb.append("<li class=\"hover-underline\"><a href=\"" + board.code + (articles.get(i - 1).id)
 							+ ".html\">&lt; 이전글</a></li>");
 				}
-				sb.append(
-						"<li class=\"hover-underline\"><a href=\"article_" + board.code + "_list1.html\">목록</a></li>");
-				if (articles.size() > id) {
-					sb.append("<li class=\"hover-underline\"><a href=\"" + board.code + (article.id + 1)
+				sb.append("<li class=\"hover-underline\"><a href=\"article_" + board.code + "_list"+(int) Math.ceil((double) (i+1) / pages)+".html\">목록</a></li>");
+				if (articles.size() > i + 1) {
+					sb.append("<li class=\"hover-underline\"><a href=\"" + board.code + (articles.get(i + 1).id)
 							+ ".html\"> 다음글 &gt;</a></li>");
-
 				}
 				sb.append("</ul></buttom></div></detail>");
 				sb.append("");
@@ -369,7 +387,7 @@ public class ExportService {
 				Util.writeFileContents("site/" + fileName, sb.toString());
 
 				System.out.println("site/" + fileName + "생성");
-				id = id - 1;
+				i = i + 1;
 			}
 		}
 	}
