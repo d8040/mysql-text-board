@@ -333,7 +333,7 @@ public class ExportService {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" + (i + 1)
 						+ ".html\">다음 &gt;</a></div>");
 			}
-			if (i-1/10 < endPage) {
+			if (i-1/pages < endPage) {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" +((int) Math.ceil((double) (((i+10)/10)*10)+1))
 						+ ".html\"> &gt;&gt;</a></div>");
 			}
