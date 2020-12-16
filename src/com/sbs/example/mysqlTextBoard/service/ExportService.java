@@ -17,7 +17,7 @@ public class ExportService {
 		articleService = Container.articleService;
 		memberService = Container.memberService;
 	}
-	
+
 	int articleStart = 0;
 	int totalPages = 0;
 	int pages = 10;
@@ -29,7 +29,7 @@ public class ExportService {
 
 		Util.rmdir("site");
 		Util.mkdirs("site");
-		
+
 		Util.copy("site_template/part/app.css", "site/app.css");
 
 		detail();
@@ -132,8 +132,9 @@ public class ExportService {
 					}
 				}
 			}
-			if (i > 10) {
-				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list" + ((int) Math.ceil((double) (((i+10)/10)*10)+1))
+			if (i > pages) {
+				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list"
+						+ ((int) Math.ceil((double) (((i - 1 - pages) / pages) * pages) + 10))
 						+ ".html\">&lt;&lt; </a></div>");
 			}
 			if (i > 1) {
@@ -153,8 +154,9 @@ public class ExportService {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list" + (i + 1)
 						+ ".html\">다음 &gt;</a></div>");
 			}
-			if (i < totalPages) {
-				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list" +((int) Math.ceil((double) (((i+10)/10)*10)+1))
+			if (i - 1 / pages < (totalPages - (totalPages % pages) + 1)) {
+				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list"
+						+ ((int) Math.ceil((double) (((i - 1 + pages) / pages) * pages) + 1))
 						+ ".html\"> &gt;&gt;</a></div>");
 			}
 			sb.append("</div>");
@@ -227,6 +229,11 @@ public class ExportService {
 					}
 				}
 			}
+			if (i > pages) {
+				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list"
+						+ ((int) Math.ceil((double) (((i - 1 - pages) / pages) * pages) + 10))
+						+ ".html\">&lt;&lt; </a></div>");
+			}
 			if (i > 1) {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_notice_list" + (i - 1)
 						+ ".html\">&lt; 이전</a></div>");
@@ -244,8 +251,9 @@ public class ExportService {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_notice_list" + (i + 1)
 						+ ".html\">다음 &gt;</a></div>");
 			}
-			if (i < totalPages) {
-				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_notice_list" +((int) Math.ceil((double) (((i+10)/10)*10)+1))
+			if (i - 1 / pages < (totalPages - (totalPages % pages) + 1)) {
+				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_notice_list"
+						+ ((int) Math.ceil((double) (((i - 1 + pages) / pages) * pages) + 1))
 						+ ".html\"> &gt;&gt;</a></div>");
 			}
 			sb.append("</div>");
@@ -315,6 +323,11 @@ public class ExportService {
 					}
 				}
 			}
+			if (i > pages) {
+				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list"
+						+ ((int) Math.ceil((double) (((i - 1 - pages) / pages) * pages) + 10))
+						+ ".html\">&lt;&lt; </a></div>");
+			}
 			if (i > 1) {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" + (i - 1)
 						+ ".html\">&lt; 이전</a></div>");
@@ -333,8 +346,9 @@ public class ExportService {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" + (i + 1)
 						+ ".html\">다음 &gt;</a></div>");
 			}
-			if (i-1/pages < endPage) {
-				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" +((int) Math.ceil((double) (((i+10)/10)*10)+1))
+			if (i - 1 / pages < (totalPages - (totalPages % pages) + 1)) {
+				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list"
+						+ ((int) Math.ceil((double) (((i - 1 + pages) / pages) * pages) + 1))
 						+ ".html\"> &gt;&gt;</a></div>");
 			}
 			sb.append("</div>");
@@ -389,7 +403,8 @@ public class ExportService {
 					sb.append("<li class=\"hover-underline\"><a href=\"" + board.code + (articles.get(i - 1).id)
 							+ ".html\">&lt; 이전글</a></li>");
 				}
-				sb.append("<li class=\"hover-underline\"><a href=\"article_" + board.code + "_list"+(int) Math.ceil((double) (i+1) / pages)+".html\">목록</a></li>");
+				sb.append("<li class=\"hover-underline\"><a href=\"article_" + board.code + "_list"
+						+ (int) Math.ceil((double) (i + 1) / pages) + ".html\">목록</a></li>");
 				if (articles.size() > i + 1) {
 					sb.append("<li class=\"hover-underline\"><a href=\"" + board.code + (articles.get(i + 1).id)
 							+ ".html\"> 다음글 &gt;</a></li>");
