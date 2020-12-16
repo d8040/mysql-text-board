@@ -132,10 +132,9 @@ public class ExportService {
 					}
 				}
 			}
-			if (i > 1) {
-				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list" + ((i+10)/10)
+			if (i > 10) {
+				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list" + ((int) Math.ceil((double) (((i+10)/10)*10)+1))
 						+ ".html\">&lt;&lt; </a></div>");
-				System.out.println(((i+10)/10));
 			}
 			if (i > 1) {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list" + (i - 1)
@@ -155,7 +154,7 @@ public class ExportService {
 						+ ".html\">다음 &gt;</a></div>");
 			}
 			if (i < totalPages) {
-				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list" + (i + 10)
+				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list" +((int) Math.ceil((double) (((i+10)/10)*10)+1))
 						+ ".html\"> &gt;&gt;</a></div>");
 			}
 			sb.append("</div>");
@@ -245,6 +244,10 @@ public class ExportService {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_notice_list" + (i + 1)
 						+ ".html\">다음 &gt;</a></div>");
 			}
+			if (i < totalPages) {
+				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_notice_list" +((int) Math.ceil((double) (((i+10)/10)*10)+1))
+						+ ".html\"> &gt;&gt;</a></div>");
+			}
 			sb.append("</div>");
 			sb.append("</div>");
 			sb.append("</main>");
@@ -329,6 +332,10 @@ public class ExportService {
 			if (i < totalPages) {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" + (i + 1)
 						+ ".html\">다음 &gt;</a></div>");
+			}
+			if (i-1/10 < endPage) {
+				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" +((int) Math.ceil((double) (((i+10)/10)*10)+1))
+						+ ".html\"> &gt;&gt;</a></div>");
 			}
 			sb.append("</div>");
 			sb.append("</div>");
