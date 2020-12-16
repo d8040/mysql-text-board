@@ -20,7 +20,8 @@ public class ExportService {
 
 	int articleStart = 0;
 	int totalPages = 0;
-	int pages = 10;
+	int list = 10;
+	int paging = 10;
 	int pageQty = 0;
 	int startPage = 0;
 	int endPage = 0;
@@ -82,11 +83,11 @@ public class ExportService {
 		String foot = Util.getFileContents("site_template/part/foot.html");
 		List<Article> articles = articleService.getForPrintArticles(2);
 		articleStart = 0;
-		totalPages = (int) Math.ceil((double) articles.size() / pages);
+		totalPages = (int) Math.ceil((double) articles.size() / list);
 		startPage = 1;
-		endPage = startPage + pages - 1;
+		endPage = startPage + paging - 1;
 		for (int i = 1; i <= totalPages; i++) {
-			List<Article> articles_Paging = articleService.getArticlesByPaging(2, articleStart, pages);
+			List<Article> articles_Paging = articleService.getArticlesByPaging(2, articleStart, list);
 			StringBuffer sb = new StringBuffer();
 			sb.append(head);
 			sb.append("<div class=\"title-bar con-min-width\">");
@@ -124,17 +125,17 @@ public class ExportService {
 			sb.append("<div class=\"page-box con-min-witdh\">");
 			sb.append("<div class=\"page con flex\">");
 			if (i > 1) {
-				if ((i - 1) % pages == 0) {
-					startPage = startPage + pages;
-					endPage = startPage + pages - 1;
+				if ((i - 1) % paging == 0) {
+					startPage = startPage + paging;
+					endPage = startPage + paging - 1;
 					if (endPage >= totalPages) {
 						endPage = totalPages;
 					}
 				}
 			}
-			if (i > pages) {
+			if (i > paging) {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list"
-						+ ((int) Math.ceil((double) (((i - 1 - pages) / pages) * pages) + 10))
+						+ ((int) Math.ceil((double) (((i - 1 - paging) / paging) * paging) + paging))
 						+ ".html\">&lt;&lt; </a></div>");
 			}
 			if (i > 1) {
@@ -154,9 +155,9 @@ public class ExportService {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list" + (i + 1)
 						+ ".html\">다음 &gt;</a></div>");
 			}
-			if (i - 1 / pages < (totalPages - (totalPages % pages) + 1)) {
+			if (i - 1 / paging < (totalPages - (totalPages % paging) + 1)) {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list"
-						+ ((int) Math.ceil((double) (((i - 1 + pages) / pages) * pages) + 1))
+						+ ((int) Math.ceil((double) (((i - 1 + paging) / paging) * paging) + 1))
 						+ ".html\"> &gt;&gt;</a></div>");
 			}
 			sb.append("</div>");
@@ -176,14 +177,14 @@ public class ExportService {
 		String foot = Util.getFileContents("site_template/part/foot.html");
 		List<Article> articles = articleService.getForPrintArticles(1);
 
-		totalPages = (int) Math.ceil((double) articles.size() / pages);
+		totalPages = (int) Math.ceil((double) articles.size() / list);
 		startPage = 1;
-		endPage = startPage + pages - 1;
+		endPage = startPage + paging - 1;
 		articleStart = 0;
 
 		for (int i = 1; i <= totalPages; i++) {
 
-			List<Article> articles_Paging = articleService.getArticlesByPaging(1, articleStart, pages);
+			List<Article> articles_Paging = articleService.getArticlesByPaging(1, articleStart, list);
 			StringBuffer sb = new StringBuffer();
 			sb.append(head);
 			sb.append("<div class=\"title-bar con-min-width\">");
@@ -221,17 +222,17 @@ public class ExportService {
 			sb.append("<div class=\"page-box con-min-witdh\">");
 			sb.append("<div class=\"page con flex flex-end\">");
 			if (i > 1) {
-				if ((i - 1) % pages == 0) {
-					startPage = startPage + pages;
-					endPage = startPage + pages - 1;
+				if ((i - 1) % paging == 0) {
+					startPage = startPage + paging;
+					endPage = startPage + paging - 1;
 					if (endPage >= totalPages) {
 						endPage = totalPages;
 					}
 				}
 			}
-			if (i > pages) {
+			if (i > paging) {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list"
-						+ ((int) Math.ceil((double) (((i - 1 - pages) / pages) * pages) + 10))
+						+ ((int) Math.ceil((double) (((i - 1 - paging) / paging) * paging) + paging))
 						+ ".html\">&lt;&lt; </a></div>");
 			}
 			if (i > 1) {
@@ -251,9 +252,9 @@ public class ExportService {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_notice_list" + (i + 1)
 						+ ".html\">다음 &gt;</a></div>");
 			}
-			if (i - 1 / pages < (totalPages - (totalPages % pages) + 1)) {
+			if (i - 1 / paging < (totalPages - (totalPages % paging) + 1)) {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_notice_list"
-						+ ((int) Math.ceil((double) (((i - 1 + pages) / pages) * pages) + 1))
+						+ ((int) Math.ceil((double) (((i - 1 + paging) / paging) * paging) + 1))
 						+ ".html\"> &gt;&gt;</a></div>");
 			}
 			sb.append("</div>");
@@ -273,12 +274,12 @@ public class ExportService {
 
 		List<Article> articles = articleService.getForPrintArticles();
 
-		totalPages = (int) Math.ceil((double) articles.size() / pages);
+		totalPages = (int) Math.ceil((double) articles.size() / list);
 		startPage = 1;
-		endPage = startPage + pages - 1;
+		endPage = startPage + paging - 1;
 
 		for (int i = 1; i <= totalPages; i++) {
-			List<Article> articles_Paging = articleService.getArticlesByPagingAll(articleStart, pages);
+			List<Article> articles_Paging = articleService.getArticlesByPagingAll(articleStart, list);
 			StringBuffer sb = new StringBuffer();
 			sb.append(head);
 			sb.append("<div class=\"title-bar con-min-width\">");
@@ -315,17 +316,17 @@ public class ExportService {
 			sb.append("<div class=\"page-box con-min-witdh\">");
 			sb.append("<div class=\"page flex flex-jc-c con\">");
 			if (i > 1) {
-				if ((i - 1) % pages == 0) {
-					startPage = startPage + pages;
-					endPage = startPage + pages - 1;
+				if ((i - 1) % paging == 0) {
+					startPage = startPage + paging;
+					endPage = startPage + paging - 1;
 					if (endPage >= totalPages) {
 						endPage = totalPages;
 					}
 				}
 			}
-			if (i > pages) {
+			if (i > paging) {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list"
-						+ ((int) Math.ceil((double) (((i - 1 - pages) / pages) * pages) + 10))
+						+ ((int) Math.ceil((double) (((i - 1 - paging) / paging) * paging) + paging))
 						+ ".html\">&lt;&lt; </a></div>");
 			}
 			if (i > 1) {
@@ -346,9 +347,9 @@ public class ExportService {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" + (i + 1)
 						+ ".html\">다음 &gt;</a></div>");
 			}
-			if (i - 1 / pages < (totalPages - (totalPages % pages) + 1)) {
+			if (i - 1 / paging < (totalPages - (totalPages % paging) + 1)) {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list"
-						+ ((int) Math.ceil((double) (((i - 1 + pages) / pages) * pages) + 1))
+						+ ((int) Math.ceil((double) (((i - 1 + paging) / paging) * paging) + 1))
 						+ ".html\"> &gt;&gt;</a></div>");
 			}
 			sb.append("</div>");
@@ -404,7 +405,7 @@ public class ExportService {
 							+ ".html\">&lt; 이전글</a></li>");
 				}
 				sb.append("<li class=\"hover-underline\"><a href=\"article_" + board.code + "_list"
-						+ (int) Math.ceil((double) (i + 1) / pages) + ".html\">목록</a></li>");
+						+ (int) Math.ceil((double) (i + 1) / paging) + ".html\">목록</a></li>");
 				if (articles.size() > i + 1) {
 					sb.append("<li class=\"hover-underline\"><a href=\"" + board.code + (articles.get(i + 1).id)
 							+ ".html\"> 다음글 &gt;</a></li>");
