@@ -44,7 +44,6 @@ public class ExportService {
 		String head = getHeadHtml();
 		String foot = Util.getFileContents("site_template/part/foot.html");
 		StringBuffer sb_statastics = new StringBuffer();
-//		List<Article> articles_statastics = articleService.getForPrintArticles();
 		List<Member> members = memberService.getForPrintMembers();
 		List<Article> articles = articleService.getForPrintArticles();
 		int articleQtyBynoticeBoard = articleService.getArticlesCount(1);
@@ -134,6 +133,11 @@ public class ExportService {
 				}
 			}
 			if (i > 1) {
+				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list" + ((i+10)/10)
+						+ ".html\">&lt;&lt; </a></div>");
+				System.out.println(((i+10)/10));
+			}
+			if (i > 1) {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list" + (i - 1)
 						+ ".html\">&lt; 이전</a></div>");
 			}
@@ -149,6 +153,10 @@ public class ExportService {
 			if (i < totalPages) {
 				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list" + (i + 1)
 						+ ".html\">다음 &gt;</a></div>");
+			}
+			if (i < totalPages) {
+				sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_free_list" + (i + 10)
+						+ ".html\"> &gt;&gt;</a></div>");
 			}
 			sb.append("</div>");
 			sb.append("</div>");
