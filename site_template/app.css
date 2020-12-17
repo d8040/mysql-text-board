@@ -116,6 +116,9 @@ a {
 .width-100p-except-300px {
   width:calc(100% - 300px);
 }
+.none{
+	display:none;
+}
 
 /* 커스텀 */
 i {
@@ -159,9 +162,6 @@ i {
 .menu-bar__menu-1 ul > li {
   position:relative;
 }
-.menu-bar__menu-1 > ul ul{
-  z-index: 1;
-}
 
 .menu-bar__menu-1 > ul > li {
   width:25%;
@@ -192,6 +192,7 @@ i {
   border:10px solid black;
   border-top-width:0;
   border-radius:0 0 15px 15px;
+  z-index: 10;
 }
 
 .menu-bar__menu-1 ul > li:hover > ul {

@@ -196,9 +196,13 @@ public class ArticleDao {
 		SecSql sql = new SecSql();
 		sql.append("SELECT *");
 		sql.append(", M.name AS extra_writer");
+		sql.append(", B.code AS extra_boardCode");
+		sql.append(", B.name AS extra_boardName");
 		sql.append("FROM article AS A");
 		sql.append("INNER JOIN `member` AS M");
 		sql.append("ON A.memberId = M.id");
+		sql.append("INNER JOIN `board` AS B");
+		sql.append("ON A.boardId = B.id");
 		if (boardId != 0) {
 			sql.append("WHERE boardId = ?", boardId);
 		}
@@ -302,7 +306,7 @@ public class ArticleDao {
 		return new Article(articleMap);
 	}
 
-	public List<Article> getArticlesByPaging(int boardId, int end, int paging) {
+	public List<Article> getArticlesByPaging(int boardId, int start, int paging) {
 		List<Article> articles = new ArrayList<>();
 
 		SecSql sql = new SecSql();
@@ -312,7 +316,7 @@ public class ArticleDao {
 			sql.append("WHERE boardId = ?", boardId);
 		}
 		sql.append("ORDER BY id DESC");
-		sql.append("LIMIT ?, ?", end, paging);
+		sql.append("LIMIT ?, ?", start, paging);
 
 		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
 

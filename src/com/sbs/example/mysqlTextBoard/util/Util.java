@@ -1,9 +1,11 @@
 package com.sbs.example.mysqlTextBoard.util;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,6 +30,17 @@ public class Util {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+	}
+	public static void writeFile(String path, String body) {
+		File file = new File(path);
+
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+			writer.write(body);
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

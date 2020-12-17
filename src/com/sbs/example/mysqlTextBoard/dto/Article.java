@@ -12,6 +12,8 @@ public class Article {
 	public String regDate;
 	public String updateDate;
 	public String extra_writer;
+	public String extra_boardName;
+	public String extra_boardCode;
 	public int rcmCount;
 	public int hit;
 	
@@ -29,6 +31,12 @@ public class Article {
 		this.hit = (int) articleMap.get("hit");
 		if(articleMap.containsKey("extra_writer")) {
 			this.extra_writer = (String)articleMap.get("extra_writer");
+		}
+		if(articleMap.containsKey("extra_boardName")) {
+			this.extra_boardName = (String)articleMap.get("extra_boardName");
+		}
+		if(articleMap.containsKey("extra_boardCode")) {
+			this.extra_boardCode = (String)articleMap.get("extra_boardCode");
 		}
 	}
 

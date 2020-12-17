@@ -110,8 +110,8 @@ public class ArticleService {
 		return articleDao.getForPrintArticle(articleId, boardId);
 	}
 
-	public List<Article> getArticlesByPaging(int boardId, int end, int paging) {
-	return articleDao.getArticlesByPaging(boardId, end, paging);
+	public List<Article> getArticlesByPaging(int boardId, int start, int paging) {
+	return articleDao.getArticlesByPaging(boardId, start, paging);
 	}
 
 	public List<Article> getArticlesByPagingAll(int start, int page) {
