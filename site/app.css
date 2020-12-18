@@ -17,8 +17,8 @@
   font-weight: 300;
   src: url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff2') format('woff2'), url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff') format('woff');
 }
-html {
-  font-family: 'LotteMartDream', sans-serif;
+html, .tui-editor-contents {
+  font-family: 'LotteMartDream', sans-serif !important;
 }
 
 /* 노말라이즈 */
@@ -116,9 +116,7 @@ a {
 .width-100p-except-300px {
   width:calc(100% - 300px);
 }
-.none{
-	display:none;
-}
+
 
 /* 커스텀 */
 i {
@@ -225,14 +223,15 @@ i {
 /* 메인화면크기 */
 
 .article-box{
-  min-height:470px;
+/*   min-height:470px; */
 }
 
 /* 페이징 */
-.page{  background:url(https://i1.daumcdn.net/deco/contents/horizontalrule/line03.gif?v=2) repeat-x scroll left;
+ .page{ /* background:url(https://i1.daumcdn.net/deco/contents/horizontalrule/line03.gif?v=2) repeat-x scroll left;
   height: 0px;
   justify-content:center;
-  padding-top:6px;  
+  :6px;   */
+   margin-top:10px;
 }
 .page > .page-no > a {
   padding:7px;
@@ -331,7 +330,7 @@ i {
 
 /* detail page start */
 .detail-box > div{
-  width: 700px;
+  width: 900px;
 }
 .title{
   font-size:2rem;
@@ -349,21 +348,24 @@ i {
   width:100%;
 }
 .detail-box > div > info > ul > li{
+  margin:10px 5px;
   padding: 0 
 }
 .detail-box > div > contents {
   padding:10px 5px;
   border-bottom:2px solid;
   border-top:2px solid;
-  min-height: 340px;
+  min-height: 100px;
 }
-.detail-box > div > buttom {
-  margin:10px 5px;
+.detail-box > div > bottom {
+	margin-top: 10px;
 }
-.detail-box > div > buttom > ul > li:nth-child(n+3){
+.detail-box > div > bottom > ul > li:nth-child(n+3){
   display:flex;
   flex-basis:65px;
   justify-content:center;  
 }
-
+.none{
+	display:none;
+}
 /* detail page end */

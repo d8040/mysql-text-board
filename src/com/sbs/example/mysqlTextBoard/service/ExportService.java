@@ -32,6 +32,7 @@ public class ExportService {
 		Util.mkdirs("site");
 
 		Util.copy("site_template/app.css", "site/app.css");
+		Util.copy("site_template/app.js", "site/app.js");
 
 		detail();
 //		articleListAll();
@@ -79,7 +80,6 @@ public class ExportService {
 					+ article.title + "</a></div>");
 			mainContent.append("</div>");
 		}
-		System.out.println(startPage);
 		StringBuffer pageBoxContent = new StringBuffer();
 		if (i >= 1) {
 			startPage = (((i - 1) / paging) * 10) + 1;
@@ -277,24 +277,25 @@ public class ExportService {
 				StringBuffer sb = new StringBuffer();
 				sb.append(head);
 				String body = bodyTemplate.replace("${article-detail__title}", article.title);
-				body = bodyTemplate.replace("${article-detail__writer}", article.extra_writer);
-				body = bodyTemplate.replace("${article-detail__hit}", article.hit + "");
-				body = bodyTemplate.replace("${article-detail__regDate}", article.regDate);
-				body = bodyTemplate.replace("${article-detail__body}", article.body);
-				body = bodyTemplate.replace("${article-detail__rcm}", article.rcmCount + "");
+				body = body.replace("${article-detail__writer}", "작성자: "+article.extra_writer);
+				body = body.replace("${article-detail__hit}", "조회수: "+article.hit + "");
+				body = body.replace("${article-detail__regDate}", "작성일: "+article.regDate);
+				body = body.replace("${article-detail__body}", article.body);
+				body = body.replace("${article-detail__rcm}", "추천수: "+article.rcmCount + "");
 
 				if (id > 0) {
-					body = bodyTemplate.replace("${article-detail__link-prev-article}",
+					body = body.replace("${article-detail__link-prev-article}",
 							board.code + (articles.get(id - 1).id) + ".html");
-					body = bodyTemplate.replace("${article-detail__link-prev-article-class}", "none");
+				}else {
+					body = body.replace("${article-detail__link-prev-article-class}", "none");
 				}
-				body = bodyTemplate.replace("${article-detail__link-list}",
-						board.code + "_list" + (int) Math.ceil((double) (id + 1) / paging) + ".html");
-//				body = bodyTemplate.replace("${article-detail__link-list-class}");
-				if (articles.size() > id + 1) {
-					body = bodyTemplate.replace("${article-detail__link-next-article}",
+				body = body.replace("${article-detail__link-list}",
+						"article_list_" +board.code + "_"+ (int) Math.ceil((double) (id + 1) / paging) + ".html");
+				if (articles.size() > id+1) {
+					body = body.replace("${article-detail__link-next-article}",
 							board.code + (articles.get(id + 1).id) + ".html");
-					body = bodyTemplate.replace("${article-detail__link-next-article-class}", "none");
+				}else {
+					body = body.replace("${article-detail__link-next-article-class}", "none");
 				}
 				sb.append(body);
 				sb.append(foot);

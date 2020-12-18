@@ -117,12 +117,16 @@ title = CONCAT('제목_',RAND()),
 memberId = IF(RAND() > 0.5, 1, 2),
 boardId = IF(RAND() > 0.5, 1, 2);
 
-SELECT FLOOR(RAND()*10+1); # 
+SELECT FLOOR(RAND()*10+1); # 1~10까지 랜덤 생성
 SELECT SUM(hit) FROM article;
 SELECT SUM(CONVERT(INT,hit)) FROM article;
 SELECT COUNT(hit) FROM article;
 SELECT hit FROM article WHERE id=1;
 SELECT * FROM article;
+
+# 1번 글 수정
+UPDATE article SET `body` = '# 공지사항\r\n안녕하세요.\r\n이 사이트는 저의 글 연재 공간입니다.\r\n\r\n---\r\n - 나무\r\n  - 열매\r\n  - 줄기' WHERE id = '1'; 
+
 INSERT INTO article(rcmCount) VALUE(SELECT COUNT(memberId) FROM article WHERE memberId = 1);
 SELECT COUNT(articleId) FROM recommand WHERE articleId = 1;
 UPDATE article SET rcmCount = (SELECT COUNT(memberId) FROM article WHERE memberId = 2) WHERE id = 3;
@@ -145,7 +149,7 @@ ALTER TABLE article ADD COLUMN hit INT(10) UNSIGNED NOT NULL;
 
 ALTER TABLE aritcle CHANGE COLUMN rcmCount rcmCount = DATETIME NOT NULL;
 
-SELECT * FROM article WHERE boardId = 2;
+SELECT * FROM article;
 SELECT * FROM `member`;
 SELECT * FROM board;
 SELECT * FROM articleReply;
