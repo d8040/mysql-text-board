@@ -130,4 +130,8 @@ public class ArticleService {
 		return articleDao.getBoardByid(boardId);
 	}
 
+	public List<Article> getForMainPageArticles() {
+		return articleDao.getForMainPageArticles();
+	}
+
 }

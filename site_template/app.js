@@ -1,3 +1,14 @@
+console.clear();
+
+ScrollOut({
+  cssProps: {
+    visibleY: true,
+    viewportY: true
+  }
+});
+
+Splitting({ target: '.heading' });
+  
 function ArticleDetail__Body__init() {
 	if ( toastui === undefined ) {
 		return;

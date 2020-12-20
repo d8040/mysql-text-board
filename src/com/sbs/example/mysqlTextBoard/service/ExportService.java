@@ -36,7 +36,7 @@ public class ExportService {
 
 		detail();
 //		articleListAll();
-		statistics();
+		mainPage();
 		articleListPages();
 	}
 
@@ -123,6 +123,7 @@ public class ExportService {
 		}
 		String body = bodyTemplate.replace("${article-list__main-content}", mainContent.toString());
 		body = body.replace("${page-box__paging-content}", pageBoxContent.toString());
+		body = body.replace("${title-bar__content}", "<i class=\"far fa-clipboard\"></i>  " +board.name);
 		sb.append(body);
 		sb.append(foot);
 
@@ -134,40 +135,26 @@ public class ExportService {
 
 	}
 
-	// 통계
-	private void statistics() {
+	// 메인페이지
+	private void mainPage() {
 		String head = getHeadHtml("index");
-		String foot = Util.getFileContents("site_template/foot.html");
-		StringBuffer sb_statastics = new StringBuffer();
-		List<Member> members = memberService.getForPrintMembers();
-		List<Article> articles = articleService.getForPrintArticles();
-		int articleQtyBynoticeBoard = articleService.getArticlesCount(1);
-		int articleQtyByfreeBoard = articleService.getArticlesCount(2);
-		int hitByAllBoardArticles = articleService.getHitByAllArticles();
-		int hitByNoticeBoardArticles = articleService.getHitByBoardArticles(1);
-		int hitByFreeBoardArticles = articleService.getHitByBoardArticles(2);
+		String bodyTemplate = Util.getFileContents("site_template/index.html");
+		StringBuffer sb = new StringBuffer();
+		String body = bodyTemplate;
+		int i = 0;
+		sb.append(head);
+		List<Article> articles = articleService.getForMainPageArticles();
+		for (Article article : articles) {
+			body = body.replace("${index__summary-writer-" + i + "}", article.extra_writer);
+			body = body.replace("${index__summary-board-" + i + "}", article.extra_boardName);
+			body = body.replace("${index__summary-body-title-" + i + "}", article.title);
+			body = body.replace("${index__summary-body-" + i + "}", article.body.subSequence(0, 200) + "......");
+			body = body.replace("${index__summary-link-"+i+"}", article.extra_boardCode + (article.id) + ".html");
+			i = i + 1;
+		}
+		sb.append(body);
 
-		sb_statastics.append(head);
-		sb_statastics.append("<div class=\"title-bar con-min-width\">");
-		sb_statastics.append("<h1 class=\"con\">");
-		sb_statastics.append("<i class=\"fas fa-flag\"></i>");
-		sb_statastics.append("<span>통계</span>");
-		sb_statastics.append("</h1>");
-		sb_statastics.append("</div>");
-		sb_statastics.append("<section class=\"section-1 con-min-width\">");
-		sb_statastics.append("<main class=\"con-min-width\">");
-		sb_statastics.append("<div class=con satastics>");
-		sb_statastics.append("<div class=satastics__member>" + "회원수" + members.size() + "</div>");
-		sb_statastics.append("<div class=satastics__member>" + "전체 게시물 수" + articles.size() + "</div>");
-		sb_statastics.append("<div class=satastics__member>" + "공지게시판 게시물 수" + articleQtyBynoticeBoard + "</div>");
-		sb_statastics.append("<div class=satastics__member>" + "자유게시판 게시물 수" + articleQtyByfreeBoard + "</div>");
-		sb_statastics.append("<div class=satastics__member>" + "전체 게시물 조회 수" + hitByAllBoardArticles + "</div>");
-		sb_statastics.append("<div class=satastics__member>" + "공지게시판 게시물 조회 수" + hitByNoticeBoardArticles + "</div>");
-		sb_statastics.append("<div class=satastics__member>" + "자유게시판 게시물 조회 수" + hitByFreeBoardArticles + "</div>");
-		sb_statastics.append("</div>");
-		sb_statastics.append("</main>");
-		sb_statastics.append(foot);
-		Util.writeFileContents("site/" + "index.html", sb_statastics.toString());
+		Util.writeFileContents("site/" + "index.html", sb.toString());
 		System.out.println("site/" + "index.html" + "생성");
 	}
 
@@ -277,24 +264,27 @@ public class ExportService {
 				StringBuffer sb = new StringBuffer();
 				sb.append(head);
 				String body = bodyTemplate.replace("${article-detail__title}", article.title);
-				body = body.replace("${article-detail__writer}", "작성자: "+article.extra_writer);
-				body = body.replace("${article-detail__hit}", "조회수: "+article.hit + "");
-				body = body.replace("${article-detail__regDate}", "작성일: "+article.regDate);
+				body = body.replace("${title-bar__content}", "board > " + article.extra_boardName);
+				body = body.replace("${article-detail__writer}", "작성자: " + article.extra_writer);
+				body = body.replace("${article-detail__hit}", "조회수: " + article.hit + "");
+				body = body.replace("${article-detail__regDate}", "작성일: " + article.regDate);
 				body = body.replace("${article-detail__body}", article.body);
-				body = body.replace("${article-detail__rcm}", "추천수: "+article.rcmCount + "");
+				body = body.replace("${article-detail__rcm}", "추천수: " + article.rcmCount + "");
 
 				if (id > 0) {
 					body = body.replace("${article-detail__link-prev-article}",
 							board.code + (articles.get(id - 1).id) + ".html");
-				}else {
+				} else {
 					body = body.replace("${article-detail__link-prev-article-class}", "none");
 				}
 				body = body.replace("${article-detail__link-list}",
-						"article_list_" +board.code + "_"+ (int) Math.ceil((double) (id + 1) / paging) + ".html");
-				if (articles.size() > id+1) {
+						"article_list_" + board.code + "_" + (int) Math.ceil((double) (id + 1) / paging) + ".html");
+				body = body.replace("${title-bar__file}",
+						"article_list_" + board.code + "_" + (int) Math.ceil((double) (id + 1) / paging) + ".html");
+				if (articles.size() > id + 1) {
 					body = body.replace("${article-detail__link-next-article}",
 							board.code + (articles.get(id + 1).id) + ".html");
-				}else {
+				} else {
 					body = body.replace("${article-detail__link-next-article-class}", "none");
 				}
 				sb.append(body);
@@ -320,28 +310,28 @@ public class ExportService {
 			String link = "article_list_" + board.code + "_1.html";
 			boardMenuContent.append("<a href=\"" + link + "\" class=\"flex flex-jc-c flex-ai-c \">");
 
-			boardMenuContent.append(getTitleBarContentByPageName("article_" + board.code));
+			boardMenuContent.append("<span>"+board.name+"</span>");
 			boardMenuContent.append("</a></li>");
 		}
 		head = head.replace("[manu-bar-add]", boardMenuContent.toString());
-		String titleBarContentHtml = getTitleBarContentByPageName(pageName);
-		head = head.replace("${title-bar__content}", titleBarContentHtml);
+//		String titleBarContentHtml = getTitleBarContentByPageName(pageName);
+//		head = head.replace("${title-bar__content}", titleBarContentHtml);
 		return head;
 	}
 
-	private String getTitleBarContentByPageName(String pageName) {
-		if (pageName.equals("index")) {
-			return "<i class=\"fas fa-home\"></i> <span>HOME</span>";
-		} else if (pageName.contains("notice")) {
-			return "<i class=\"far fa-clipboard\"></i> <span>NOTICE LIST</span>";
-		} else if (pageName.contains("free")) {
-			return "<i class=\"fas fa-comment-medical\"></i> <span>FREE LIST</span>";
-		} else if (pageName.contains("detail")) {
-			return "<i class=\"fas fa-flag\"></i> <span>ARTICLE DETAIL</span>";
-		} else if (pageName.startsWith("article_list")) {
-			return "<i class=\"fas fa-flag\"></i> <span>ALL LIST</span>";
-		}
-		return "";
-	}
+//	private String getTitleBarContentByPageName(String pageName) {
+//		if (pageName.equals("index")) {
+//			return "<i class=\"fas fa-home\"></i> <span>HOME</span>";
+//		} else if (pageName.contains("notice")) {
+//			return "<i class=\"far fa-clipboard\"></i> <span>WEB CORDING</span>";
+//		} else if (pageName.contains("free")) {
+//			return "<i class=\"fas fa-comment-medical\"></i> <span>FREE LIST</span>";
+//		} else if (pageName.contains("detail")) {
+//			return "<i class=\"fas fa-flag\"></i> <span>ARTICLE DETAIL</span>";
+//		} else if (pageName.startsWith("article_list")) {
+//			return "<i class=\"fas fa-flag\"></i> <span>ALL LIST</span>";
+//		}
+//		return "";
+//	}
 
 }

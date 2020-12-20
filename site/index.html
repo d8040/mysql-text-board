@@ -1,71 +1,340 @@
-<section>
-	<!-- 폰트어썸 불러오기 -->
-	<link rel="stylesheet"
-		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-		<!-- 구글 소유권확인 링크 -->
-		<meta name="google-site-verification" content="2B8YNq9Ajz0kCyWZv7u3PaPi-ugB7q0dJIda2B_Ii58" />
-	<div class="flex flex-dr-c min-height-100vh">
-		<header class="logo-bar con-min-width">
-			<div class="con flex flex-jc-c">
-				<a href="./" class="logo "> <i class="fab fa-jenkins"></i> <span>Developers</span>
-				</a>
-			</div>
-		</header>
+<head>
+<!-- Scroll-Out link -->
+<script src="https://unpkg.com/scroll-out/dist/scroll-out.min.js"></script>
 
-		<header class="menu-bar con-min-width">
-			<div class="con">
-				<nav class="menu-bar__menu-1">
-					<ul class="flex ">
-						<li><a href="./" class="flex flex-jc-c flex-ai-c "> <i
-								class="fas fa-home"></i> <span>HOME</span>
-						</a></li>
-						<li><a href="#" class="flex flex-jc-c flex-ai-c "> <i
-								class="fas fa-list"></i> <span>ARTICLES</span>
-						</a>
-							<ul>
-								<li><a href="article_list1.html"
-									class="flex flex-jc-c flex-ai-c "> <i
-										class="fab fa-free-code-camp"></i> <span>ALL</span>
-								</a></li> 
-								<li><a href="article_list_free_1.html" class="flex flex-jc-c flex-ai-c "><i class="fas fa-comment-medical"></i> <span>FREE LIST</span></a></li><li><a href="article_list_notice_1.html" class="flex flex-jc-c flex-ai-c "><i class="far fa-clipboard"></i> <span>NOTICE LIST</span></a></li>
-							</ul></li>
-						<li><a class="flex flex-jc-c flex-ai-c "> <i
-								class="fas fa-link"></i> <span>LINK</span>
-						</a>
-							<ul>
-								<li><a href="https://d8040.tistory.com/" target="_blank"
-									class="flex flex-jc-c flex-ai-c"> <i
-										class="fab fa-blogger-b"></i> <span>BLOG</span>
-								</a></li>
-								<li><a href="https://github.com/" target="_blank"
-									class="flex flex-jc-c flex-ai-c"> <i class="fab fa-github"></i>
-										<span>GITHUB</span>
-								</a></li>
-							</ul></li>
-						<li><a href="index.html" class="flex flex-jc-c flex-ai-c ">
-								<i class="fas fa-chart-pie"></i> <span>STATISTICS</span>
-						</a></li>
-					</ul>
-				</nav>
-			</div>
-			<link rel="stylesheet" href="app.css" />
-		</header>
-		<main class="flex flex-g-1 flex-dr-c">
-			<div class="title-bar con-min-width">
-				<h1 class="con">
-					<i class="fas fa-home"></i> <span>HOME</span>
-				</h1>
-			</div><div class="title-bar con-min-width"><h1 class="con"><i class="fas fa-flag"></i><span>통계</span></h1></div><section class="section-1 con-min-width"><main class="con-min-width"><div class=con satastics><div class=satastics__member>회원수3</div><div class=satastics__member>전체 게시물 수315</div><div class=satastics__member>공지게시판 게시물 수154</div><div class=satastics__member>자유게시판 게시물 수161</div><div class=satastics__member>전체 게시물 조회 수19</div><div class=satastics__member>공지게시판 게시물 조회 수9</div><div class=satastics__member>자유게시판 게시물 조회 수10</div></div></main></main>
-<footer class="bottom-bar con-min-width">
-	<div class="con flex flex-ai-c">
-		<a href="./" class="logo logo--mini flex flex-ai-c"> <i
-			class="fab fa-jenkins"></i> <span>Developers</span>
-		</a>
-		<div class="bottom-bar__site-info">Lorem ipsum dolor, sit amet
-			consectetur adipisicing elit. Ad impedit totam voluptas ex aliquam
-			blanditiis. Quos praesentium blanditiis nostrum voluptatum. Itaque
-			impedit explicabo porro amet cupiditate nemo maiores fuga quibusdam?</div>
-	</div>
-</footer>
+<!-- 폰트어썸 불러오기 -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+<!-- 구글 소유권확인 링크 -->
+<meta name="google-site-verification"
+	content="2B8YNq9Ajz0kCyWZv7u3PaPi-ugB7q0dJIda2B_Ii58" />
+
+<!-- JQUERY link -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- font awesome link -->
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.15.1/css/v4-shims.css">
+
+<!-- Splitting link -->
+<link rel="stylesheet"
+	href="https://unpkg.com/splitting/dist/splitting.css" />
+<link rel="stylesheet"
+	href="https://unpkg.com/splitting/dist/splitting-cells.css" />
+<script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async
+	src="https://www.googletagmanager.com/gtag/js?id=G-PGF4TS961N"></script>
+<!-- Google adsense -->
+<script data-ad-client="ca-pub-5184039387564779" async
+	src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag() {
+		dataLayer.push(arguments);
+	}
+	gtag('js', new Date());
+
+	gtag('config', 'G-PGF4TS961N');
+</script>
+</head>
+
+
+<div class="total-box flex flex-dr-c">
+	<header class="head-bar flex flex-jc-c flex-ai-c">
+		<nav class="side-menu flex">
+			<li><a href=""><i class="fas fa-bars"></i></a></li>
+		</nav>
+		<div class="flex flex-jc-c flex-g-1">
+			<nav class="menu-box">
+				<ul class="flex flex-dr-r flex-ai-c">
+					<li><a href="index.html" class="flex"><i
+							class="fas fa-home"></i></a></li>
+					<li class="flex"><a href="#" class="flex"><span>board</span></a>
+						<ul class="">
+							<!-- 	<li><a href="#" class="flex flex-jc-c flex-ai-c"> <i
+									class="fab fa-free-code-camp"></i> <span>all</span>
+							</a></li>
+							<li><a href="#" class="flex flex-jc-c flex-ai-c"> <i
+									class="fas fa-comment-medical"></i> <span>free list</span>
+							</a></li>
+							<li><a href="#" class="flex flex-jc-c flex-ai-c "> <i
+									class="far fa-clipboard"></i> <span>notice list</span>
+							</a></li> -->
+							<li><a href="article_list_notice_1.html" class="flex flex-jc-c flex-ai-c "><span>Web cording</span></a></li>
+						</ul></li>
+					<li><a href="#" class="flex"><span>link</span></a>
+					<li />
+					<li><a href="#" class="flex"><span>about</span></a></li>
+				</ul>
+			</nav>
+		</div>
+		<nav class="search-box">
+			<search class="flex flex-jc-end"> <span class="flex">
+				<div class="search">
+					<input type="text" placeholder=" ">
+					<div>
+						<svg>
+                <use xlink:href="#path">
+                  </svg>
+					</div>
+				</div> <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+              <symbol xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 160 28" id="path">
+                <path
+						d="M32.9418651,-20.6880772 C37.9418651,-20.6880772 40.9418651,-16.6880772 40.9418651,-12.6880772 C40.9418651,-8.68807717 37.9418651,-4.68807717 32.9418651,-4.68807717 C27.9418651,-4.68807717 24.9418651,-8.68807717 24.9418651,-12.6880772 C24.9418651,-16.6880772 27.9418651,-20.6880772 32.9418651,-20.6880772 L32.9418651,-29.870624 C32.9418651,-30.3676803 33.3448089,-30.770624 33.8418651,-30.770624 C34.08056,-30.770624 34.3094785,-30.6758029 34.4782612,-30.5070201 L141.371843,76.386562"
+						transform="translate(83.156854, 22.171573) rotate(-225.000000) translate(-83.156854, -22.171573)"></path>
+              </symbol>
+            </svg>
+			</span> </search>
+		</nav>
+		<link rel="stylesheet" href="app.css" />
+	</header>
+
+<naming class="flex flex-jc-c">
+<h1>
+	<span>F</span><span>u</span><span>n</span><span>&nbsp;</span><span>a</span><span>n</span><span>d</span><span>&nbsp;</span><span>C</span><span>o</span><span>d</span><span>i</span><span>n</span><span>g</span></span>
+</h1>
+</naming>
+
+<div class="body-box flex flex-jc-c flex-dr-c">
+
+	<section class="intro-section">
+		<h1 class="intro-heading"> Watch</h1>
+
+		<p>The latest in time-telling technology.</p>
+	</section>
+
+	<!-- Photos via Unsplash Source https://source.unsplash.com/ -->
+	<section class="content-section" data-scroll>
+		<figure class="figure">
+			<img
+				src="https://www.fiscalitaleggera.it/wp-content/uploads/2017/03/pexels-photo-265129.jpeg" />
+		</figure>
+
+		<div class="content">
+			<header class="header">
+				<div class="subheading">D.K</div>
+				<h2 class="heading">
+					Web cording,<br /><a href="notice12.html">자바: 아스키코드, 유니코드를 문자나 숫자로 변환하기</a>
+				</h2>
+			</header>
+			<p class="paragraph">
+				<a href="notice12.html"># 아스키 코드 
+
+미국에서 표준화가 추진된 정보교환용 7bit 부호로 정의합니다. 1962년 안시(ANSI)가 정의한 미국 표준 정보교환 코드이며 1963년 미국표준협회(ASA)에 의해 결정되어 미국의 표준부호가 되었습니다. 이 코드는 7비트의 이진수 조합으로 만들어져 총 128개의 부호를 표현합니다. 아스키코드의 처음 32개(0~31)는 프린터나 전......</a>
+			</p>
+
+		</div>
+	</section>
+
+	<section class="content-section" data-scroll>
+		<figure class="figure">
+			<img src="https://source.unsplash.com/hBuwVLcYTnA/800x800" />
+		</figure>
+		<div class="content">
+			<header class="header">
+				<div class="subheading">D.K</div>
+				<h2 class="heading">
+					Web cording,<br /><a href="notice11.html">Java - split, substring으로 문자열을 자르기 & 분리하기</a>
+				</h2>
+			</header>
+			<p class="paragraph">
+				<a href="notice11.html">Java에서 String을 자르는 방법은 다음과 같이 여러가지 방법이 있습니다.
+
+-   String.split
+-   String.substring
+-   Commons-io 라이브러리
+
+각각 예제를 통해 어떻게 문자열을 자르는지 알아보겠습니다.
+
+## String.split()으로 문자열 자르기
+
+split()은 어떤 문자 기준으로 문......</a>
+			</p>
+
+		</div>
+	</section>
+
+	<section class="content-section" data-scroll>
+		<figure class="figure">
+			<img
+				src="https://www.campaignmonitor.com/assets/uploads/2015/11/coding-html-emails-banner.jpg" />
+		</figure>
+		<div class="content">
+			<header class="header">
+				<div class="subheading">D.K</div>
+				<h2 class="heading">
+					Web cording,<br /><a href="notice10.html"> CSS: Flex(Flexible Box)</a>
+			</header>
+			<p class="paragraph">
+				<a href="notice10.html"> 대부분 사이트는 전체 레이아웃이 수직 구성이며 ‘위-아래’로 스크롤 하여 사용합니다.  
+레이아웃을 구성할 때 가장 많이 사용하는 요소(Elements)들이 기본적으로 블록(Block) 개념으로 표시(Display)되며 이는 뷰(View)에 수직(위에서 아래로)으로 쌓이기 때문에 수직 구성은 상대적으로 쉽게 만들 수 있습니다.  
+하지만 수평(왼쪽에서 ......</a>
+			</p>
+
+		</div>
+	</section>
+
+	<section class="content-section" data-scroll>
+		<figure class="figure">
+			<img
+				src="https://image.freepik.com/free-vector/isometric-online-education-concept_52683-8896.jpg" />
+		</figure>
+		<div class="content">
+			<header class="header">
+				<div class="subheading">D.K</div>
+				<h2 class="heading">
+					Web cording,<br /><a href="notice9.html"> 예외처리 try catch</a>
+				</h2>
+			</header>
+			<p class="paragraph">
+				<a href="notice9.html"> > 1\. 예외 처리
+> 
+> 프로그램을 만들다 보면 수많은 에러를 만나기도 하지만 문법적인 오류가 아닌 예외 사항이 발생하기도 한다. 이때, 이에 대한 적절한 처리가 필요한데 간단한 예외의 경우 if 조건문으로 처리할 수 있다.
+> 
+> ​
+> 
+> [##_Image|kage@DYReX/btqNwxxnTba/k44Uwu4hspKlzORO7MTZ......</a>
+			</p>
+
+		</div>
+	</section>
+
+	<section class="content-section" data-scroll>
+		<figure class="figure">
+			<img
+				src="https://image.freepik.com/free-vector/businessman-concept-illustration_114360-1246.jpg" />
+		</figure>
+		<div class="content">
+			<header class="header">
+				<div class="subheading">D.K</div>
+				<h2 class="heading">
+					Web cording,<br /><a href="notice8.html">CSS: float, clear</a>
+				</h2>
+			</header>
+			<p class="paragraph">
+				<a href="notice8.html">레이아웃 디자인 - Floating
+
+뷰포트(Viewport)와 관련하여 레이아웃(배치)을 다루기 위한float,clear속성에 대해 알아보겠습니다.
+
+[##_Image|kage@ET3Pl/btqO8WudgNe/74KP17Hnz0kDsOrGDSjKkk/img.jpg|alignCenter|width="600" height="337" data-origi......</a>
+			</p>
+
+		</div>
+	</section>
+
+	<section class="content-section" data-scroll>
+		<figure class="figure">
+			<img
+				src="https://elements-cover-images-0.imgix.net/c4e79932-f335-469e-ab63-656551982952?auto=compress%2Cformat&fit=max&w=900&s=3977602a2efdfd6ce7c1fcef52352505" />
+		</figure>
+		<div class="content">
+			<header class="header">
+				<div class="subheading">D.K</div>
+				<h2 class="heading">
+					Web cording,<br /><a href="notice7.html"> java: 재귀함수 정리</a>
+				</h2>
+			</header>
+			<p class="paragraph">
+				<a href="notice7.html"> 래 범위의 문제에서 더 작은 범위의 하위 문제를 먼저 해결함으로써 원래 문제를 해결해 나가는 방식입니다. 일반 반복문을 통해 구현 가능한 기능은 재귀 함수를 통해 구현이 가능하며 반대로 재귀 함수로 구현 한 기능을 반복문으로 구현이 가능합니다.
+
+재귀 함수는 함수 내에서 자기 자신을 계속 호출하는 방식이기 때문에 함수 안에 반드시 종료 구간이 되는 Ba......</a>
+			</p>
+
+		</div>
+	</section>
+
+	<section class="content-section" data-scroll>
+		<figure class="figure">
+			<img
+				src="https://elements-cover-images-0.imgix.net/bed53484-60a7-4a0c-851d-e4fa9f584ac6?auto=compress%2Cformat&fit=max&w=900&s=ac07321c2f4a0cda6d1398d79b6bd844" />
+		</figure>
+		<div class="content">
+			<header class="header">
+				<div class="subheading">D.K</div>
+				<h2 class="heading">
+					Web cording,<br /><a href="notice5.html"> CSS: CSS 스크롤 화살표 표기</a>
+				</h2>
+			</header>
+			<p class="paragraph">
+				<a href="notice5.html"> 
+
+## 1\. 화살표
+
+![화살표](http://rwdb.kr/images/2019/190605_01.png)
+
+간단한 화살표 만의 패턴에서 흔히 볼 수있는 `border`지정한 요소를 `transform: rotate(-45deg);`이지 회전시킨 것입니다 CSS를 다음과 같이 설명합니다.
+
+`CSS`
+
+```
+a {
+  paddi......</a>
+			</p>
+
+		</div>
+	</section>
+
+	<section class="content-section" data-scroll>
+		<figure class="figure">
+			<img
+				src="https://image.freepik.com/free-vector/isometric-education-illustration_23-2148074450.jpg" />
+		</figure>
+		<div class="content">
+			<header class="header">
+				<div class="subheading">D.K</div>
+				<h2 class="heading">
+					Web cording,<br /><a href="notice4.html">스크롤 화살표, 회전 배너효과</a>
+				</h2>
+			</header>
+			<p class="paragraph">
+				<a href="notice4.html">전체적으로 메인페이지를 만들 때는 내비게이션 바를 만들 때보다 더 쉬웠던 것 같다. 적용하기에 어려운 부분은 애니메이션처럼 움직이는 부분이었고 나머지는 할만했다. ✌🏻
+
+# Background Image 🖼
+
+배경 이미지에 적용하고 싶었던 효과는 크게 두 가지였다.
+
+☝🏻, 스크롤을 해도 고정되어 있을 것.  
+✌🏻, 화면에 표시되는 폰......</a>
+			</p>
+
+		</div>
+	</section>
+
+	<section class="content-section" data-scroll>
+		<figure class="figure">
+			<img
+				src="https://image.freepik.com/free-vector/programming-concept-illustration_114360-1325.jpg" />
+		</figure>
+		<div class="content">
+			<header class="header">
+				<div class="subheading">D.K</div>
+				<h2 class="heading">
+					Web cording,<br /><a href="notice2.html">CSS: href 속성, src 속성 절대경로, 상대경로</a>
+				</h2>
+			</header>
+			<p class="paragraph">
+				<a href="notice2.html">절대경로는 아시는 바와 같이 이미 지정되어 있어변경할 수 없는 경로를말합니다.
+
+페이지 안에 다른 서버에 있는 이미지나 페이지 등의 파일을 연결시킬 때 사용하는 경우입니다.
+
+<a href="[http://XXXXX.co.kr](http://XXXXX.co.kr)">사이트바로가기</a>
+
+<img src="[http://XXXX.co.kr/ima......</a>
+			</p>
+
+		</div>
+	</section>
+</div>
+<div class="arrow-down">
+	<a href="#about"> <span></span> <span></span> <span></span>
+	</a>
+</div>
 <script src="app.js"></script>
 </div>

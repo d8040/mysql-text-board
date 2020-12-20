@@ -1,68 +1,80 @@
+
 <!-- 토스트 UI 에디터, 자바스크립트 코어 -->
 <script
 	src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+
 <!-- 코드 미러 라이브러리 추가, 토스트 UI 에디터에서 사용됨 -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/codemirror.min.css" />
+
 <!-- 토스트 UI 에디터, CSS 코어 -->
 <link rel="stylesheet"
 	href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 
-<detail class="detail-box con-min-width">
-<div class="con flex flex-dr-c">
-	<subject class="title">
-	<ul class="flex flex-jc-c">
-		<li><a href="#">${article-detail__title}</a></li>
-	</ul>
-	</subject>
-	<info class="information">
-	<ul class="flex">
-		<li class="flex-g-1"><a href="#">${article-detail__writer}</a></li>
-		<li><a href="#">${article-detail__hit}</a></li>
-		<li><a href="#">${article-detail__regDate}</a></li>
-	</ul>
-	</info>
-	<contents class="contents flex flex-jc-c">
-	<ul class="flex-g-1">
-		<il class="article-detail__body"> ${article-detail__body} </il>
-	</ul>
-	</contents>
-	<bottom>
-	<ul class="flex">
-		<li>${article-detail__rcm}</li>
-		<li class="flex-g-1"></li>
-		<li class="hover-underline "><a
-			class="${article-detail__link-prev-article-class}"
-			href="${article-detail__link-prev-article}">&lt; 이전글</a></li>
-		<li class="hover-underline"><a
-			href="${article-detail__link-list}">목록</a></li>
-		<li class="hover-underline "><a
-			class="${article-detail__link-next-article-class}"
-			href="${article-detail__link-next-article}"> 다음글 &gt;</a></li>
-	</ul>
-	</bottom>
-	<div id="disqus_thread"></div>
-	<script>
-		/**
-		 *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-		 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-		/*
-		var disqus_config = function () {
-		this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-		this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-		};
-		 */
-		(function() { // DON'T EDIT BELOW THIS LINE
-			var d = document, s = d.createElement('script');
-			s.src = 'https://dkey.disqus.com/embed.js';
-			s.setAttribute('data-timestamp', +new Date());
-			(d.head || d.body).appendChild(s);
-		})();
-	</script>
-	<noscript>
-		Please enable JavaScript to view the <a
-			href="https://disqus.com/?ref_noscript">comments powered by
-			Disqus.</a>
-	</noscript>
-</div>
-</detail>
+<main class="flex flex-jc-c flex-g-1">
+
+	<detail class="detail-box flex-jc-c flex">
+	<div class="flex flex-dr-c">
+		<div class="title-bar">
+			<div class="">
+				<a href="${title-bar__file}">${title-bar__content} > </a>
+			</div>
+		</div>
+		<subject class="title">
+		<ul class="">
+			<li><a href="#">${article-detail__title}</a></li>
+		</ul>
+		</subject>
+		<info class="information">
+		<ul class="flex flex-dr-r">
+			<li class="flex-g-1"><a href="#">${article-detail__writer}</a></li>
+			<li><a href="#">${article-detail__hit}</a></li>
+			<li><a href="#">${article-detail__regDate}</a></li>
+		</ul>
+		</info>
+		<contents class="contents">
+		<ul class="flex">
+			<il class="article-detail__body"> ${article-detail__body} </il>
+		</ul>
+		</contents>
+		<bottom>
+		<ul class="flex">
+			<li>${article-detail__rcm}</li>
+			<li class="flex-g-1"></li>
+			<li class="hover-underline "><a
+				class="${article-detail__link-prev-article-class}"
+				href="${article-detail__link-prev-article}">&lt; 이전글</a></li>
+			<li class="hover-underline"><a
+				href="${article-detail__link-list}">목록</a></li>
+			<li class="hover-underline "><a
+				class="${article-detail__link-next-article-class}"
+				href="${article-detail__link-next-article}"> 다음글 &gt;</a></li>
+		</ul>
+		</bottom>
+		<div id="disqus_thread"></div>
+		<script>
+			/**
+			 *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+			 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+			/*
+			var disqus_config = function () {
+			this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+			this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+			};
+			 */
+			(function() { // DON'T EDIT BELOW THIS LINE
+				var d = document, s = d.createElement('script');
+				s.src = 'https://dkey.disqus.com/embed.js';
+				s.setAttribute('data-timestamp', +new Date());
+				(d.head || d.body).appendChild(s);
+			})();
+		</script>
+		<noscript>
+			Please enable JavaScript to view the <a
+				href="https://disqus.com/?ref_noscript">comments powered by
+				Disqus.</a>
+		</noscript>
+	</div>
+	</detail>
+</main>
+
