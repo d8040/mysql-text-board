@@ -1,5 +1,6 @@
 package com.sbs.example.mysqlTextBoard.service;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import com.sbs.example.mysqlTextBoard.Container;
@@ -63,21 +64,33 @@ public class ExportService {
 		StringBuffer mainContent = new StringBuffer();
 		StringBuffer sb = new StringBuffer();
 
-		sb.append(getHeadHtml("article_list_" + board.code));
+		sb.append(getHeadHtml("article_list_" + board.code.trim()));
 
 		String bodyTemplate = Util.getFileContents("site_template/article_list.html");
 		String foot = Util.getFileContents("site_template/foot.html");
 		for (Article article : articles_Paging) {
 			Member member = memberService.getMemberByMemberId(article.memberId);
-			String link = board.code + article.id + ".html";
+			String link = board.code.trim() + article.id + ".html";
 
 			mainContent.append("<div class=\"flex\">");
 			mainContent.append("<div class=article-list__cell-id>" + article.id + "</div>");
-			mainContent.append("<div class=article-list__cell-reg-date>" + article.regDate + "</div>");
 			mainContent.append("<div class=article-list__cell-writer>" + member.name + "</div>");
+			if (article.title.length() > 31) {
+				mainContent.append("<div class=article-list__cell-title><a href=\"" + link + "\" class=hover-underline>"
+						+ article.title.substring(0, 30) + "...." + "</a>");
+			} else {
+				mainContent.append("<div class=article-list__cell-title><a href=\"" + link + "\" class=hover-underline>"
+						+ article.title + "</a>");
+			}
+			mainContent.append("<nav>");
+			mainContent.append("<div class=article-list__cell-writer1>" + member.name + "</div>");
+			mainContent.append("<div class=article-list__cell-reg-date1>" + article.regDate.subSequence(2, 4) + "/"
+					+ article.regDate.subSequence(5, 7) + "/" + article.regDate.subSequence(8, 10) + "</div>");
+			mainContent.append("</nav>");
+			mainContent.append("</div>");
+			mainContent.append("<div class=article-list__cell-reg-date>" + article.regDate.subSequence(2, 4) + "/"
+					+ article.regDate.subSequence(5, 7) + "/" + article.regDate.subSequence(8, 10) + "</div>");
 			mainContent.append("<div class=article-list__cell-rcm>" + article.rcmCount + "</div>");
-			mainContent.append("<div class=article-list__cell-title><a href=\"" + link + "\" class=hover-underline>"
-					+ article.title + "</a></div>");
 			mainContent.append("</div>");
 		}
 		StringBuffer pageBoxContent = new StringBuffer();
@@ -95,39 +108,39 @@ public class ExportService {
 		if (i > paging)
 
 		{
-			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code + "_"
+			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code.trim() + "_"
 					+ ((int) Math.ceil((double) (((i - 1 - paging) / paging) * paging) + paging))
 					+ ".html\">&lt;&lt; </a></div>");
 		}
 		if (i > 1) {
-			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code + "_"
+			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code.trim() + "_"
 					+ (i - 1) + ".html\">&lt; 이전</a></div>");
 		}
 		for (int k = startPage; k <= endPage; k++) {
 			if (k == i) {
 				pageBoxContent.append("<div class=\"page-no selected\"><a class=\"flex\" href=\"article_list_"
-						+ board.code + "_" + k + ".html\">" + k + "</a></div>");
+						+ board.code.trim() + "_" + k + ".html\">" + k + "</a></div>");
 			} else {
-				pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code + "_"
+				pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code.trim() + "_"
 						+ k + ".html\">" + k + "</a></div>");
 			}
 		}
 		if (i < totalPages) {
-			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code + "_"
+			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code.trim() + "_"
 					+ (i + 1) + ".html\">다음 &gt;</a></div>");
 		}
 		if (i - 1 / paging < (totalPages - (totalPages % paging) + 1)) {
-			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code + "_"
+			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code.trim() + "_"
 					+ ((int) Math.ceil((double) (((i - 1 + paging) / paging) * paging) + 1))
 					+ ".html\"> &gt;&gt;</a></div>");
 		}
 		String body = bodyTemplate.replace("${article-list__main-content}", mainContent.toString());
 		body = body.replace("${page-box__paging-content}", pageBoxContent.toString());
-		body = body.replace("${title-bar__content}", "<i class=\"far fa-clipboard\"></i>  " +board.name);
+		body = body.replace("${title-bar__content}", "<i class=\"far fa-clipboard\"></i>  " + board.name);
 		sb.append(body);
 		sb.append(foot);
 
-		String fileName = "article_list_" + board.code + "_" + i + ".html";
+		String fileName = "article_list_" + board.name + "_" + i + ".html";
 		String filePath = "site/" + fileName;
 
 		Util.writeFileContents(filePath, sb.toString());
@@ -149,7 +162,7 @@ public class ExportService {
 			body = body.replace("${index__summary-board-" + i + "}", article.extra_boardName);
 			body = body.replace("${index__summary-body-title-" + i + "}", article.title);
 			body = body.replace("${index__summary-body-" + i + "}", article.body.subSequence(0, 200) + "......");
-			body = body.replace("${index__summary-link-"+i+"}", article.extra_boardCode + (article.id) + ".html");
+			body = body.replace("${index__summary-link-" + i + "}", article.extra_boardCode.trim() + (article.id) + ".html");
 			i = i + 1;
 		}
 		sb.append(body);
@@ -191,7 +204,7 @@ public class ExportService {
 				sb.append("<div class=article-list__cell-reg-date>" + article.regDate + "</div>");
 				sb.append("<div class=article-list__cell-writer>" + member.name + "</div>");
 				sb.append("<div class=article-list__cell-rcm>" + article.rcmCount + "</div>");
-				sb.append("<div class=article-list__cell-title><a href=\"" + board.code + article.id
+				sb.append("<div class=article-list__cell-title><a href=\"" + board.code.trim() + article.id
 						+ ".html\" class=hover-underline>" + article.title + "</a></div>");
 				sb.append("</div>");
 			}
@@ -273,23 +286,23 @@ public class ExportService {
 
 				if (id > 0) {
 					body = body.replace("${article-detail__link-prev-article}",
-							board.code + (articles.get(id - 1).id) + ".html");
+							board.name + (articles.get(id - 1).id) + ".html");
 				} else {
 					body = body.replace("${article-detail__link-prev-article-class}", "none");
 				}
 				body = body.replace("${article-detail__link-list}",
-						"article_list_" + board.code + "_" + (int) Math.ceil((double) (id + 1) / paging) + ".html");
+						"article_list_" + board.name + "_" + (int) Math.ceil((double) (id + 1) / paging) + ".html");
 				body = body.replace("${title-bar__file}",
-						"article_list_" + board.code + "_" + (int) Math.ceil((double) (id + 1) / paging) + ".html");
+						"article_list_" + board.name + "_" + (int) Math.ceil((double) (id + 1) / paging) + ".html");
 				if (articles.size() > id + 1) {
 					body = body.replace("${article-detail__link-next-article}",
-							board.code + (articles.get(id + 1).id) + ".html");
+							board.name + (articles.get(id + 1).id) + ".html");
 				} else {
 					body = body.replace("${article-detail__link-next-article-class}", "none");
 				}
 				sb.append(body);
 				sb.append(foot);
-				String fileName = board.code + article.id + ".html";
+				String fileName = board.code.trim() + article.id + ".html";
 				Util.writeFile("site/" + fileName, sb.toString());
 
 				System.out.println("site/" + fileName + "생성");
@@ -305,13 +318,15 @@ public class ExportService {
 		List<Board> forPrintBoard = articleService.getForPrintBoards();
 
 		for (Board board : forPrintBoard) {
-			boardMenuContent.append("<li>");
+			if (board != null) {
+				boardMenuContent.append("<li>");
 
-			String link = "article_list_" + board.code + "_1.html";
-			boardMenuContent.append("<a href=\"" + link + "\" class=\"flex flex-jc-c flex-ai-c \">");
+				String link = "article_list_" + board.name + "_1.html";
+				boardMenuContent.append("<a href=\"" + link + "\" class=\"flex flex-jc-c flex-ai-c \">");
 
-			boardMenuContent.append("<span>"+board.name+"</span>");
-			boardMenuContent.append("</a></li>");
+				boardMenuContent.append("<span>" + board.name + "</span>");
+				boardMenuContent.append("</a></li>");
+			}
 		}
 		head = head.replace("[manu-bar-add]", boardMenuContent.toString());
 //		String titleBarContentHtml = getTitleBarContentByPageName(pageName);

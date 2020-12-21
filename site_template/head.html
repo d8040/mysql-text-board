@@ -1,4 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!--사이트 저작권자-->
+<meta name="author" content="D.K">
+
+<!--사이트 설명-->
+<meta name="description" content="programig, coding, technology, photograph 정보공유를 위한 개인 블로그">
+
+<!-- open graph ~~ex)카톡에서 링크 공유할때 제목 설명 이미지 url 표시-->
+<meta property="og:title" content="고레와 제목데스" />
+
+<!--본인의 홈페이지가 링크됐을때 대표로 제목-->
+<meta property="og:description" content="설명란 데스" />
+
+<!--본인의 홈페이지가 링크됐을때 설명되는 내용-->
+<meta property="og:url" content="https://youtube.com">
+
+<!--본인의 홈페이지 주소 링크-->
+<meta property="og:image" content="https://youtube/img/test.png">
+<!--본인의 홈페이지가 링크됐을때 대표로 표시되는 이미지경로-->
+
+<meta name="robots" content="index,follow">
+<!--파싱봇의 제어? 방법임 검색 ㄱㄱ-->
+
+<!--사이트 키워드 말그대로 어떤 키워드로 검색했을때 홈페이지가 노출되길 원하나 -->
+<meta name="keywords"
+	content="모델링 회사, 모델링 외주, 모델링, 짱큰모델링, 모델링 가격,etc...">
+
+<!-- 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
+<title>fun and coding</title>
+
+
+<link rel="canonical" href="http://당신의홈페이지주소" />
+
 <!-- Scroll-Out link -->
 <script src="https://unpkg.com/scroll-out/dist/scroll-out.min.js"></script>
 
@@ -30,9 +68,11 @@
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async
 	src="https://www.googletagmanager.com/gtag/js?id=G-PGF4TS961N"></script>
+
 <!-- Google adsense -->
 <script data-ad-client="ca-pub-5184039387564779" async
 	src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
 <script>
 	window.dataLayer = window.dataLayer || [];
 	function gtag() {
@@ -42,34 +82,25 @@
 
 	gtag('config', 'G-PGF4TS961N');
 </script>
+
+
 </head>
 
 
 <div class="total-box flex flex-dr-c">
-	<header class="head-bar flex flex-jc-c flex-ai-c">
+	<div class="head-bar flex flex-jc-c flex-ai-c">
 		<nav class="side-menu flex">
 			<li><a href=""><i class="fas fa-bars"></i></a></li>
 		</nav>
 		<div class="flex flex-jc-c flex-g-1">
-			<nav class="menu-box">
-				<ul class="flex flex-dr-r flex-ai-c">
+			<nav class="menu-box visible-md-up">
+				<ul class="flex flex-ai-c">
 					<li><a href="index.html" class="flex"><i
 							class="fas fa-home"></i></a></li>
 					<li class="flex"><a href="#" class="flex"><span>board</span></a>
-						<ul class="">
-							<!-- 	<li><a href="#" class="flex flex-jc-c flex-ai-c"> <i
-									class="fab fa-free-code-camp"></i> <span>all</span>
-							</a></li>
-							<li><a href="#" class="flex flex-jc-c flex-ai-c"> <i
-									class="fas fa-comment-medical"></i> <span>free list</span>
-							</a></li>
-							<li><a href="#" class="flex flex-jc-c flex-ai-c "> <i
-									class="far fa-clipboard"></i> <span>notice list</span>
-							</a></li> -->
-							[manu-bar-add]
+						<ul class="">[manu-bar-add]
 						</ul></li>
-					<li><a href="#" class="flex"><span>link</span></a>
-					<li />
+					<li><a href="#" class="flex"><span>link</span></a></li>
 					<li><a href="#" class="flex"><span>about</span></a></li>
 				</ul>
 			</nav>
@@ -94,4 +125,4 @@
 			</span> </search>
 		</nav>
 		<link rel="stylesheet" href="app.css" />
-	</header>
+	</div>
