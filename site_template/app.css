@@ -619,6 +619,9 @@ html {
     display:flex!important;
     justify-content: space-between;
   }
+  naming h1{
+  font-size:40px;
+  }
   @media(max-width:415px){
     .con-min-width {
       min-width: 400px!important;

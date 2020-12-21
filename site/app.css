@@ -251,17 +251,17 @@ body{
 ::-moz-selection {
   background: rgba(255, 255, 255, 0.2);
 }
-div>header > search  html {
+div>.head-bar > search  html {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
 }
-div>header > search * {
+div>.head-bar > search * {
   box-sizing: inherit;
 }
-div>header > search *:before, *:after {
+div>.head-bar > search *:before, *:after {
   box-sizing: inherit;
 }
-div>header > search body {
+div>.head-bar > search body {
   min-height: 100vh;
   font-family: 'Mukta Malar', Arial;
   background: #F3628D;
@@ -269,13 +269,13 @@ div>header > search body {
   justify-content: center;
   align-items: center;
 }
-div>header > search .dribbble {
+div>.head-bar > search .dribbble {
   position: fixed;
   display: block;
   right: 24px;
   bottom: 24px;
 }
-div>header > search .dribbble img {
+div>.head-bar > search .dribbble img {
   display: block;
   width: 76px;
 }
@@ -619,6 +619,9 @@ html {
     display:flex!important;
     justify-content: space-between;
   }
+  naming h1{
+  font-size:40px;
+  }
   @media(max-width:415px){
     .con-min-width {
       min-width: 400px!important;
@@ -649,10 +652,10 @@ html {
   height:100vh;
 }
 
-.article-list > header > div{
+.article-list > .header > div{
   position:relative;
 }
-.article-list > header > div::before{
+.article-list > .header > div::before{
   content:"";
   position:absolute;
   top:50%;
@@ -662,11 +665,11 @@ html {
   height:10px;
   background-color:black;
 }
-.article-list > header > div > div {
+.article-list > .header > div > div {
   position:relative;
 }
 
-.article-list > header > div > div::after {
+.article-list > .header > div > div::after {
   content:"";
   position:absolute;
   top:50%;
