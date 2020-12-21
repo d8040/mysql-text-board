@@ -1,6 +1,5 @@
 package com.sbs.example.mysqlTextBoard.service;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import com.sbs.example.mysqlTextBoard.Container;
