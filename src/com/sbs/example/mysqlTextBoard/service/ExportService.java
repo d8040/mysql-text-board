@@ -63,13 +63,13 @@ public class ExportService {
 		StringBuffer mainContent = new StringBuffer();
 		StringBuffer sb = new StringBuffer();
 
-		sb.append(getHeadHtml("article_list_" + board.code.trim()));
-
+		sb.append(getHeadHtml("article_list_" + board.code.trim(), 213654654));
 		String bodyTemplate = Util.getFileContents("site_template/article_list.html");
 		String foot = Util.getFileContents("site_template/foot.html");
 		for (Article article : articles_Paging) {
 			Member member = memberService.getMemberByMemberId(article.memberId);
 			String link = board.code.trim() + article.id + ".html";
+			
 
 			mainContent.append("<div class=\"flex\">");
 			mainContent.append("<div class=article-list__cell-id>" + article.id + "</div>");
@@ -149,7 +149,7 @@ public class ExportService {
 
 	// 메인페이지
 	private void mainPage() {
-		String head = getHeadHtml("index");
+		String head = getHeadHtml("index", 496465411);
 		String bodyTemplate = Util.getFileContents("site_template/index.html");
 		StringBuffer sb = new StringBuffer();
 		String body = bodyTemplate;
@@ -182,8 +182,9 @@ public class ExportService {
 
 		for (int i = 1; i <= totalPages; i++) {
 			List<Article> articles_Paging = articleService.getArticlesByPagingAll(articleStart, list);
+
 			StringBuffer sb = new StringBuffer();
-			sb.append(getHeadHtml("article_list"));
+			sb.append(getHeadHtml("article_list", 213654654));
 			sb.append("<section class=\"section-1 con-min-width\">");
 			sb.append("<div class=\"con flex flex-jc-c\">");
 			sb.append("<div class=\"article-list\">");
@@ -263,7 +264,6 @@ public class ExportService {
 	private void detail() {
 		List<Board> boards = articleService.getForPrintBoards();
 
-		String head = getHeadHtml("detail");
 		String bodyTemplate = Util.getFileContents("site_template/article_detail.html");
 		String foot = Util.getFileContents("site_template/foot.html");
 
@@ -274,6 +274,7 @@ public class ExportService {
 
 			for (Article article : articles) {
 				StringBuffer sb = new StringBuffer();
+				String head = getHeadHtml("detail", article.id);
 				sb.append(head);
 				String body = bodyTemplate.replace("${article-detail__title}", article.title);
 				body = body.replace("${title-bar__content}", "board > " + article.extra_boardName);
@@ -285,7 +286,7 @@ public class ExportService {
 
 				if (id > 0) {
 					body = body.replace("${article-detail__link-prev-article}",
-							board.name + (articles.get(id - 1).id) + ".html");
+							board.code + (articles.get(id - 1).id) + ".html");
 				} else {
 					body = body.replace("${article-detail__link-prev-article-class}", "none");
 				}
@@ -295,7 +296,7 @@ public class ExportService {
 						"article_list_" + board.name + "_" + (int) Math.ceil((double) (id + 1) / paging) + ".html");
 				if (articles.size() > id + 1) {
 					body = body.replace("${article-detail__link-next-article}",
-							board.name + (articles.get(id + 1).id) + ".html");
+							board.code + (articles.get(id + 1).id) + ".html");
 				} else {
 					body = body.replace("${article-detail__link-next-article-class}", "none");
 				}
@@ -311,11 +312,11 @@ public class ExportService {
 	}
 
 	// 메뉴바 자동생성
-	private String getHeadHtml(String pageName) {
+	private String getHeadHtml(String pageName, int articleId) {
 		String head = Util.getFileContents("site_template/head.html");
 		StringBuilder boardMenuContent = new StringBuilder();
 		List<Board> forPrintBoard = articleService.getForPrintBoards();
-
+		Article article = articleService.getArticle(articleId);
 		for (Board board : forPrintBoard) {
 			if (board != null) {
 				boardMenuContent.append("<li>");
@@ -328,6 +329,16 @@ public class ExportService {
 			}
 		}
 		head = head.replace("[manu-bar-add]", boardMenuContent.toString());
+		if (articleId == 213654654) {
+			head = head.replace("${meta-title}", "Article List");
+			head = head.replace("${meta-description}", "Article list for java, html, photograph, technical, css,js, java script, scss, cording, c");
+		}else if (articleId == 496465411) {
+			head = head.replace("${meta-title}", "Main Page");
+			head = head.replace("${meta-description}", "Technology for java, html, photograph, technical, css,js, java script, scss, cording, c");
+		}else {
+			head = head.replace("${meta-title}", article.title);
+			head = head.replace("${meta-description}", article.title);
+		}
 //		String titleBarContentHtml = getTitleBarContentByPageName(pageName);
 //		head = head.replace("${title-bar__content}", titleBarContentHtml);
 		return head;

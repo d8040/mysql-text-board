@@ -1,3 +1,16 @@
+var menuBtn = document.querySelector('.menu-btn');
+var nav = document.querySelector('.side-menu');
+var lineOne = document.querySelector('.side-menu .menu-btn .line--1');
+var lineTwo = document.querySelector('.side-menu .menu-btn .line--2');
+var lineThree = document.querySelector('.side-menu .menu-btn .line--3');
+var link = document.querySelector('.side-menu .nav-links');
+menuBtn.addEventListener('click', () => {
+    nav.classList.toggle('nav-open');
+    lineOne.classList.toggle('line-cross');
+    lineTwo.classList.toggle('line-fade-out');
+    lineThree.classList.toggle('line-cross');
+    link.classList.toggle('fade-in');
+})
 console.clear();
 
 ScrollOut({
@@ -14,14 +27,76 @@ function ArticleDetail__Body__init() {
 		return;
 	}
 
-	var body = document.querySelector('.article-detail__body');
-	var initialValue = body.innerHTML.trim();
+	// 유튜브 플러그인 시작
+function youtubePlugin() {
+  toastui.Editor.codeBlockManager.setReplacer('youtube', youtubeId => {
+    // Indentify multiple code blocks
+    const wrapperId = `yt${Math.random().toString(36).substr(2, 10)}`;
 
-	var viewer = new toastui.Editor.factory({
-		el : body,
-		initialValue : initialValue,
-		viewer : true
-	});
+    // Avoid sanitizing iframe tag
+    setTimeout(renderYoutube.bind(null, wrapperId, youtubeId), 0);
+
+    return `<div id="${wrapperId}"></div>`;
+  });
+}
+
+function renderYoutube(wrapperId, youtubeId) {
+  const el = document.querySelector(`#${wrapperId}`);
+
+  el.innerHTML = `<div class="toast-ui-youtube-plugin-wrap"><iframe src="https://www.youtube.com/embed/${youtubeId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+}
+// 유튜브 플러그인 끝
+
+// codepen 플러그인 시작
+function codepenPlugin() {
+  toastui.Editor.codeBlockManager.setReplacer('codepen', url => {
+    const wrapperId = `yt${Math.random().toString(36).substr(2, 10)}`;
+
+    // Avoid sanitizing iframe tag
+    setTimeout(renderCodepen.bind(null, wrapperId, url), 0);
+
+    return `<div id="${wrapperId}"></div>`;
+  });
+}
+
+function renderCodepen(wrapperId, url) {
+  const el = document.querySelector(`#${wrapperId}`);
+  
+  var urlParams = new URLSearchParams(url.split('?')[1]);
+  var height = urlParams.get('height');
+
+  el.innerHTML = `<div class="toast-ui-codepen-plugin-wrap"><iframe height="${height}" scrolling="no" src="${url}" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"></iframe></div>`;
+}
+// codepen 플러그인 끝
+
+function Editor__init() {
+  $('.toast-ui-editor').each(function(index, node) {
+    var initialValue = $(node).prev().html().trim().replace(/<!--REPLACE:script-->/gi, 'script');
+    
+    var editor = new toastui.Editor({
+      el: node,
+      previewStyle: 'vertical',
+      initialValue: initialValue,
+      height:600,
+      plugins: [toastui.Editor.plugin.codeSyntaxHighlight, youtubePlugin, codepenPlugin]
+    });
+  });
+}
+Editor__init();
+
+function EditorViewer__init() {
+  $('.toast-ui-viewer').each(function(index, node) {
+    var initialValue = $(node).prev().html().trim().replace(/<!--REPLACE:script-->/gi, 'script');
+    var viewer = new toastui.Editor.factory({
+      el: node,
+      initialValue: initialValue,
+      viewer:true,
+      plugins: [toastui.Editor.plugin.codeSyntaxHighlight, youtubePlugin, codepenPlugin]
+    });
+  });
+}
+EditorViewer__init();
+
 }
 
 ArticleDetail__Body__init();
