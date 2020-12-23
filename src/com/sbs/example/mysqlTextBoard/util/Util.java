@@ -16,14 +16,14 @@ public class Util {
 
 	public static void writeFileContents(String filePath, String contents) {
 		BufferedOutputStream bs = null;
-		
+
 		try {
 			bs = new BufferedOutputStream(new FileOutputStream(filePath));
 			bs.write(contents.getBytes());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.getStackTrace();
-		} finally{
+		} finally {
 			try {
 				bs.close();
 			} catch (IOException e) {
@@ -32,6 +32,7 @@ public class Util {
 			}
 		}
 	}
+
 	public static void writeFile(String path, String body) {
 		File file = new File(path);
 
@@ -47,10 +48,11 @@ public class Util {
 	public static void mkdirs(String path) {
 		File HtmlFolder = new File(path);
 
-		if ( HtmlFolder.exists() == false ) {
+		if (HtmlFolder.exists() == false) {
 			HtmlFolder.mkdir();
 		}
 	}
+
 	public static String getFileContents(String filePath) {
 		String rs = null;
 		try {
@@ -72,10 +74,11 @@ public class Util {
 
 		return rs;
 	}
+
 	public static boolean rmdir(String path) {
 		return rmdir(new File(path));
 	}
-	
+
 	public static boolean rmdir(File dirToBeDeleted) {
 		File[] allContents = dirToBeDeleted.listFiles();
 		if (allContents != null) {
@@ -86,23 +89,52 @@ public class Util {
 
 		return dirToBeDeleted.delete();
 	}
+
 	public static boolean copy(String sourcePath, String destPath) {
 		Path source = Paths.get(sourcePath);
 		Path target = Paths.get(destPath);
-		
+
 		if (!Files.exists(target.getParent())) {
 			try {
 				Files.createDirectories(target.getParent());
-			} catch(IOException e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 				return false;
 			}
 		}
 		try {
 			Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
-		}catch(IOException e) {
+		} catch (IOException e) {
 			return true;
 		}
 		return true;
 	}
+
+	public static void forderCopy(String selected, String copy) {
+		File original_dir = new File("C:\\work\\sts-4.8.1.RELEASE-workspace\\mysql-text-board\\"+ selected); // 절대경로
+		File move_dir = new File("C:\\work\\sts-4.8.1.RELEASE-workspace\\mysql-text-board\\" + copy);
+		if (original_dir.exists()) { // 폴더의 내용물 확인 -> 폴더 & 파일..
+			File[] fileNames = original_dir.listFiles(); // 내용 목록 반환
+			// System.out.println("--------------폴더 읽기-----------------");
+			// for(int i=0; i< fileNames.length; i++) {
+			// if(fileNames[i].isDirectory()) {
+			// System.out.println(fileNames[i].getName()); //폴더 존재 유무
+			// }
+			// }
+			System.out.println("--------------파일 읽기-----------------");
+			for (int i = 0; i < fileNames.length; i++) {
+				if (fileNames[i].isFile()) {
+					if (fileNames[i].exists()) {
+						if (original_dir.exists()) {
+						}
+						File MoveFile = new File(move_dir, fileNames[i].getName()); // 이동될 파일 경로 및 파일 이름
+						fileNames[i].renameTo(MoveFile); // 변경(이동)
+						System.out.println(fileNames[i].getName()); // 폴더내에 있는 파일 리스트
+
+					}
+				}
+			}
+		}
+	}
+
 }

@@ -33,6 +33,7 @@ public class ExportService {
 
 		Util.copy("site_template/app.css", "site/app.css");
 		Util.copy("site_template/app.js", "site/app.js");
+		Util.forderCopy("site_template\\img", "site\\img");
 
 		detail();
 //		articleListAll();
@@ -150,6 +151,7 @@ public class ExportService {
 	// 메인페이지
 	private void mainPage() {
 		String head = getHeadHtml("index", 496465411);
+		String foot = Util.getFileContents("site_template/foot.html");
 		String bodyTemplate = Util.getFileContents("site_template/index.html");
 		StringBuffer sb = new StringBuffer();
 		String body = bodyTemplate;
@@ -157,15 +159,18 @@ public class ExportService {
 		sb.append(head);
 		List<Article> articles = articleService.getForMainPageArticles();
 		for (Article article : articles) {
+			
+			String articleBodyForPrint = article.body.substring(0, 800);
+			articleBodyForPrint = articleBodyForPrint.replaceAll("script", "<!--REPLACE:script-->");
 			body = body.replace("${index__summary-writer-" + i + "}", article.extra_writer);
 			body = body.replace("${index__summary-board-" + i + "}", article.extra_boardName);
 			body = body.replace("${index__summary-body-title-" + i + "}", article.title);
-			body = body.replace("${index__summary-body-" + i + "}", article.body.subSequence(0, 200) + "......");
+			body = body.replace("${index__summary-body-" + i + "}", articleBodyForPrint + "......");
 			body = body.replace("${index__summary-link-" + i + "}", article.extra_boardCode.trim() + (article.id) + ".html");
 			i = i + 1;
 		}
 		sb.append(body);
-
+		sb.append(foot);
 		Util.writeFileContents("site/" + "index.html", sb.toString());
 		System.out.println("site/" + "index.html" + "생성");
 	}
@@ -276,12 +281,16 @@ public class ExportService {
 				StringBuffer sb = new StringBuffer();
 				String head = getHeadHtml("detail", article.id);
 				sb.append(head);
+				
+				String articleBodyForPrint = article.body;
+				articleBodyForPrint = articleBodyForPrint.replaceAll("script", "<!--REPLACE:script-->");
+				
 				String body = bodyTemplate.replace("${article-detail__title}", article.title);
 				body = body.replace("${title-bar__content}", "board > " + article.extra_boardName);
 				body = body.replace("${article-detail__writer}", "작성자: " + article.extra_writer);
 				body = body.replace("${article-detail__hit}", "조회수: " + article.hit + "");
 				body = body.replace("${article-detail__regDate}", "작성일: " + article.regDate);
-				body = body.replace("${article-detail__body}", article.body);
+				body = body.replace("${article-detail__body}", articleBodyForPrint);
 				body = body.replace("${article-detail__rcm}", "추천수: " + article.rcmCount + "");
 
 				if (id > 0) {
