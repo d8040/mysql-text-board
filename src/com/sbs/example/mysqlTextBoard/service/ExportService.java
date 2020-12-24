@@ -77,11 +77,12 @@ public class ExportService {
 			mainContent.append("<div class=article-list__cell-writer>" + member.name + "</div>");
 			if (article.title.length() > 31) {
 				mainContent.append("<div class=article-list__cell-title><a href=\"" + link + "\" class=hover-underline>"
-						+ article.title.substring(0, 30) + "...." + "</a>");
+						+ article.title.substring(0, 30) + "....");
 			} else {
 				mainContent.append("<div class=article-list__cell-title><a href=\"" + link + "\" class=hover-underline>"
-						+ article.title + "</a>");
-			}
+						+ article.title);
+			}			
+			mainContent.append("<a href=\"{{fileName}}#disqus_thread\">0 Comments</a></a>");
 			mainContent.append("<nav>");
 			mainContent.append("<div class=article-list__cell-writer1>" + member.name + "</div>");
 			mainContent.append("<div class=article-list__cell-reg-date1>" + article.regDate.subSequence(2, 4) + "/"
@@ -309,9 +310,11 @@ public class ExportService {
 				} else {
 					body = body.replace("${article-detail__link-next-article-class}", "none");
 				}
+				String fileName = board.code.trim() + article.id + ".html";
+				body = body.replace("{articleId}", Integer.toString(article.id));
+				body = body.replace("https://blog.phoneus.net/"+"{fileName}", fileName);
 				sb.append(body);
 				sb.append(foot);
-				String fileName = board.code.trim() + article.id + ".html";
 				Util.writeFile("site/" + fileName, sb.toString());
 
 				System.out.println("site/" + fileName + "생성");
