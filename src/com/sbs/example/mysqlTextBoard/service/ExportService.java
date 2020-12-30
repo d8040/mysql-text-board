@@ -1,6 +1,8 @@
 package com.sbs.example.mysqlTextBoard.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.Article;
@@ -12,10 +14,12 @@ public class ExportService {
 
 	private ArticleService articleService;
 	private MemberService memberService;
+	private DisqusApiService disqusApiService;
 
 	public ExportService() {
 		articleService = Container.articleService;
 		memberService = Container.memberService;
+		disqusApiService = Container.disqusApiService;
 	}
 
 	int articleStart = 0;
@@ -33,12 +37,39 @@ public class ExportService {
 
 		Util.copy("site_template/app.css", "site/app.css");
 		Util.copy("site_template/app.js", "site/app.js");
-		Util.forderCopy("site_template\\img", "site\\img");
+		Util.forderCopy("site_template\\img\\", "site\\img\\");
+
+		loadDisqusdata();
 
 		detail();
 //		articleListAll();
 		mainPage();
 		articleListPages();
+	}
+
+	public String getArticleDetailFileName(int id) {
+		return "article_detail_"+ id + ".html";
+	}
+
+	private void loadDisqusdata() {
+		List<Article> articles = articleService.getForPrintArticles();
+
+		for (Article article : articles) {
+			Map<String, Object> disqusArticleData = disqusApiService.getArticleData(article);
+
+			if (disqusArticleData != null) {
+				int likesCount = (int) disqusArticleData.get("likesCount");
+				int commentsCount = (int) disqusArticleData.get("commentsCount");
+
+				Map<String, Object> modifyArgs = new HashMap<>();
+				modifyArgs.put("id", article.id);
+				modifyArgs.put("likesCount", likesCount);
+				modifyArgs.put("commentsCount", commentsCount);
+
+				articleService.modify(modifyArgs);
+			}
+
+		}
 	}
 
 	private void articleListPages() {
@@ -69,19 +100,19 @@ public class ExportService {
 		String foot = Util.getFileContents("site_template/foot.html");
 		for (Article article : articles_Paging) {
 			Member member = memberService.getMemberByMemberId(article.memberId);
-			String link = board.code.trim() + article.id + ".html";
-			
+			String link = "article_detail_" + article.id + ".html";
+			String comments = "   <i class=\"far fa-comment-dots\"></i> "+article.commentsCount;
 
 			mainContent.append("<div class=\"flex\">");
 			mainContent.append("<div class=article-list__cell-id>" + article.id + "</div>");
 			mainContent.append("<div class=article-list__cell-writer>" + member.name + "</div>");
 			if (article.title.length() > 31) {
 				mainContent.append("<div class=article-list__cell-title><a href=\"" + link + "\" class=hover-underline>"
-						+ article.title.substring(0, 30) + "....");
+						+ article.title.substring(0, 30) + "...."+comments);
 			} else {
 				mainContent.append("<div class=article-list__cell-title><a href=\"" + link + "\" class=hover-underline>"
-						+ article.title);
-			}			
+						+ article.title+comments);
+			}
 //			mainContent.append("<a href=\"{{fileName}}#disqus_thread\">0 Comments</a>");
 			mainContent.append("</a><nav>");
 			mainContent.append("<div class=article-list__cell-writer1>" + member.name + "</div>");
@@ -109,30 +140,30 @@ public class ExportService {
 		if (i > paging)
 
 		{
-			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code.trim() + "_"
-					+ ((int) Math.ceil((double) (((i - 1 - paging) / paging) * paging) + paging))
+			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code.trim()
+					+ "_" + ((int) Math.ceil((double) (((i - 1 - paging) / paging) * paging) + paging))
 					+ ".html\">&lt;&lt; </a></div>");
 		}
 		if (i > 1) {
-			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code.trim() + "_"
-					+ (i - 1) + ".html\">&lt; 이전</a></div>");
+			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code.trim()
+					+ "_" + (i - 1) + ".html\">&lt; 이전</a></div>");
 		}
 		for (int k = startPage; k <= endPage; k++) {
 			if (k == i) {
 				pageBoxContent.append("<div class=\"page-no selected\"><a class=\"flex\" href=\"article_list_"
 						+ board.code.trim() + "_" + k + ".html\">" + k + "</a></div>");
 			} else {
-				pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code.trim() + "_"
-						+ k + ".html\">" + k + "</a></div>");
+				pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_"
+						+ board.code.trim() + "_" + k + ".html\">" + k + "</a></div>");
 			}
 		}
 		if (i < totalPages) {
-			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code.trim() + "_"
-					+ (i + 1) + ".html\">다음 &gt;</a></div>");
+			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code.trim()
+					+ "_" + (i + 1) + ".html\">다음 &gt;</a></div>");
 		}
 		if (i - 1 / paging < (totalPages - (totalPages % paging) + 1)) {
-			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code.trim() + "_"
-					+ ((int) Math.ceil((double) (((i - 1 + paging) / paging) * paging) + 1))
+			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code.trim()
+					+ "_" + ((int) Math.ceil((double) (((i - 1 + paging) / paging) * paging) + 1))
 					+ ".html\"> &gt;&gt;</a></div>");
 		}
 		String body = bodyTemplate.replace("${article-list__main-content}", mainContent.toString());
@@ -160,14 +191,15 @@ public class ExportService {
 		sb.append(head);
 		List<Article> articles = articleService.getForMainPageArticles();
 		for (Article article : articles) {
-			
-			String articleBodyForPrint = article.body.substring(0, 800);
+
+			String articleBodyForPrint = article.body.substring(0, 500);
 			articleBodyForPrint = articleBodyForPrint.replaceAll("script", "<!--REPLACE:script-->");
 			body = body.replace("${index__summary-writer-" + i + "}", article.extra_writer);
 			body = body.replace("${index__summary-board-" + i + "}", article.extra_boardName);
 			body = body.replace("${index__summary-body-title-" + i + "}", article.title);
 			body = body.replace("${index__summary-body-" + i + "}", articleBodyForPrint + "......");
-			body = body.replace("${index__summary-link-" + i + "}", article.extra_boardCode.trim() + (article.id) + ".html");
+			body = body.replace("${index__summary-link-" + i + "}",
+					article.extra_boardCode.trim() + (article.id) + ".html");
 			i = i + 1;
 		}
 		sb.append(body);
@@ -282,10 +314,10 @@ public class ExportService {
 				StringBuffer sb = new StringBuffer();
 				String head = getHeadHtml("detail", article.id);
 				sb.append(head);
-				
+
 				String articleBodyForPrint = article.body;
 				articleBodyForPrint = articleBodyForPrint.replaceAll("script", "<!--REPLACE:script-->");
-				
+
 				String body = bodyTemplate.replace("${article-detail__title}", article.title);
 				body = body.replace("${title-bar__content}", "board > " + article.extra_boardName);
 				body = body.replace("${article-detail__writer}", "작성자: " + article.extra_writer);
@@ -296,7 +328,7 @@ public class ExportService {
 
 				if (id > 0) {
 					body = body.replace("${article-detail__link-prev-article}",
-							board.code + (articles.get(id - 1).id) + ".html");
+							"article_detail_" + (articles.get(id - 1).id) + ".html");
 				} else {
 					body = body.replace("${article-detail__link-prev-article-class}", "none");
 				}
@@ -306,11 +338,11 @@ public class ExportService {
 						"article_list_" + board.name + "_" + (int) Math.ceil((double) (id + 1) / paging) + ".html");
 				if (articles.size() > id + 1) {
 					body = body.replace("${article-detail__link-next-article}",
-							board.code + (articles.get(id + 1).id) + ".html");
+							"article_detail_" + (articles.get(id + 1).id) + ".html");
 				} else {
 					body = body.replace("${article-detail__link-next-article-class}", "none");
 				}
-				String fileName = board.code.trim() + article.id + ".html";
+				String fileName = "article_detail_" + article.id + ".html";
 				body = body.replace("${site-domain}", "blog.phoneus.net");
 				body = body.replace("${fileName}", fileName);
 				sb.append(body);
@@ -344,12 +376,14 @@ public class ExportService {
 		if (articleId == 213654654) {
 			head = head.replace("${meta-title}", pageName + " List");
 			head = head.replace("${page-title}", pageName + " List");
-			head = head.replace("${meta-description}", "Article list for java, html, photograph, technical, css,js, java script, scss, cording, c");
-		}else if (articleId == 496465411) {
+			head = head.replace("${meta-description}",
+					"Article list for java, html, photograph, technical, css,js, java script, scss, cording, c");
+		} else if (articleId == 496465411) {
 			head = head.replace("${meta-title}", "Main Page");
 			head = head.replace("${page-title}", "fun and coding");
-			head = head.replace("${meta-description}", "Technology for java, html, photograph, technical, css,js, java script, scss, cording, c");
-		}else {
+			head = head.replace("${meta-description}",
+					"Technology for java, html, photograph, technical, css,js, java script, scss, cording, c");
+		} else {
 			head = head.replace("${meta-title}", article.title);
 			head = head.replace("${meta-description}", article.title);
 			head = head.replace("${page-title}", article.title);

@@ -1,6 +1,8 @@
 package com.sbs.example.mysqlTextBoard.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.sbs.example.mysqlTextBoard.dao.ArticleDao;
 import com.sbs.example.mysqlTextBoard.dto.Article;
@@ -26,8 +28,13 @@ public class ArticleService {
 		articleDao.delete(id);
 	}
 
-	public void modify(int memberId, int inputedId, String title, String body) {
-		articleDao.modify(memberId, inputedId, title, body);
+	public int modify(int id, String title, String body) {
+		Map<String, Object> modifyArgs = new HashMap<>();
+		modifyArgs.put("id", id);
+		modifyArgs.put("title", title);
+		modifyArgs.put("body", body);
+
+		return modify(modifyArgs);
 
 	}
 
@@ -132,6 +139,10 @@ public class ArticleService {
 
 	public List<Article> getForMainPageArticles() {
 		return articleDao.getForMainPageArticles();
+	}
+
+	public int modify(Map<String, Object> args) {
+		return articleDao.modify(args);
 	}
 
 }

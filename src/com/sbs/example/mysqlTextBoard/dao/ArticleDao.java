@@ -78,17 +78,31 @@ public class ArticleDao {
 		return new Article(articleMap);
 	}
 
-	public void modify(int memberId, int inputId, String title, String body) {
+	public int modify(Map<String, Object> args) {
+
+		int id = (int) args.get("id");
+		String title = args.get("title") != null ? (String)args.get("title") : null;
+		String body = args.get("body") != null ? (String)args.get("body") : null;
+		int likesCount = args.get("likesCount") != null ? (int) args.get("likesCount") : -1;
+		int commentsCount = args.get("commentsCount") != null ? (int) args.get("commentsCount") : -1;
 
 		SecSql sql = new SecSql();
 		sql.append("UPDATE article");
 		sql.append("SET updateDate = NOW()");
-		sql.append(", memberId = ?", memberId);
-		sql.append(", title = ?", title);
-		sql.append(", body = ?", body);
-		sql.append("where id = ?", inputId);
-
-		MysqlUtil.update(sql);
+		if (title != null) {
+			sql.append(", title = ?", title);
+		}
+		if (body != null) {
+			sql.append(", body = ?", body);
+		}
+		if (likesCount != -1) {
+			sql.append(", rcmCount = ?", likesCount);
+		}
+		if (commentsCount != -1) {
+			sql.append(", commentsCount = ?", commentsCount);
+		}
+		sql.append("where id = ?", id);
+		return MysqlUtil.update(sql);
 	}
 
 	public void delete(int inputId) {
@@ -292,7 +306,7 @@ public class ArticleDao {
 	}
 
 	public Article getForPrintArticle(int articleId, int boardId) {
-		
+
 		SecSql sql = new SecSql();
 		sql.append("SELECT *");
 		sql.append("FROM article");
@@ -346,17 +360,17 @@ public class ArticleDao {
 	}
 
 	public int getHitByAllArticles() {
-				
+
 		SecSql sql = new SecSql();
 		sql.append("SELECT SUM(hit) FROM article");
-				
+
 		return MysqlUtil.selectRowIntValue(sql);
 	}
 
 	public int getHitByBoardArticles(int boardId) {
 		SecSql sql = new SecSql();
 		sql.append("SELECT SUM(hit) FROM article WHERE boardId = ?", boardId);
-				
+
 		return MysqlUtil.selectRowIntValue(sql);
 	}
 

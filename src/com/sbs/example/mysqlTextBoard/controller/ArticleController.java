@@ -355,7 +355,7 @@ public class ArticleController {
 		System.out.printf("내용 : ");
 		String body = Container.scanner.nextLine();
 
-		articleService.modify(memberId, inputedId, title, body);
+		articleService.modify(inputedId, title, body);
 
 		System.out.println(inputedId + "번 게시물 수정이 완료되었습니다.");
 
