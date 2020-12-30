@@ -311,8 +311,8 @@ public class ExportService {
 					body = body.replace("${article-detail__link-next-article-class}", "none");
 				}
 				String fileName = board.code.trim() + article.id + ".html";
-				body = body.replace("{site-domain}", "blog.phoneus.net");
-				body = body.replace("{fileName}", fileName);
+				body = body.replace("${site-domain}", "blog.phoneus.net");
+				body = body.replace("${fileName}", fileName);
 				sb.append(body);
 				sb.append(foot);
 				Util.writeFile("site/" + fileName, sb.toString());

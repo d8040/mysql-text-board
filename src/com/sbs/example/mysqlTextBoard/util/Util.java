@@ -1,16 +1,27 @@
 package com.sbs.example.mysqlTextBoard.util;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Map;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sbs.example.mysqlTextBoard.apidto.DisqusApiDataListThread;
 
 public class Util {
 
@@ -137,4 +148,85 @@ public class Util {
 		}
 	}
 
+	public static String callApi(String urlStr, String... args) {
+		// URL 구성 시작
+		StringBuilder queryString = new StringBuilder();
+
+		for (String param : args) {
+			if (queryString.length() == 0) {
+				queryString.append("?");
+			} else {
+				queryString.append("&");
+			}
+
+			queryString.append(param);
+		}
+
+		urlStr += queryString.toString();
+		// URL 구성 끝
+
+		// 연결생성 시작
+		HttpURLConnection con = null;
+
+		try {
+			URL url = new URL(urlStr);
+			con = (HttpURLConnection) url.openConnection();
+			con.setRequestMethod("GET");
+			con.setConnectTimeout(5000); // 최대통신시간 제한
+			con.setReadTimeout(5000); // 최대데이터읽기시간 제한
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			return null;
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+		// 연결생성 끝
+
+		// 연결을 통해서 데이터 가져오기 시작
+		StringBuffer content = null;
+		try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+			String inputLine;
+			content = new StringBuffer();
+			while ((inputLine = in.readLine()) != null) {
+				content.append(inputLine);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// 연결을 통해서 데이터 가져오기 끝
+
+		return content.toString();
+	}
+
+	public static Map<String, Object> callApiResponseToMap(String urlStr, String... args) {
+		String jsonString = callApi(urlStr, args);
+		
+		ObjectMapper mapper = new ObjectMapper();
+
+		try {
+			return (Map<String, Object>) mapper.readValue(jsonString, Map.class);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	public static Object callApiResponseTo(Class cls, String urlStr, String... args) {
+		String jsonString = callApi(urlStr, args);
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		try {
+			return mapper.readValue(jsonString, cls);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
 }
