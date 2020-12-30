@@ -64,7 +64,7 @@ public class ExportService {
 		StringBuffer mainContent = new StringBuffer();
 		StringBuffer sb = new StringBuffer();
 
-		sb.append(getHeadHtml("article_list_" + board.code.trim(), 213654654));
+		sb.append(getHeadHtml(board.name, 213654654));
 		String bodyTemplate = Util.getFileContents("site_template/article_list.html");
 		String foot = Util.getFileContents("site_template/foot.html");
 		for (Article article : articles_Paging) {
@@ -82,8 +82,8 @@ public class ExportService {
 				mainContent.append("<div class=article-list__cell-title><a href=\"" + link + "\" class=hover-underline>"
 						+ article.title);
 			}			
-			mainContent.append("<a href=\"{{fileName}}#disqus_thread\">0 Comments</a></a>");
-			mainContent.append("<nav>");
+//			mainContent.append("<a href=\"{{fileName}}#disqus_thread\">0 Comments</a>");
+			mainContent.append("</a><nav>");
 			mainContent.append("<div class=article-list__cell-writer1>" + member.name + "</div>");
 			mainContent.append("<div class=article-list__cell-reg-date1>" + article.regDate.subSequence(2, 4) + "/"
 					+ article.regDate.subSequence(5, 7) + "/" + article.regDate.subSequence(8, 10) + "</div>");
@@ -311,8 +311,8 @@ public class ExportService {
 					body = body.replace("${article-detail__link-next-article-class}", "none");
 				}
 				String fileName = board.code.trim() + article.id + ".html";
-				body = body.replace("{articleId}", Integer.toString(article.id));
-				body = body.replace("https://blog.phoneus.net/"+"{fileName}", fileName);
+				body = body.replace("{site-domain}", "blog.phoneus.net");
+				body = body.replace("{fileName}", fileName);
 				sb.append(body);
 				sb.append(foot);
 				Util.writeFile("site/" + fileName, sb.toString());
@@ -342,14 +342,17 @@ public class ExportService {
 		}
 		head = head.replace("[manu-bar-add]", boardMenuContent.toString());
 		if (articleId == 213654654) {
-			head = head.replace("${meta-title}", "Article List");
+			head = head.replace("${meta-title}", pageName + " List");
+			head = head.replace("${page-title}", pageName + " List");
 			head = head.replace("${meta-description}", "Article list for java, html, photograph, technical, css,js, java script, scss, cording, c");
 		}else if (articleId == 496465411) {
 			head = head.replace("${meta-title}", "Main Page");
+			head = head.replace("${page-title}", "fun and coding");
 			head = head.replace("${meta-description}", "Technology for java, html, photograph, technical, css,js, java script, scss, cording, c");
 		}else {
 			head = head.replace("${meta-title}", article.title);
 			head = head.replace("${meta-description}", article.title);
+			head = head.replace("${page-title}", article.title);
 		}
 //		String titleBarContentHtml = getTitleBarContentByPageName(pageName);
 //		head = head.replace("${title-bar__content}", titleBarContentHtml);
