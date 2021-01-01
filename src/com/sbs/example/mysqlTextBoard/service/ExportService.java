@@ -37,7 +37,7 @@ public class ExportService {
 
 		Util.copy("site_template/app.css", "site/app.css");
 		Util.copy("site_template/app.js", "site/app.js");
-		Util.forderCopy("site_template\\img\\", "site\\img\\");
+		Util.forderCopy("site_template/img", "site/img");
 
 		loadDisqusdata();
 
