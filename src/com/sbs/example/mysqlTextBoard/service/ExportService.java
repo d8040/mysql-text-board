@@ -39,7 +39,8 @@ public class ExportService {
 		Util.copy("site_template/app.js", "site/app.js");
 		Util.forderCopy("site_template/img", "site/img");
 
-		loadDisqusdata();
+		loadDataFromDisqus();
+		loadDataFromGa4Data();
 
 		detail();
 //		articleListAll();
@@ -47,29 +48,16 @@ public class ExportService {
 		articleListPages();
 	}
 
+	private void loadDataFromGa4Data() {
+		Container.googleAnalyticsApiService.updatePageHits();
+	}
+
 	public String getArticleDetailFileName(int id) {
 		return "article_detail_"+ id + ".html";
 	}
 
-	private void loadDisqusdata() {
-		List<Article> articles = articleService.getForPrintArticles();
-
-		for (Article article : articles) {
-			Map<String, Object> disqusArticleData = disqusApiService.getArticleData(article);
-
-			if (disqusArticleData != null) {
-				int likesCount = (int) disqusArticleData.get("likesCount");
-				int commentsCount = (int) disqusArticleData.get("commentsCount");
-
-				Map<String, Object> modifyArgs = new HashMap<>();
-				modifyArgs.put("id", article.id);
-				modifyArgs.put("likesCount", likesCount);
-				modifyArgs.put("commentsCount", commentsCount);
-
-				articleService.modify(modifyArgs);
-			}
-
-		}
+	private void loadDataFromDisqus() {
+		Container.disqusApiService.updateArticleCount();
 	}
 
 	private void articleListPages() {

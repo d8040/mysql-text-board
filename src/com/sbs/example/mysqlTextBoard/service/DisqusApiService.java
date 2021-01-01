@@ -1,6 +1,7 @@
 package com.sbs.example.mysqlTextBoard.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.sbs.example.mysqlTextBoard.Container;
@@ -26,5 +27,26 @@ public class DisqusApiService {
 		rs.put("commentsCount", disqusApiDataListThread.response.get(0).posts);
 
 		return rs;
+	}
+
+	public void updateArticleCount() {
+		List<Article> articles = Container.articleService.getForPrintArticles();
+
+		for (Article article : articles) {
+			Map<String, Object> disqusArticleData = Container.disqusApiService.getArticleData(article);
+
+			if (disqusArticleData != null) {
+				int likesCount = (int) disqusArticleData.get("likesCount");
+				int commentsCount = (int) disqusArticleData.get("commentsCount");
+
+				Map<String, Object> modifyArgs = new HashMap<>();
+				modifyArgs.put("id", article.id);
+				modifyArgs.put("likesCount", likesCount);
+				modifyArgs.put("commentsCount", commentsCount);
+
+				Container.articleService.modify(modifyArgs);
+			}
+
+		}
 	}
 }
