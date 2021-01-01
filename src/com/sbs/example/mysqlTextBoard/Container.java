@@ -8,10 +8,12 @@ import com.sbs.example.mysqlTextBoard.dao.MemberDao;
 import com.sbs.example.mysqlTextBoard.service.ArticleService;
 import com.sbs.example.mysqlTextBoard.service.DisqusApiService;
 import com.sbs.example.mysqlTextBoard.service.ExportService;
+import com.sbs.example.mysqlTextBoard.service.GoogleAnalyticsApiService;
 import com.sbs.example.mysqlTextBoard.service.MemberService;
 import com.sbs.example.mysqlTextBoard.session.Session;
 
 public class Container {
+	public static GoogleAnalyticsApiService googleAnalyticsApiService;
 
 	public static Scanner scanner;
 	
@@ -24,8 +26,11 @@ public class Container {
 	public static ExportController exportController;
 	public static DisqusApiService disqusApiService;
 	public static AppConfig config;
+
 	
 	static {
+		googleAnalyticsApiService = new GoogleAnalyticsApiService();
+		
 		config = new AppConfig();
 		scanner = new Scanner(System.in);
 		

@@ -1,5 +1,6 @@
 package com.sbs.example.mysqlTextBoard.test;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.analytics.data.v1alpha.AlphaAnalyticsDataClient;
+import com.google.analytics.data.v1alpha.DateRange;
+import com.google.analytics.data.v1alpha.Dimension;
+import com.google.analytics.data.v1alpha.Entity;
+import com.google.analytics.data.v1alpha.Metric;
+import com.google.analytics.data.v1alpha.Row;
+import com.google.analytics.data.v1alpha.RunReportRequest;
+import com.google.analytics.data.v1alpha.RunReportResponse;
 import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.apidto.DisqusApiDataListThread;
 import com.sbs.example.mysqlTextBoard.util.Util;
@@ -21,15 +30,35 @@ public class testRunner {
 
 	public void run() {
 //		testApi3();
-		testGoogleCredentials();
+//		testGoogleCredentials();
+		testUpdateGoogleAnalyticsApi();
 	}
 
+	private void testUpdateGoogleAnalyticsApi() {
+		String ga4PropertyId = Container.config.getGa4PropertyId();
+		try (AlphaAnalyticsDataClient analyticsData = AlphaAnalyticsDataClient.create()) {
+			RunReportRequest request = RunReportRequest.newBuilder()
+					.setEntity(Entity.newBuilder().setPropertyId(ga4PropertyId))
+					.addDimensions(Dimension.newBuilder().setName("pagePath"))
+					.addMetrics(Metric.newBuilder().setName("activeUsers"))
+					.addDateRanges(DateRange.newBuilder().setStartDate("2020-12-01").setEndDate("today")).build();
+
+			// Make the request
+			RunReportResponse response = analyticsData.runReport(request);
+
+			System.out.println("Report result:");
+			for (Row row : response.getRowsList()) {
+				System.out.printf("%s, %s%n", row.getDimensionValues(0).getValue(), row.getMetricValues(0).getValue());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private void testGoogleCredentials() {
 		String keyFilePath = System.getenv("GOOGLE_APPLICATION_CREDENTIALS");
 		System.out.println(keyFilePath);
 	}
-
 
 	private void testJackson() {
 		String jsonString = "{\"age\":22, \"name\":\"홍길동\"}";
@@ -114,17 +143,15 @@ public class testRunner {
 
 	private void testApi() {
 		String url = "https://disqus.com/api/3.0/forums/listThreads.json";
-		String rs = Util.callApi(url, "api_key="+Container.config.getDisqusApiKey(),
-				"forum="+Container.config.getDisqusForumName(), "thread:ident=article_detail_2.html");
+		String rs = Util.callApi(url, "api_key=" + Container.config.getDisqusApiKey(),
+				"forum=" + Container.config.getDisqusForumName(), "thread:ident=article_detail_2.html");
 		System.out.println(rs);
 	}
-	
 
 	private void testApi2() {
 		String url = "https://disqus.com/api/3.0/forums/listThreads.json";
-		Map<String, Object> rs = Util.callApiResponseToMap(url,
-				"api_key="+Container.config.getDisqusApiKey(), "forum="+Container.config.getDisqusForumName(),
-				"thread:ident=article_detail_2.html");
+		Map<String, Object> rs = Util.callApiResponseToMap(url, "api_key=" + Container.config.getDisqusApiKey(),
+				"forum=" + Container.config.getDisqusForumName(), "thread:ident=article_detail_2.html");
 		List<Map<String, Object>> response = (List<Map<String, Object>>) rs.get("response");
 		Map<String, Object> thread = response.get(0);
 		System.out.println((int) thread.get("likes"));
@@ -133,7 +160,7 @@ public class testRunner {
 	private void testApi3() {
 		String url = "https://disqus.com/api/3.0/forums/listThreads.json";
 		DisqusApiDataListThread rs = (DisqusApiDataListThread) Util.callApiResponseTo(DisqusApiDataListThread.class,
-				url, "api_key="+Container.config.getDisqusApiKey(), "forum="+Container.config.getDisqusForumName(),
+				url, "api_key=" + Container.config.getDisqusApiKey(), "forum=" + Container.config.getDisqusForumName(),
 				"thread:ident=article_detail_2.html");
 		System.out.println(rs.response.get(0).likes + rs.response.get(0).posts);
 	}

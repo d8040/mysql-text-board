@@ -13,4 +13,8 @@ public class AppConfig {
 		return "dkey";
 	}
 
+	public String getGa4PropertyId() {
+		return "256659283";
+	}
+
 }
