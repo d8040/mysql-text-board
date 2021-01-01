@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.sbs.example.mysqlTextBoard.controller.ExportController;
 import com.sbs.example.mysqlTextBoard.controller.MemberController;
+import com.sbs.example.mysqlTextBoard.dao.Ga4DataDao;
 import com.sbs.example.mysqlTextBoard.dao.MemberDao;
 import com.sbs.example.mysqlTextBoard.service.ArticleService;
 import com.sbs.example.mysqlTextBoard.service.DisqusApiService;
@@ -19,6 +20,7 @@ public class Container {
 	
 	public static Session session;
 	public static MemberDao memberDao;
+	public static Ga4DataDao ga4DataDao;
 	public static ArticleService articleService;
 	public static MemberService memberService;
 	public static ExportService exportService;
@@ -26,6 +28,7 @@ public class Container {
 	public static ExportController exportController;
 	public static DisqusApiService disqusApiService;
 	public static AppConfig config;
+
 
 	
 	static {
@@ -37,6 +40,7 @@ public class Container {
 		session = new Session();
 		disqusApiService = new DisqusApiService();
 		memberDao = new MemberDao();
+		ga4DataDao = new Ga4DataDao();
 		articleService = new ArticleService();
 		memberService = new MemberService();
 		exportService = new ExportService();
