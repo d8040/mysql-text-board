@@ -169,4 +169,5 @@ public class testRunner {
 				"thread:ident=article_detail_2.html");
 		System.out.println(rs.response.get(0).likes + rs.response.get(0).posts);
 	}
+
 }
