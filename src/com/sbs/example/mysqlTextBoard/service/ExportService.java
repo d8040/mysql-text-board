@@ -187,7 +187,7 @@ public class ExportService {
 			body = body.replace("${index__summary-body-title-" + i + "}", article.title);
 			body = body.replace("${index__summary-body-" + i + "}", articleBodyForPrint + "......");
 			body = body.replace("${index__summary-link-" + i + "}",
-					article.extra_boardCode.trim() + (article.id) + ".html");
+					"article_detail_" + article.id + ".html");
 			i = i + 1;
 		}
 		sb.append(body);
