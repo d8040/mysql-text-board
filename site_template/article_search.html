@@ -1,0 +1,38 @@
+
+<main class="flex flex-g-1 flex-ai-c flex-dr-c">
+	<div class="title-bar con-min-width">
+		<h1 class="con"><i class="fas fa-search"></i>  Search Page</h1>
+	</div>
+	<section class="section-1">
+		<div class="flex flex-jc-c">
+			<div class="article-list con-min-width">
+				<div class="header">
+					<div class="article-list__title flex flex">
+						<div class="article-list__cell-id">번호</div>
+						<div class="article-list__cell-writer">작성자</div>
+						<div class="article-list__cell-title">제목</div>
+						<div class="article-list__cell-reg-date">등록일</div>
+						<div class="article-list__cell-rcm">추천</div>
+					</div>
+				</div>
+				<div class="main article-box">
+					<div class="flex" v-for="article in filtered">
+						<div class="article-list__cell-id">{{article.id}}</div>
+						<div class="article-list__cell-writer">{{article.writer}}</div>
+						<div class="article-list__cell-title">
+							<a :href="'article_detail_' + article.id + '.html'"
+								target="_blank" class="hover-underline">{{article.title}}</a>
+							<nav>
+								<div class=article-list__cell-writer1>{{article.writer}}</div>
+								<div class=article-list__cell-reg-date1>{{article.regDate}}</div>
+							</nav>
+						</div>
+						<div class="article-list__cell-reg-date">{{article.regDate}}</div>
+						<div class=article-list__cell-rcm>{{article.rcmCount}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<script src="article_search.js"></script>
+</main>

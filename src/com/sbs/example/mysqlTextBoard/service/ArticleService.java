@@ -149,4 +149,8 @@ public class ArticleService {
 		articleDao.updatePageHits();
 	}
 
+	public List<Article> getForPrintArticlesForSearch() {
+		return articleDao.getForPrintArticlesForSearch();
+	}
+
 }

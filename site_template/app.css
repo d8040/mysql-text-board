@@ -931,17 +931,17 @@ html {
   width:var(--article-list__cell-title__width);
 }
 
-.article-list > main .article-list__cell-title {
+.article-list > .main .article-list__cell-title {
   text-align:left;
   padding-left:10px;
   padding-right:10px;
   height:auto;
 }
-.article-list > main{
+.article-list > .main{
   border-top:1px solid black;
 }
 
-.article-list > main > div {
+.article-list > .main > div {
   border-bottom:1px solid black;
 }
 

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
 
+<head>
+<meta charset="UTF-8" />
 <!--사이트 저작권자-->
 <meta name="author" content="D.K">
 
@@ -39,20 +40,19 @@
 	content="width=device-width,initial-scale=1.0,minimum-
  scale=1.0,maximum-scale=1.0,user-scalable=no">
 
-<!-- tipuesearch -->
-<link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="/assets/tipuesearch/tipuesearch_content.js"></script>
-<script src="/assets/tipuesearch/tipuesearch_set.js"></script>
-<script src="/assets/tipuesearch/tipuesearch.min.js"></script>
-
 <!-- 파비콘 적용 -->
 <link rel="shortcut icon" href="/img/favicon.ico">
 <link rel="icon" href="/img/favicon.ico">
 
 <!-- Scroll-Out link -->
 <script src="https://unpkg.com/scroll-out/dist/scroll-out.min.js"></script>
+
+<!-- lodash 불러오기 -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
+
+<!-- vue 불러오기 -->
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
 <!-- 폰트어썸 불러오기 -->
 <link rel="stylesheet"
@@ -100,10 +100,20 @@
 
 	gtag('config', 'G-PGF4TS961N');
 </script>
+
+<!-- google adsense -->
+<script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+</script>
 </head>
 
+<!-- 구글광고 -->
+<amp-auto-ads type="adsense"
+        data-ad-client="ca-pub-5184039387564779">
+</amp-auto-ads>
 
-<div class="total-box flex flex-dr-c">
+
+<div class="total-box flex flex-dr-c" id="article-list-wrap" >
 	<nav class="side-menu flex">
 		<ul class="menu-btn">
 			<div class="line line--1"></div>
@@ -111,49 +121,88 @@
 			<div class="line line--3"></div>
 		</ul>
 		<ul class="nav-links">
-			<li class="link"><a href="index.html" class="flex"><i
-					class="fas fa-home"></i></a></li>
-			<li class="link"><a href="#" class="flex"><span>board</span></a>
+			<li class="link">
+				<a href="index.html" class="flex">
+					<i class="fas fa-home"></i>
+				</a>
+			</li>
+			<li class="link">
+				<a href="#" class="flex">
+					<span>board</span>
+				</a>
 				<ul class="link">[manu-bar-add]
-				</ul></li>
-			<li class="link"><a href="#" class="flex"><span>link</span></a>
+				</ul>
+			</li>
+			<li class="link">
+				<a href="#" class="flex">
+					<span>link</span>
+				</a>
 				<ul class="link">
-					<li><a href="https://www.instagram.com/dkey/"
-						class="flex flex-jc-c flex-ai-c "> <i class="fab fa-instagram"></i>
-							<span>instagram</span></a></li>
-				</ul></li>
-			<li class="link"><a href="#" class="flex"><span>about</span></a></li>
+					<li>
+						<a href="https://www.instagram.com/dkey/"
+							class="flex flex-jc-c flex-ai-c ">
+							<i class="fab fa-instagram"></i>
+							<span>instagram</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+			<li class="link">
+				<a href="#" class="flex">
+					<span>about</span>
+				</a>
+			</li>
 		</ul>
 	</nav>
 	<div class="head-bar flex flex-jc-c flex-ai-c">
 		<div class="flex flex-jc-c flex-g-1">
 			<nav class="menu-box visible-md-up">
 				<ul class="flex flex-ai-c">
-					<li><a href="index.html" class="flex"><i
-							class="fas fa-home"></i></a></li>
-					<li class="flex"><a href="#" class="flex"><span>board</span></a>
+					<li>
+						<a href="index.html" class="flex">
+							<i class="fas fa-home"></i>
+						</a>
+					</li>
+					<li class="flex">
+						<a href="#" class="flex">
+							<span>board</span>
+						</a>
 						<ul class="">[manu-bar-add]
-						</ul></li>
-					<li><a href="#" class="flex"><span>link</span></a>
+						</ul>
+					</li>
+					<li>
+						<a href="#" class="flex">
+							<span>link</span>
+						</a>
 						<ul class="link">
-							<li><a href="https://www.instagram.com/dkey/"
-								class="flex flex-jc-c flex-ai-c "> <i
-									class="fab fa-instagram"></i> <span>instagram</span></a></li>
-						</ul></li>
-					<li><a href="#" class="flex"><span>about</span></a></li>
+							<li>
+								<a href="https://www.instagram.com/dkey/"
+									class="flex flex-jc-c flex-ai-c ">
+									<i class="fab fa-instagram"></i>
+									<span>instagram</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="#" class="flex">
+							<span>about</span>
+						</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
 		<nav class="search-box">
 			<search class="flex flex-jc-end"> <span class="flex">
-				<div class="search">
-					<input type="text" placeholder=" ">
+				<form class="search" action="article_search.html">
+					<input @input="searchKeywordInputed" type="text" placeholder=" " :value="searchKeyword">
 					<div>
 						<svg>
                 <use xlink:href="#path">
                   </svg>
 					</div>
-				</div> <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+				</form>
+				<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
               <symbol xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 160 28" id="path">
                 <path

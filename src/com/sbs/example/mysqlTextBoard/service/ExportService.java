@@ -37,15 +37,37 @@ public class ExportService {
 
 		Util.copy("site_template/app.css", "site/app.css");
 		Util.copy("site_template/app.js", "site/app.js");
+		Util.copy("site_template/toastUi.js", "site/toastUi.js");
 		Util.forderCopy("site_template/img", "site/img");
 
 		loadDataFromDisqus();
 		loadDataFromGa4Data();
 
 		detail();
+		searchPage();
 //		articleListAll();
 		mainPage();
 		articleListPages();
+	}
+
+	private void searchPage() {
+		List<Article> articles =articleService.getForPrintArticlesForSearch();
+		String jsonText = Util.getJsonText(articles);
+		Util.writeFile("site/article_list.json", jsonText);
+		
+		Util.copy("site_template/article_search.js", "site/article_search.js");
+		
+		String head = getHeadHtml("article_search", 496465411);
+		String foot = Util.getFileContents("site_template/foot.html");
+		String html = Util.getFileContents("site_template/article_search.html");
+		StringBuffer sb = new StringBuffer();
+		String body = html;
+		
+		sb.append(head);
+		sb.append(body);
+		sb.append(foot);
+		Util.writeFileContents("site/article_search.html", sb.toString());
+		System.out.println("site/article_search.html" + "생성");
 	}
 
 	private void loadDataFromGa4Data() {
