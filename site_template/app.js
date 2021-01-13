@@ -21,7 +21,3 @@ ScrollOut({
 });
 
 Splitting({ target: '.heading' });
-  
-
-
-

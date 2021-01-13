@@ -5,7 +5,15 @@
 	<groupId>mysql-text-board</groupId>
 	<artifactId>mysql-text-board</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<dependencies>
+	<dependencies>		
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.16</version>
+			<scope>provided</scope>
+		</dependency>
+	
 		<dependency>
 			<groupId>com.google.analytics</groupId>
 			<artifactId>google-analytics-data</artifactId>
@@ -35,7 +43,6 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.22</version>
 		</dependency>
-
 	</dependencies>
 	<build>
 		<sourceDirectory>src</sourceDirectory>

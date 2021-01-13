@@ -1,5 +1,7 @@
 package com.sbs.example.mysqlTextBoard.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +31,9 @@ public class ExportService {
 	int pageQty = 0;
 	int startPage = 0;
 	int endPage = 0;
+	SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+	Date time = new Date();	
+	String time1 = format1.format(time);
 
 	public void makeHtml() {
 
@@ -86,7 +91,7 @@ public class ExportService {
 		List<Board> boards = articleService.getForPrintBoards();
 
 		for (Board board : boards) {
-			List<Article> articles = articleService.getForPrintArticles(board.id);
+			List<Article> articles = articleService.getForPrintArticles(board.getId());
 
 			// 페이지 계산
 			articleStart = 0;
@@ -101,38 +106,39 @@ public class ExportService {
 	}
 
 	private void articleListPage(Board board, int articleStart, int i, int totalPages) {
-		List<Article> articles_Paging = articleService.getArticlesByPaging(board.id, articleStart, list);
+		List<Article> articles_Paging = articleService.getArticlesByPaging(board.getId(), articleStart, list);
 		StringBuffer mainContent = new StringBuffer();
 		StringBuffer sb = new StringBuffer();
 
-		sb.append(getHeadHtml(board.name, 213654654));
+		sb.append(getHeadHtml(board.getName(), 213654654));
 		String bodyTemplate = Util.getFileContents("site_template/article_list.html");
 		String foot = Util.getFileContents("site_template/foot.html");
 		for (Article article : articles_Paging) {
-			Member member = memberService.getMemberByMemberId(article.memberId);
-			String link = "article_detail_" + article.id + ".html";
-			String comments = "   <i class=\"far fa-comment-dots\"></i> "+article.commentsCount;
+			Member member = memberService.getMemberByMemberId(article.getMemberId());
+			String link = "article_detail_" + article.getId() + ".html";
+			String comments = "   <i class=\"far fa-comment-dots\"></i> "+article.getCommentsCount();
 
 			mainContent.append("<div class=\"flex\">");
-			mainContent.append("<div class=article-list__cell-id>" + article.id + "</div>");
-			mainContent.append("<div class=article-list__cell-writer>" + member.name + "</div>");
-			if (article.title.length() > 31) {
+			mainContent.append("<div class=article-list__cell-id>" + article.getId() + "</div>");
+			mainContent.append("<div class=article-list__cell-writer>" + member.getName() + "</div>");
+			if (article.getTitle().length() > 31) {
 				mainContent.append("<div class=article-list__cell-title><a href=\"" + link + "\" class=hover-underline>"
-						+ article.title.substring(0, 30) + "...."+comments);
+						+ article.getTitle().substring(0, 30) + "...."+comments);
 			} else {
 				mainContent.append("<div class=article-list__cell-title><a href=\"" + link + "\" class=hover-underline>"
-						+ article.title+comments);
+						+ article.getTitle()+comments);
 			}
 //			mainContent.append("<a href=\"{{fileName}}#disqus_thread\">0 Comments</a>");
 			mainContent.append("</a><nav>");
-			mainContent.append("<div class=article-list__cell-writer1>" + member.name + "</div>");
-			mainContent.append("<div class=article-list__cell-reg-date1>" + article.regDate.subSequence(2, 4) + "/"
-					+ article.regDate.subSequence(5, 7) + "/" + article.regDate.subSequence(8, 10) + "</div>");
+			mainContent.append("<div class=article-list__cell-writer1>" + member.getName() + "</div>");
+			mainContent.append("<div class=article-list__cell-reg-date1>" + article.getRegDate().subSequence(2, 4) + "/"
+					+ article.getRegDate().subSequence(5, 7) + "/" + article.getRegDate().subSequence(8, 10) + "</div>");
 			mainContent.append("</nav>");
 			mainContent.append("</div>");
-			mainContent.append("<div class=article-list__cell-reg-date>" + article.regDate.subSequence(2, 4) + "/"
-					+ article.regDate.subSequence(5, 7) + "/" + article.regDate.subSequence(8, 10) + "</div>");
-			mainContent.append("<div class=article-list__cell-rcm>" + article.rcmCount + "</div>");
+			mainContent.append("<div class=article-list__cell-reg-date>" + article.getRegDate().subSequence(2, 4) + "/"
+					+ article.getRegDate().subSequence(5, 7) + "/" + article.getRegDate().subSequence(8, 10) + "</div>");
+			mainContent.append("<div class=article-list__cell-rcm>" + article.getRcmCount() + "</div>");
+			mainContent.append("<div class=article-list__cell-hit>" + article.getHit() + "</div>");
 			mainContent.append("</div>");
 		}
 		StringBuffer pageBoxContent = new StringBuffer();
@@ -150,39 +156,39 @@ public class ExportService {
 		if (i > paging)
 
 		{
-			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code.trim()
+			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.getCode().trim()
 					+ "_" + ((int) Math.ceil((double) (((i - 1 - paging) / paging) * paging) + paging))
 					+ ".html\">&lt;&lt; </a></div>");
 		}
 		if (i > 1) {
-			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code.trim()
+			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.getCode().trim()
 					+ "_" + (i - 1) + ".html\">&lt; 이전</a></div>");
 		}
 		for (int k = startPage; k <= endPage; k++) {
 			if (k == i) {
 				pageBoxContent.append("<div class=\"page-no selected\"><a class=\"flex\" href=\"article_list_"
-						+ board.code.trim() + "_" + k + ".html\">" + k + "</a></div>");
+						+ board.getCode().trim() + "_" + k + ".html\">" + k + "</a></div>");
 			} else {
 				pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_"
-						+ board.code.trim() + "_" + k + ".html\">" + k + "</a></div>");
+						+ board.getCode().trim() + "_" + k + ".html\">" + k + "</a></div>");
 			}
 		}
 		if (i < totalPages) {
-			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code.trim()
+			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.getCode().trim()
 					+ "_" + (i + 1) + ".html\">다음 &gt;</a></div>");
 		}
 		if (i - 1 / paging < (totalPages - (totalPages % paging) + 1)) {
-			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.code.trim()
+			pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.getCode().trim()
 					+ "_" + ((int) Math.ceil((double) (((i - 1 + paging) / paging) * paging) + 1))
 					+ ".html\"> &gt;&gt;</a></div>");
 		}
 		String body = bodyTemplate.replace("${article-list__main-content}", mainContent.toString());
 		body = body.replace("${page-box__paging-content}", pageBoxContent.toString());
-		body = body.replace("${title-bar__content}", "<i class=\"far fa-clipboard\"></i>  " + board.name);
+		body = body.replace("${title-bar__content}", "<i class=\"far fa-clipboard\"></i>  " + board.getName());
 		sb.append(body);
 		sb.append(foot);
 
-		String fileName = "article_list_" + board.name + "_" + i + ".html";
+		String fileName = "article_list_" + board.getName() + "_" + i + ".html";
 		String filePath = "site/" + fileName;
 
 		Util.writeFileContents(filePath, sb.toString());
@@ -202,14 +208,14 @@ public class ExportService {
 		List<Article> articles = articleService.getForMainPageArticles();
 		for (Article article : articles) {
 
-			String articleBodyForPrint = article.body.substring(0, 500);
+			String articleBodyForPrint = article.getBody().substring(0, 500);
 			articleBodyForPrint = articleBodyForPrint.replaceAll("script", "<!--REPLACE:script-->");
-			body = body.replace("${index__summary-writer-" + i + "}", article.extra_writer);
-			body = body.replace("${index__summary-board-" + i + "}", article.extra_boardName);
-			body = body.replace("${index__summary-body-title-" + i + "}", article.title);
+			body = body.replace("${index__summary-writer-" + i + "}", article.getExtra_writer());
+			body = body.replace("${index__summary-board-" + i + "}", article.getExtra_boardName());
+			body = body.replace("${index__summary-body-title-" + i + "}", article.getTitle());
 			body = body.replace("${index__summary-body-" + i + "}", articleBodyForPrint + "......");
 			body = body.replace("${index__summary-link-" + i + "}",
-					"article_detail_" + article.id + ".html");
+					"article_detail_" + article.getId() + ".html");
 			i = i + 1;
 		}
 		sb.append(body);
@@ -245,15 +251,15 @@ public class ExportService {
 			sb.append("</div></header>");
 			sb.append("<main class=\"article-box\">");
 			for (Article article : articles_Paging) {
-				Member member = memberService.getMemberByMemberId(article.memberId);
-				Board board = articleService.getBoardByid(article.boardId);
+				Member member = memberService.getMemberByMemberId(article.getMemberId());
+				Board board = articleService.getBoardByid(article.getBoardId());
 				sb.append("<div class=\"flex\">");
-				sb.append("<div class=article-list__cell-id>" + article.id + "</div>");
-				sb.append("<div class=article-list__cell-reg-date>" + article.regDate + "</div>");
-				sb.append("<div class=article-list__cell-writer>" + member.name + "</div>");
-				sb.append("<div class=article-list__cell-rcm>" + article.rcmCount + "</div>");
-				sb.append("<div class=article-list__cell-title><a href=\"" + board.code.trim() + article.id
-						+ ".html\" class=hover-underline>" + article.title + "</a></div>");
+				sb.append("<div class=article-list__cell-id>" + article.getId() + "</div>");
+				sb.append("<div class=article-list__cell-reg-date>" + article.getRegDate() + "</div>");
+				sb.append("<div class=article-list__cell-writer>" + member.getName() + "</div>");
+				sb.append("<div class=article-list__cell-rcm>" + article.getRcmCount() + "</div>");
+				sb.append("<div class=article-list__cell-title><a href=\"" + board.getCode().trim() + article.getId()
+						+ ".html\" class=hover-underline>" + article.getTitle() + "</a></div>");
 				sb.append("</div>");
 			}
 			sb.append("</main></div></div>");
@@ -316,43 +322,43 @@ public class ExportService {
 		String foot = Util.getFileContents("site_template/foot.html");
 
 		for (Board board : boards) {
-			List<Article> articles = articleService.getForPrintArticles(board.id);
+			List<Article> articles = articleService.getForPrintArticles(board.getId());
 
 			int id = 0;
 
 			for (Article article : articles) {
 				StringBuffer sb = new StringBuffer();
-				String head = getHeadHtml("detail", article.id);
+				String head = getHeadHtml("detail", article.getId());
 				sb.append(head);
 
-				String articleBodyForPrint = article.body;
+				String articleBodyForPrint = article.getBody();
 				articleBodyForPrint = articleBodyForPrint.replaceAll("script", "<!--REPLACE:script-->");
 
-				String body = bodyTemplate.replace("${article-detail__title}", article.title);
-				body = body.replace("${title-bar__content}", "board > " + article.extra_boardName);
-				body = body.replace("${article-detail__writer}", "작성자: " + article.extra_writer);
-				body = body.replace("${article-detail__hit}", "조회수: " + article.hit + "");
-				body = body.replace("${article-detail__regDate}", "작성일: " + article.regDate);
+				String body = bodyTemplate.replace("${article-detail__title}", article.getTitle());
+				body = body.replace("${title-bar__content}", "board > " + article.getExtra_boardName());
+				body = body.replace("${article-detail__writer}", "작성자: " + article.getExtra_writer());
+				body = body.replace("${article-detail__hit}", "조회수: " + article.getHit() + "");
+				body = body.replace("${article-detail__regDate}", "작성일: " + article.getRegDate());
 				body = body.replace("${article-detail__body}", articleBodyForPrint);
-				body = body.replace("${article-detail__rcm}", "추천수: " + article.rcmCount + "");
+				body = body.replace("${article-detail__rcm}", "추천수: " + article.getRcmCount() + "");
 
 				if (id > 0) {
 					body = body.replace("${article-detail__link-prev-article}",
-							"article_detail_" + (articles.get(id - 1).id) + ".html");
+							"article_detail_" + (articles.get(id - 1).getId()) + ".html");
 				} else {
 					body = body.replace("${article-detail__link-prev-article-class}", "none");
 				}
 				body = body.replace("${article-detail__link-list}",
-						"article_list_" + board.name + "_" + (int) Math.ceil((double) (id + 1) / paging) + ".html");
+						"article_list_" + board.getName() + "_" + (int) Math.ceil((double) (id + 1) / paging) + ".html");
 				body = body.replace("${title-bar__file}",
-						"article_list_" + board.name + "_" + (int) Math.ceil((double) (id + 1) / paging) + ".html");
+						"article_list_" + board.getName() + "_" + (int) Math.ceil((double) (id + 1) / paging) + ".html");
 				if (articles.size() > id + 1) {
 					body = body.replace("${article-detail__link-next-article}",
-							"article_detail_" + (articles.get(id + 1).id) + ".html");
+							"article_detail_" + (articles.get(id + 1).getId()) + ".html");
 				} else {
 					body = body.replace("${article-detail__link-next-article-class}", "none");
 				}
-				String fileName = "article_detail_" + article.id + ".html";
+				String fileName = "article_detail_" + article.getId() + ".html";
 				body = body.replace("${site-domain}", "blog.phoneus.net");
 				body = body.replace("${fileName}", fileName);
 				sb.append(body);
@@ -375,10 +381,10 @@ public class ExportService {
 			if (board != null) {
 				boardMenuContent.append("<li>");
 
-				String link = "article_list_" + board.name + "_1.html";
+				String link = "article_list_" + board.getName() + "_1.html";
 				boardMenuContent.append("<a href=\"" + link + "\" class=\"flex flex-jc-c flex-ai-c \">");
 
-				boardMenuContent.append("<span>" + board.name + "</span>");
+				boardMenuContent.append("<span>" + board.getName() + "</span>");
 				boardMenuContent.append("</a></li>");
 			}
 		}
@@ -394,12 +400,13 @@ public class ExportService {
 			head = head.replace("${meta-description}",
 					"Technology for java, html, photograph, technical, css,js, java script, scss, cording, c");
 		} else {
-			head = head.replace("${meta-title}", article.title);
-			head = head.replace("${meta-description}", article.title);
-			head = head.replace("${page-title}", article.title);
+			head = head.replace("${meta-title}", article.getTitle());
+			head = head.replace("${meta-description}", article.getTitle());
+			head = head.replace("${page-title}", article.getTitle());
 		}
 //		String titleBarContentHtml = getTitleBarContentByPageName(pageName);
 //		head = head.replace("${title-bar__content}", titleBarContentHtml);
+		head = head.replace("${current-date}", time1);
 		return head;
 	}
 

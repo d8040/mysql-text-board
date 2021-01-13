@@ -13,22 +13,24 @@
 						<div class="article-list__cell-title">제목</div>
 						<div class="article-list__cell-reg-date">등록일</div>
 						<div class="article-list__cell-rcm">추천</div>
+						<div class="article-list__cell-hit">조회</div>
 					</div>
 				</div>
 				<div class="main article-box">
 					<div class="flex" v-for="article in filtered">
-						<div class="article-list__cell-id">{{article.id}}</div>
+						<div class="article-list__cell-id">{{article.getId()}}</div>
 						<div class="article-list__cell-writer">{{article.writer}}</div>
 						<div class="article-list__cell-title">
-							<a :href="'article_detail_' + article.id + '.html'"
-								target="_blank" class="hover-underline">{{article.title}}</a>
+							<a :href="'article_detail_' + article.getId() + '.html'"
+								target="_blank" class="hover-underline">{{article.getTitle()}}</a>
 							<nav>
 								<div class=article-list__cell-writer1>{{article.writer}}</div>
-								<div class=article-list__cell-reg-date1>{{article.regDate}}</div>
+								<div class=article-list__cell-reg-date1>{{article.getRegDate()}}</div>
 							</nav>
 						</div>
-						<div class="article-list__cell-reg-date">{{article.regDate}}</div>
-						<div class=article-list__cell-rcm>{{article.rcmCount}}</div>
+						<div class="article-list__cell-reg-date">{{article.getRegDate()}}</div>
+						<div class=article-list__cell-rcm>{{article.getRcmCount()}}</div>
+						<div class=article-list__cell-hit>{{article.getHit()}}</div>
 					</div>
 				</div>
 			</div>

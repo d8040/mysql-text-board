@@ -2,21 +2,24 @@ package com.sbs.example.mysqlTextBoard.dto;
 
 import java.util.Map;
 
+import lombok.Data;
+
+@Data
 public class Article {
 
-	public int id;
-	public String title;
-	public String body;
-	public int memberId;
-	public int boardId;
-	public String regDate;
-	public String updateDate;
-	public String extra_writer;
-	public String extra_boardName;
-	public String extra_boardCode;
-	public int rcmCount;
-	public int hit;
-	public int commentsCount;
+	private int id;
+	private String title;
+	private String body;
+	private int memberId;
+	private int boardId;
+	private String regDate;
+	private String updateDate;
+	private String extra_writer;
+	private String extra_boardName;
+	private String extra_boardCode;
+	private int rcmCount;
+	private int hit;
+	private int commentsCount;
 	
 
 

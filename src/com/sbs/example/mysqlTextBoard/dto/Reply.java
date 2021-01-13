@@ -2,8 +2,18 @@ package com.sbs.example.mysqlTextBoard.dto;
 
 import java.util.Map;
 
+import lombok.Data;
+
+@Data
 public class Reply {
-	
+
+	private int id;
+	private String regDate;
+	private String updateDate;
+	private int memberId;
+	private int articleId;
+	private String body;
+
 	public Reply(Map<String, Object> replyMap) {
 		this.id = (int) replyMap.get("id");
 		this.regDate = (String) replyMap.get("regDate");
@@ -12,11 +22,4 @@ public class Reply {
 		this.memberId = (int) replyMap.get("memberId");
 		this.articleId = (int) replyMap.get("articleId");
 	}
-	public int id;
-	public String regDate;
-	public String updateDate;
-	public int memberId;
-	public int articleId;
-	public String body;
-
 }

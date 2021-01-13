@@ -2,7 +2,16 @@ package com.sbs.example.mysqlTextBoard.dto;
 
 import java.util.Map;
 
+import lombok.Data;
+
+@Data
 public class Board {
+
+	private String name;
+	private String regDate;
+	private String updateDate;
+	private int id;
+	private String code;
 	
 	public Board(Map<String, Object> articleMap) {
 		this.name = (String) articleMap.get("name");
@@ -11,11 +20,6 @@ public class Board {
 		this.id = (int) articleMap.get("id");
 		this.code = (String) articleMap.get("code");
 	}
-	public String name;
-	public String regDate;
-	public String updateDate;
-	public int id;
-	public String code;
 	@Override
 	public String toString() {
 		return "Board [name=" + name + ", regDate=" + regDate + ", updateDate=" + updateDate + ", id=" + id + ", code="

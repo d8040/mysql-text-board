@@ -1,32 +1,29 @@
-<main class="flex flex-g-1 flex-ai-c flex-dr-c">
+	<div class="flex flex-ai-c flex-dr-c flex-g-1">
 		<div class="title-bar con-min-width">
 			<h1 class="con">${title-bar__content}</h1>
 		</div>
-<section class="section-1">
-	<div class="flex flex-jc-c">
-		<div class="article-list con-min-width">
-			<div class = "header">
-				<div class="article-list__title flex flex">
-					<div class="article-list__cell-id">번호</div>
-					<div class="article-list__cell-writer">작성자</div>
-					<div class="article-list__cell-title">제목
-					
+		<section class="section-1">
+			<div class="flex flex-jc-c">
+				<div class="article-list con-min-width">
+					<div class="header">
+						<div class="article-list__title flex flex">
+							<div class="article-list__cell-id">번호</div>
+							<div class="article-list__cell-writer">작성자</div>
+							<div class="article-list__cell-title">제목</div>
+							<div class="article-list__cell-reg-date">등록일</div>
+							<div class="article-list__cell-rcm">추천</div>
+							<div class="article-list__cell-hit">조회</div>
+						</div>
 					</div>
-					<div class="article-list__cell-reg-date">등록일</div>
-					<div class="article-list__cell-rcm">추천</div>
+					<div class="main article-box">${article-list__main-content}</div>
 				</div>
 			</div>
-			<div class="main article-box">
-			${article-list__main-content}
+			<div class="main paging">
+				<div class="page-box con-min-witdh">
+					<div class="page flex flex-jc-c con">
+						${page-box__paging-content}</div>
+				</div>
 			</div>
-		</div>
+		</section>
 	</div>
-	<div class="main paging">
-		<div class="page-box con-min-witdh">
-			<div class="page flex flex-jc-c con">
-				${page-box__paging-content}
-			</div>
-		</div>
-	</div>
-</section>
-</main>
+

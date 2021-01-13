@@ -3,38 +3,52 @@
 
 <head>
 <meta charset="UTF-8" />
-<!--사이트 저작권자-->
-<meta name="author" content="D.K">
 
-<!--사이트 설명-->
-<meta name="description"
-	content="programig, coding, technology, photograph 정보공유를 위한 개인 블로그">
+<!-- 메타태그정보 //-->
+<!-- META -->
+<link rel="canonical" href="http://blog.phoneus.net" />
+<meta name="subject" content="fun and coding, dk, java, html, photograph, technical, css,js, java script, scss, cording, c, programig, coding, technology, photograph 정보공유를 위한 개인 블로그" />
+<meta name="title" content="fun and coding::${meta-title}" />
+<meta name="keywords" content="fun and coding, dk, java, html, photograph, technical, css,js, java script, scss, cording, c" />
+<meta name="copyright" content="fun and coding" />
+<meta name="pubdate" content="2020-12-18" />
+<meta name="lastmod" content="${current-date}" />
+<meta name ="content-language" content="kr">
+<meta name ="content-language" content="en">
 
-<!--본인의 홈페이지가 링크됐을때 대표로 제목-->
-<meta property="og:title" content="funAndCoding::${meta-title}" />
-
-<!--본인의 홈페이지가 링크됐을때 설명되는 내용-->
-<meta property="og:description"
-	content="funAndCoding::${meta-description}" />
-
-<!--본인의 홈페이지 주소 링크-->
-<meta property="og:url" content="phoneus.net">
-
-<!--본인의 홈페이지가 링크됐을때 대표로 표시되는 이미지경로-->
+<!-- OPENGRAPH -->
+<meta property="og:site_name" content="fun and coding" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="fun and coding::${meta-title}" />
+<meta property="og:description" content="fun and coding::${meta-description}" />
+<meta property="og:locale" content="ko_KR" />
+<meta property="og:image:alt" content="fun and coding" />
+<meta property="og:updated_time" content="${current-date}"/>
+<meta property="og:pubdate" content="2020-12-18" />
+<meta property="og:url" content="http://blog.phoneus.net" />
 <meta property="og:image"
 	content="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F6I3Gl%2FbtqQXAknUMq%2FN6o1eeA26v7yheFnfunv8K%2Fimg.jpg">
 
+<!-- GOOGLE+ -->
+<meta itemprop="headline" content="fun and coding" />
+<meta itemprop="name" content="fun and coding" />
+<meta itemprop="description" content="fun and coding::${meta-description}" />
+<meta itemprop="image" content="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F6I3Gl%2FbtqQXAknUMq%2FN6o1eeA26v7yheFnfunv8K%2Fimg.jpg" />
+
+<!--사이트 저작권자-->
+<meta name="author" content="D.K" />
+
+<!--사이트 설명-->
+<meta name="description"
+	content="programig, coding, technology, photograph 정보공유를 위한 개인 블로그" />
+	
 <!--파싱봇의 제어? 방법임 검색 ㄱㄱ-->
 <meta name="robots" content="index,follow">
-
-<!--사이트 키워드 말그대로 어떤 키워드로 검색했을때 홈페이지가 노출되길 원하나 -->
-<meta name="keywords"
-	content="java, html, photograph, technical, css,js, java script, scss, cording, c">
 
 <!-- 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
 <title>${page-title}</title>
 
-<link rel="canonical" href="http://phoneus.net" />
+<link rel="canonical" href="http://blog.phoneus.net" />
 
 <meta name="viewport"
 	content="width=device-width,initial-scale=1.0,minimum-
@@ -102,18 +116,19 @@
 </script>
 
 <!-- google adsense -->
-<script async custom-element="amp-auto-ads"
+<script async custom-element="amp-ad"
+	src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"></script>
+	<script async custom-element="amp-auto-ads"
         src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
 </script>
+
 </head>
 
-<!-- 구글광고 -->
 <amp-auto-ads type="adsense"
         data-ad-client="ca-pub-5184039387564779">
 </amp-auto-ads>
 
-
-<div class="total-box flex flex-dr-c" id="article-list-wrap" >
+<div class="total-box flex flex-dr-c" id="article-list-wrap">
 	<nav class="side-menu flex">
 		<ul class="menu-btn">
 			<div class="line line--1"></div>
@@ -195,7 +210,8 @@
 		<nav class="search-box">
 			<search class="flex flex-jc-end"> <span class="flex">
 				<form class="search" action="article_search.html">
-					<input @input="searchKeywordInputed" type="text" placeholder=" " :value="searchKeyword">
+					<input @input="searchKeywordInputed" type="text" placeholder=" "
+						:value="searchKeyword">
 					<div>
 						<svg>
                 <use xlink:href="#path">

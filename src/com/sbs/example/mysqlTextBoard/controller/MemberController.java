@@ -36,11 +36,11 @@ public class MemberController {
 		int loginedId = Container.session.loginedMemberId;
 		Member member = memberService.getMemberByMemberId(loginedId);
 
-		System.out.println("번호: " + member.id);
-		System.out.println("가입 일자: " + member.regDate);
-		System.out.println("수정 일자: " + member.updateDate);
-		System.out.println("로그인 아이디: " + member.loginId);
-		System.out.println("사용자 이름: " + member.name);
+		System.out.println("번호: " + member.getId());
+		System.out.println("가입 일자: " + member.getRegDate());
+		System.out.println("수정 일자: " + member.getUpdateDate());
+		System.out.println("로그인 아이디: " + member.getLoginId());
+		System.out.println("사용자 이름: " + member.getName());
 		System.out.println("회원 종류: " + member.getType());
 
 	}
@@ -73,13 +73,13 @@ public class MemberController {
 
 		System.out.printf("비밀번호 : ");
 		String loginPw = Container.scanner.nextLine();
-		if (loginPw.equals(member.loginPw) == false) {
+		if (loginPw.equals(member.getLoginPw()) == false) {
 			System.out.println("비밀번호가 일치하지 않습니다.");
 			return;
 		}
-		System.out.printf("로그인 성공, %s 님 반갑습니다.\n", member.name);
+		System.out.printf("로그인 성공, %s 님 반갑습니다.\n", member.getName());
 
-		Container.session.loginedMemberId = member.id;
+		Container.session.loginedMemberId = member.getId();
 	}
 
 	private void doJoin(String cmd) {
@@ -95,7 +95,7 @@ public class MemberController {
 
 		Member member = memberService.getMemberByLoginId(loginId);
 		if(member != null) {
-			if (member.loginId.equals(loginId)) {
+			if (member.getLoginId().equals(loginId)) {
 				System.out.println("이미 존재하는 아이디입니다.");
 				return;
 			}	
