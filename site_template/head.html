@@ -65,8 +65,8 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
 
-<!-- vue 불러오기 -->
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<!-- 개발버전, 도움되는 콘솔 경고를 포함. -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 <!-- 폰트어썸 불러오기 -->
 <link rel="stylesheet"
@@ -128,7 +128,7 @@
         data-ad-client="ca-pub-5184039387564779">
 </amp-auto-ads>
 
-<div class="total-box flex flex-dr-c" id="article-list-wrap">
+<div class="total-box flex flex-dr-c" id="article-list-wrap" v-cloak>
 	<nav class="side-menu flex">
 		<ul class="menu-btn">
 			<div class="line line--1"></div>
