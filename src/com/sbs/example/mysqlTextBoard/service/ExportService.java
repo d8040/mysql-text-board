@@ -50,9 +50,17 @@ public class ExportService {
 
 		detail();
 		searchPage();
+		tagPage();
 //		articleListAll();
 		mainPage();
 		articleListPages();
+	}
+
+	public void tagPage() {
+		Map<String, List<Article>> articlesByTagMap = articleService.getArticlesByTagMap();
+
+		String jsonText = Util.getJsonText(articlesByTagMap);
+		Util.writeFile("site/article_tag.json", jsonText);
 	}
 
 	private void searchPage() {

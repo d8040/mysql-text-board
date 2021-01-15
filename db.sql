@@ -172,6 +172,59 @@ ALTER TABLE aritcle CHANGE COLUMN rcmCount rcmCount = DATETIME NOT NULL;
 # 댓글 수 칼럼 추가
 ALTER TABLE article ADD COLUMN commentCount INT(10) UNSIGNED NOT NULL;
 
+# 태그 테이블
+CREATE TABLE tag (
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    relTypeCode CHAR(20) NOT NULL,
+    relId INT(10) UNSIGNED NOT NULL,
+    `body` CHAR(20) NOT NULL
+);
+
+# 아래 쿼리와 관련된 인덱스 걸기
+# select * from tag where where relTypeCode = 'article' AND `body` = 'SQL';
+ALTER TABLE `textBoard`.`tag` ADD INDEX (`relTypeCode`, `body`); 
+
+# 아래 쿼리와 관련된 인덱스 걸기
+# 중복된 데이터 생성 금지
+# select * from tag where where relTypeCode = 'article';
+# select * from tag where where relTypeCode = 'article' AND relId = 5;
+# select * from tag where where relTypeCode = 'article' AND relId = 5 AND `body` = 'SQL';
+ALTER TABLE `textBoard`.`tag` ADD UNIQUE INDEX (`relTypeCode`, `relId`, `body`); 
+
+# 2번글에 `SQL`과, `INSERT`, `DB` 라는 태그 걸기
+INSERT INTO tag
+SET regDate = NOW(),
+updateDate = NOW(),
+relTypeCode = 'article',
+relId = 2,
+`body` = 'SQL';
+
+INSERT INTO tag
+SET regDate = NOW(),
+updateDate = NOW(),
+relTypeCode = 'article',
+relId = 2,
+`body` = 'INSERT';
+
+INSERT INTO tag
+SET regDate = NOW(),
+updateDate = NOW(),
+relTypeCode = 'article',
+relId = 2,
+`body` = 'DB';
+
+# 게시물 + 태그정보
+SELECT A.id,
+A.title,
+IFNULL(GROUP_CONCAT(T.body), '') AS tags
+FROM article AS A
+LEFT JOIN tag AS T
+ON A.id = T.relId
+AND T.relTypeCode = 'article'
+GROUP BY A.id;
+
 SELECT * FROM article;
 #게시판 데이터 2개 생성
 INSERT INTO board 

@@ -1,19 +1,24 @@
 package com.sbs.example.mysqlTextBoard.service;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dao.ArticleDao;
 import com.sbs.example.mysqlTextBoard.dto.Article;
 import com.sbs.example.mysqlTextBoard.dto.Board;
 import com.sbs.example.mysqlTextBoard.dto.Reply;
+import com.sbs.example.mysqlTextBoard.dto.Tag;
 
 public class ArticleService {
 	private ArticleDao articleDao;
+	private TagService tagService;
 
 	public ArticleService() {
 		articleDao = new ArticleDao();
+		tagService = Container.tagService;
 	}
 
 	public List<Article> getArticles(int boardId) {
@@ -42,7 +47,7 @@ public class ArticleService {
 		return articleDao.add(boardId, memberId, title, body);
 	}
 
-	public int makeBoard( String name, String code) {
+	public int makeBoard(String name, String code) {
 		return articleDao.makeBoard(name, code);
 	}
 
@@ -118,7 +123,7 @@ public class ArticleService {
 	}
 
 	public List<Article> getArticlesByPaging(int boardId, int start, int paging) {
-	return articleDao.getArticlesByPaging(boardId, start, paging);
+		return articleDao.getArticlesByPaging(boardId, start, paging);
 	}
 
 	public List<Article> getArticlesByPagingAll(int start, int page) {
@@ -151,6 +156,23 @@ public class ArticleService {
 
 	public List<Article> getForPrintArticlesForSearch() {
 		return articleDao.getForPrintArticlesForSearch();
+	}
+
+	public Map<String, List<Article>> getArticlesByTagMap() {
+//		List<Tag> tags = tagService.getDedupTagsByRelTypeCode("article");
+		Map<String, List<Article>> map = new LinkedHashMap<>();
+		List<String> tagBodies = tagService.getDeudpTagBodiesByRelTypecode("article");
+
+		for (String tagBody : tagBodies) {
+			List<Article> articles = getForPrintArticlesByTag(tagBody);
+			
+			map.put(tagBody, articles);
+		}
+		return map;
+	}
+
+	private List<Article> getForPrintArticlesByTag(String tagBody) {
+		return articleDao.getForPrintArticlesByTag(tagBody);
 	}
 
 }

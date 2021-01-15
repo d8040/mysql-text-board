@@ -460,4 +460,32 @@ public class ArticleDao {
 
 		return articles;
 	}
+
+	public List<Article> getForPrintArticlesByTag(String tagBody) {
+		List<Article> articles = new ArrayList<>();
+
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append(", M.name AS extra_writer");
+		sql.append(", B.code AS extra_boardCode");
+		sql.append(", B.name AS extra_boardName");
+		sql.append("FROM article AS A");
+		sql.append("INNER JOIN `member` AS M");
+		sql.append("ON A.memberId = M.id");
+		sql.append("INNER JOIN `board` AS B");
+		sql.append("ON A.boardId = B.id");
+		sql.append("INNER JOIN `tag` AS T");
+		sql.append("ON T.relTypeCode = 'article'");
+		sql.append("AND A.id = T.relId");
+		sql.append("WHERE T.body = ?", tagBody);
+		sql.append("ORDER BY A.id DESC");
+
+		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
+
+		for (Map<String, Object> articleMap : articleMapList) {
+			articles.add(new Article(articleMap));
+		}
+
+		return articles;
+	}
 }
