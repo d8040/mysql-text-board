@@ -1,3 +1,4 @@
+
 const articleList = [];
 
 $.get(
@@ -13,7 +14,8 @@ $.get(
 				writer: row.extra_writer,
 				title: row.title,
 				body: row.body,
-				rcmCount: row.rcmCount
+				rcmCount: row.rcmCount,
+				hit: row.hit
 			};
 
 			articleList.push(article);
@@ -55,4 +57,4 @@ const articleListBoxVue = new Vue({
 			});
 		}
 	}
-}); 
+});

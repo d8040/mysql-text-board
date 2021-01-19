@@ -5,19 +5,20 @@ var lineTwo = document.querySelector('.side-menu .menu-btn .line--2');
 var lineThree = document.querySelector('.side-menu .menu-btn .line--3');
 var link = document.querySelector('.side-menu .nav-links');
 menuBtn.addEventListener('click', () => {
-    nav.classList.toggle('nav-open');
-    lineOne.classList.toggle('line-cross');
-    lineTwo.classList.toggle('line-fade-out');
-    lineThree.classList.toggle('line-cross');
-    link.classList.toggle('fade-in');
+	nav.classList.toggle('nav-open');
+	lineOne.classList.toggle('line-cross');
+	lineTwo.classList.toggle('line-fade-out');
+	lineThree.classList.toggle('line-cross');
+	link.classList.toggle('fade-in');
 })
 console.clear();
 
 ScrollOut({
-  cssProps: {
-    visibleY: true,
-    viewportY: true
-  }
-});
+	cssProps: {
+		visibleY: true,
+		viewportY: true
+	}
+})
 
 Splitting({ target: '.heading' });
+
