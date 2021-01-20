@@ -99,6 +99,9 @@ a {
 .bl-g{
   border: 2px solid green;
 }
+.bl-y{
+  border: 2px solid yellow;
+}
 .color-white {
   color:white;
 }
@@ -603,14 +606,13 @@ naming span:nth-of-type(10) {
   height: calc(var(--scroll-length) * 100vh);
   width: 100%;
 }
-.content-section .content .paragraph > .toast-ui-viewer{
-  display: inline-block; 
+/* .content-section .content .paragraph > .toast-ui-viewer{
   white-space: nowrap;
   overflow:hidden;
   background-color: RGBA(207,207,207,0.3);
   color:black;
   width: 100%;
-}
+} */
 .content-section .content .subheading,
 .content-section .content .paragraph,
 .header__box{
@@ -739,10 +741,10 @@ html {
   width: 100%;
   margin: 0;
   padding: 0;
-  line-height: 1.05;
-  font-weight: 400;
-  letter-spacing: -0.015em;
-  font-family: "SF Pro Display", "Helvetica Neue", "Helvetica", "Arial",
+/*   line-height: 1.05; */
+/*   font-weight: 400; */
+/*   letter-spacing: -0.015em; */
+/*   font-family: "SF Pro Display", "Helvetica Neue", "Helvetica", "Arial", */
     sans-serif;
 }
 
@@ -814,7 +816,7 @@ html {
 
 /* 타이틀 바 시작 */
 .title-bar {
-  margin-top:100px;
+  margin-top:100px;  
 }
 /* 타이틀 바 끝 */
 
@@ -961,14 +963,14 @@ html {
 
 /* detail page start */
 .detail-box>div{
-  max-width:850px;
+/*   max-width:850px; */
   margin-left: 2%;
   margin-right: 2%; 
 }
-.article-detail__body{  
+.article-detail__body{ 
   width:100%;
-  padding-left: 2%;
-  padding-right: 2%; 
+  margin-left:2%;
+  margin-right:2%;
 }
 
 .detail-box .title{
@@ -1012,6 +1014,7 @@ html {
 /* detail page end */
 
 /* toastUi plugin 시작 */
+
 
 .toast-ui-youtube-plugin-wrap {
   max-width:500px;
