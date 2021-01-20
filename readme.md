@@ -5,3 +5,7 @@
 	
 # 환경변수
 - GOOGLE_APPLICATION_CREDENTIALS=C:\work\jhs_google_keys\common-189508-970582be6aa5.json
+
+# localhost php 설정
+- 실행 할 파일 폴더에서 cmd 실행 후 아래 입력
+- c:\xampp\php\php.exe -S localhost:8023

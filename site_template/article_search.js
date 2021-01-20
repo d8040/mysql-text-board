@@ -28,7 +28,12 @@ const articleListBoxVue = new Vue({
 	el: "#article-list-wrap",
 	data: {
 		articleList: articleList,
-		searchKeyword: ''
+		searchKeyword: ""
+	},
+	mounted: function() {
+		if ( new URL(location.href).searchParams.get('inputKeyword') ) {
+			this.searchKeyword = new URL(location.href).searchParams.get('inputKeyword');
+		}
 	},
 	methods: {
 		searchKeywordInputed: _.debounce(function(e) {
