@@ -25,5 +25,3 @@ ScrollOut({
 
 Splitting({ target: '.heading' });
 
-const search = document.querySelector('input')
-
