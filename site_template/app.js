@@ -23,5 +23,5 @@ ScrollOut({
 	}
 })
 
-Splitting({ target: '.heading' });
+// Splitting({ target: '.heading' });
 
