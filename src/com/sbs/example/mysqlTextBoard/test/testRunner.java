@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -18,7 +20,6 @@ import com.google.analytics.data.v1alpha.RunReportRequest;
 import com.google.analytics.data.v1alpha.RunReportResponse;
 import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.apidto.DisqusApiDataListThread;
-import com.sbs.example.mysqlTextBoard.dto.Article;
 import com.sbs.example.mysqlTextBoard.mysqlutil.MysqlUtil;
 import com.sbs.example.mysqlTextBoard.util.Util;
 
@@ -33,7 +34,7 @@ public class testRunner {
 	public void run() {
 		MysqlUtil.setDBInfo(Container.config.getDbHost(), Container.config.getDbId(), Container.config.getDbPw(), Container.config.getDbName());
 		testUpdateGoogleAnalyticsApi();
-//		testUpdatePageHitByGa4Api();
+		testUpdatePageHitByGa4Api();
 //		testMakeArticleTagJsonFile();
 	}
 
@@ -51,15 +52,21 @@ public class testRunner {
 			RunReportRequest request = RunReportRequest.newBuilder()
 					.setEntity(Entity.newBuilder().setPropertyId(ga4PropertyId))
 					.addDimensions(Dimension.newBuilder().setName("pagePath"))
-					.addMetrics(Metric.newBuilder().setName("activeUsers"))
-					.addDateRanges(DateRange.newBuilder().setStartDate("2020-12-22").setEndDate("today")).build();
-
+					.addMetrics(Metric.newBuilder().setName("screenPageViews"))
+					.addDateRanges(DateRange.newBuilder().setStartDate("2020-12-01").setEndDate("today"))
+					.setLimit(-1).build();
+			
 			// Make the request
 			RunReportResponse response = analyticsData.runReport(request);
-
+			
 			System.out.println("Report result:");
+			
 			for (Row row : response.getRowsList()) {
-				System.out.printf("%s, %s%n", row.getDimensionValues(0).getValue(), row.getMetricValues(0).getValue());
+			    if(row.getDimensionValues(0).getValue().contains("article")) {
+				if(!row.getDimensionValues(0).getValue().contains("?")) {
+				    System.out.printf("%s, %s%n",row.getDimensionValues(0).getValue(), row.getMetricValues(0).getValue());
+				}				
+			    }				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
