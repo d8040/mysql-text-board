@@ -437,7 +437,7 @@ font-weight:bold;
 
 /* vue 시작 */
 [v-cloak]{
-	display: none;
+  display: none;
 }
 /* vue 끝 */
 
@@ -874,14 +874,14 @@ html {
 /* 광고시작 */
 .adsbygoogle{
   z-index: 1!important;
-/*   margin: 20px auto!important; */
+  /*   margin: 20px auto!important; */
 }
 .googleAdHorizontal__top{
   height:90px!important;
 }
 .googleAdHorizontal__bottom{
   margin-top:20px;
-  }
+}
 .googleAdVertical__left{
   height: 600px;
   width: 160px;
@@ -993,6 +993,41 @@ html {
   border-bottom:1px solid black;
 }
 
+/* 마크다운 페이지 시작 */
+.markdown__title{
+  margin-top: 10px;
+  color:black;
+  font-size: 3rem;
+  margin-bottom: 30px;
+  max-width:100%;
+  width:100%;
+  padding: 0 2%;
+}
+.markdown__body{
+  max-width:100%;
+  width:100%;
+  z-index:1;
+  min-height:200px;
+  padding: 0 2%;
+}
+.markdown__disqus{
+  margin-top:30px;
+  max-width: 700px;
+  width:100%
+}
+.markdown__googleAdHorizontal__top{
+  margin-top: 65px;
+  max-width:1200px;
+  width:100%;
+  min-height: 90px;
+}
+.markdown__googleAdHorizontal__bottom{
+  max-width:1200px;
+  width:100%;
+  min-height: 90px;
+}
+/* 마크다운 페이지 끝 */
+
 /* detail page start */
 .detail-box>div{
   /*   max-width:850px; */
@@ -1005,7 +1040,7 @@ html {
   padding-right:2%; */
 }
 .lang-java{
-	overflow: auto!important;
+  overflow: auto!important;
 }
 .detail-box .title{
   padding: 10px 0;
@@ -1081,7 +1116,7 @@ html {
     display: none!important;
   }
 
-	}
+}
 @media ( max-width:769px ) {
   .side-menu{
     display:flex;
@@ -1133,11 +1168,11 @@ html {
       max-width: 390px!important;
     }
     .googleAdVertical__left{
-    display: none!important;
-  }
-  .googleAdVertical__right{
-    display: none!important;
-  }
+      display: none!important;
+    }
+    .googleAdVertical__right{
+      display: none!important;
+    }
     .adsbygoogle{
       /*       height: 60px!important;   */
       width: 390px!important; 
@@ -1163,11 +1198,11 @@ html {
       max-width: 340px!important;
     }
     .googleAdVertical__left{
-    display: none!important;
-  }
-  .googleAdVertical__right{
-    display: none!important;
-  }
+      display: none!important;
+    }
+    .googleAdVertical__right{
+      display: none!important;
+    }
     .adsbygoogle{
       /*       height: 60px!important;   */
       width: 340px!important; 
@@ -1193,8 +1228,8 @@ html {
       max-width: 285px!important;
     }
     .googleAdVertical__left, .googleAdVerticla__right{
-    display: none!important;
-  }
+      display: none!important;
+    }
     .adsbygoogle{
       /*       height: 60px!important;   */
       width: 285px!important; 

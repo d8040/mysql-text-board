@@ -66,7 +66,7 @@ public class testRunner {
 				if(!row.getDimensionValues(0).getValue().contains("?")) {
 				    System.out.printf("%s, %s%n",row.getDimensionValues(0).getValue(), row.getMetricValues(0).getValue());
 				}				
-			    }				
+			    }
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
