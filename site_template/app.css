@@ -434,7 +434,40 @@ font-weight:bold;
   display:block;
 } 
 /* menu-box end*/
-
+/* 스크롤 박스 시작 */
+.scroll-move-box {  
+  position: fixed;
+  top: 38%;
+  right: 0;
+  z-index: 30;
+}
+.scroll-move-box > ul{
+  position: absolute;
+  color: white;
+  width: 200px;
+  background-color: rgba(1, 1, 1, 0.5);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.scroll-move-box > button{
+  background-color: rgba(1, 1, 1, 0.5);
+  position: absolute;
+  top: 25px;
+  left: -30px;
+  height: 80px;
+  width: 30px;
+  border-radius: 10px 0 0 10px;
+  border: none;
+  color: white;
+}
+.scroll-move-box > ul li {
+  padding: 15px;
+}
+.scroll-move-box > ul li:hover, .scroll-move-box > button:hover {
+  color: red;
+  background-color: black;
+}
+/* 스크롤 박스 끝 */
 /* vue 시작 */
 [v-cloak]{
   display: none;
@@ -758,12 +791,9 @@ html {
 
 /* arrow down start */
 .arrow-down{
-  display:flex;
   position:fixed;
-  align-items: flex-end;
-  justify-content: center;
-  height: 93vh;
-  width:100%;
+  bottom: 80px;
+  left: 50%;
   z-index:2;
 }
 .arrow-down > a span{  
@@ -773,8 +803,8 @@ html {
   display: flex;
   width: 1.5em;
   height: 1.5em;
-  border-bottom: 1px solid #A7A7A7;
-  border-right: 1px solid #A7A7A7;
+  border-bottom: 2px solid #A7A7A7;
+  border-right: 2px solid #A7A7A7;
   transform: rotate(45deg);
   margin: -10px;
   animation: animate-arrows 2s infinite;
@@ -833,7 +863,7 @@ html {
   background-color:RGBA(34,34,34,0.9);
   color:white;
   z-index:10px;
-  height: 40px;
+  height: 60px;
 }
 .footer-bar img{
   height:auto;
