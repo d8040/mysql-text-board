@@ -443,7 +443,7 @@ font-weight:bold;
 }
 .scroll-move-box > ul{
   position: absolute;
-  color: white;
+  color: #A7A7A7;
   width: 200px;
   background-color:RGBA(34,34,34,0.9);
   border-radius: 10px 0 0 10px;
@@ -461,7 +461,7 @@ font-weight:bold;
   width: 40px;
   border-radius: 10px 0 0 10px;
   border: none;
-  color: white;
+  color: #A7A7A7;
 }
 .scroll-move-box > ul li {
   display:flex;
@@ -478,6 +478,7 @@ font-weight:bold;
 
 .scroll-move-box > .button:hover{  
   background-color: black;
+  color: #fff;
 }
 .scroll-move-box ul > li a::before {
   content: "";
@@ -848,7 +849,7 @@ html {
 }
 .latest-list .title-of-list > span{
   text-shadow: 4px 2px 2px gray;
-  color:#A7A7A7;
+  color:#fff;
 }
 .latest-list__box {
   position: relative;
@@ -887,7 +888,7 @@ html {
   position: absolute;
   top: calc(81%);
   width: 100%;
-  background-color: #ffffff;
+  background-color: RGBA(225,225,225,0.8);
   padding: 10px 20px 65px;
 }
 .latest-list__box figcaption > h3{
@@ -901,8 +902,8 @@ html {
   left: 0;
   width: 100%;
   height: 80px;
-  background-image: -webkit-linear-gradient(top, transparent 0%, #ffffff 100%);
-  background-image: linear-gradient(to bottom, transparent 0%, #ffffff 100%);
+  background-image: -webkit-linear-gradient(top, transparent 0%, RGBA(225,225,225,0.8) 100%);
+  background-image: linear-gradient(to bottom, transparent 0%, RGBA(225,225,225,0.8) 100%);
 }
 .latest-list__box h3,
 .latest-list__box p {
@@ -917,7 +918,7 @@ html {
   font-size: 0.9em;
   letter-spacing: 1px;
   opacity: 0.9;
-  color:#A7A7A7;
+  color:#fff;
 }
 .latest-list__box a {
   position: absolute;
