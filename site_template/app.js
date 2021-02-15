@@ -27,11 +27,11 @@ ScrollOut({
 $(function(){
   var duration = 300;
   var $side = $('.scroll-move-box');
-  var $side_btn = $side.find('button').on('click', function(){
+  var $side_btn = $side.find('.button').on('click', function(){
     $side.toggleClass('open');
 
     if($side.hasClass('open')){
-      $side.stop(true).animate({right:'220px'}, duration);
+      $side.stop(true).animate({right:'200px'}, duration);
       $side_btn.find('span').text('▶');
     }
     else {
@@ -47,7 +47,7 @@ $(document).ready(function($) {
 
                 event.preventDefault();
 
-                $('html,body').animate({scrollTop:$(this.hash).offset().top}, 500);
+                $('html,body').animate({scrollTop:$(this.hash).offset().top-200}, 300);
 
         });
 

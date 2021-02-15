@@ -37,7 +37,7 @@ public class ExportService {
 
     public void makeHtml() {
 
-//		Util.rmdir("site"); // 삭제하면 깃 초기화됨
+	//		Util.rmdir("site"); // 삭제하면 깃 초기화됨
 	Util.mkdirs("site");
 
 	Util.copy("site_template/app.css", "site/app.css");
@@ -52,7 +52,7 @@ public class ExportService {
 	detail();
 	searchPage();
 	tagPage();
-//		articleListAll();
+	//		articleListAll();
 	mainPage();
 	articleListPages();
     }
@@ -131,23 +131,17 @@ public class ExportService {
 	    mainContent.append("<div class=article-list__cell-id>" + article.getId() + "</div>");
 	    mainContent.append("<div class=article-list__cell-writer>" + member.getName() + "</div>");
 	    if (article.getTitle().length() > 31) {
-		mainContent.append("<div class=article-list__cell-title><a href=\"" + link + "\" class=hover-underline>"
-			+ article.getTitle().substring(0, 30) + "...." + comments);
+		mainContent.append("<div class=article-list__cell-title><a href=\"" + link + "\" class=hover-underline>" + article.getTitle().substring(0, 30) + "...." + comments);
 	    } else {
-		mainContent.append("<div class=article-list__cell-title><a href=\"" + link + "\" class=hover-underline>"
-			+ article.getTitle() + comments);
+		mainContent.append("<div class=article-list__cell-title><a href=\"" + link + "\" class=hover-underline>" + article.getTitle() + comments);
 	    }
-//			mainContent.append("<a href=\"{{fileName}}#disqus_thread\">0 Comments</a>");
+	    //			mainContent.append("<a href=\"{{fileName}}#disqus_thread\">0 Comments</a>");
 	    mainContent.append("</a><nav>");
 	    mainContent.append("<div class=article-list__cell-writer1>" + member.getName() + "</div>");
-	    mainContent.append("<div class=article-list__cell-reg-date1>" + article.getRegDate().subSequence(2, 4) + "/"
-		    + article.getRegDate().subSequence(5, 7) + "/" + article.getRegDate().subSequence(8, 10)
-		    + "</div>");
+	    mainContent.append("<div class=article-list__cell-reg-date1>" + article.getRegDate().subSequence(2, 4) + "/" + article.getRegDate().subSequence(5, 7) + "/" + article.getRegDate().subSequence(8, 10) + "</div>");
 	    mainContent.append("</nav>");
 	    mainContent.append("</div>");
-	    mainContent.append("<div class=article-list__cell-reg-date>" + article.getRegDate().subSequence(2, 4) + "/"
-		    + article.getRegDate().subSequence(5, 7) + "/" + article.getRegDate().subSequence(8, 10)
-		    + "</div>");
+	    mainContent.append("<div class=article-list__cell-reg-date>" + article.getRegDate().subSequence(2, 4) + "/" + article.getRegDate().subSequence(5, 7) + "/" + article.getRegDate().subSequence(8, 10) + "</div>");
 	    mainContent.append("<div class=article-list__cell-rcm>" + article.getRcmCount() + "</div>");
 	    mainContent.append("<div class=article-list__cell-hit>" + article.getHit() + "</div>");
 	    mainContent.append("</div>");
@@ -167,33 +161,23 @@ public class ExportService {
 	if (i > paging)
 
 	{
-	    pageBoxContent
-		    .append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.getCode().trim()
-			    + "_" + ((int) Math.ceil((double) (((i - 1 - paging) / paging) * paging) + paging))
-			    + ".html\">&lt;&lt; </a></div>");
+	    pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.getCode().trim() + "_" + ((int) Math.ceil((double) (((i - 1 - paging) / paging) * paging) + paging)) + ".html\">&lt;&lt; </a></div>");
 	}
 	if (i > 1) {
-	    pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_"
-		    + board.getCode().trim() + "_" + (i - 1) + ".html\">&lt; 이전</a></div>");
+	    pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.getCode().trim() + "_" + (i - 1) + ".html\">&lt; 이전</a></div>");
 	}
 	for (int k = startPage; k <= endPage; k++) {
 	    if (k == i) {
-		pageBoxContent.append("<div class=\"page-no selected\"><a class=\"flex\" href=\"article_list_"
-			+ board.getCode().trim() + "_" + k + ".html\">" + k + "</a></div>");
+		pageBoxContent.append("<div class=\"page-no selected\"><a class=\"flex\" href=\"article_list_" + board.getCode().trim() + "_" + k + ".html\">" + k + "</a></div>");
 	    } else {
-		pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_"
-			+ board.getCode().trim() + "_" + k + ".html\">" + k + "</a></div>");
+		pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.getCode().trim() + "_" + k + ".html\">" + k + "</a></div>");
 	    }
 	}
 	if (i < totalPages) {
-	    pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_"
-		    + board.getCode().trim() + "_" + (i + 1) + ".html\">다음 &gt;</a></div>");
+	    pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.getCode().trim() + "_" + (i + 1) + ".html\">다음 &gt;</a></div>");
 	}
 	if (i - 1 / paging < (totalPages - (totalPages % paging) + 1)) {
-	    pageBoxContent
-		    .append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.getCode().trim()
-			    + "_" + ((int) Math.ceil((double) (((i - 1 + paging) / paging) * paging) + 1))
-			    + ".html\"> &gt;&gt;</a></div>");
+	    pageBoxContent.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list_" + board.getCode().trim() + "_" + ((int) Math.ceil((double) (((i - 1 + paging) / paging) * paging) + 1)) + ".html\"> &gt;&gt;</a></div>");
 	}
 	String body = bodyTemplate.replace("${article-list__main-content}", mainContent.toString());
 	body = body.replace("${page-box__paging-content}", pageBoxContent.toString());
@@ -216,19 +200,27 @@ public class ExportService {
 	String bodyTemplate = Util.getFileContents("site_template/index.html");
 	StringBuffer sb = new StringBuffer();
 	String body = bodyTemplate;
-	int i = 0;
+	
 	sb.append(head);
-	List<Article> articles = articleService.getForMainPageArticles();
-	for (Article article : articles) {
-
-	    String articleBodyForPrint = article.getBody().substring(0, 20);
-	    articleBodyForPrint = articleBodyForPrint.replaceAll("script", "<!--REPLACE:script-->");
-	    body = body.replace("${index__summary-writer-" + i + "}", article.getExtra_writer());
-	    body = body.replace("${index__summary-board-" + i + "}", article.getExtra_boardName());
-	    body = body.replace("${index__summary-body-title-" + i + "}", article.getTitle());
-	    body = body.replace("${index__summary-body-" + i + "}", articleBodyForPrint + "......");
-	    body = body.replace("${index__summary-link-" + i + "}", "article_detail_" + article.getId() + ".html");
-	    i = i + 1;
+	List<Board> forPrintBoard = articleService.getForPrintBoards();
+	for (Board board : forPrintBoard) {
+	    System.out.println(board.getCode());
+	    List<Article> articles = articleService.getForPrintArticles(board.getId());
+	    int i = 0;
+	    for (Article article : articles) {
+//		String articleBodyForPrint = article.getBody().substring(0, 20);
+//		articleBodyForPrint = articleBodyForPrint.replaceAll("script", "<!--REPLACE:script-->");
+		body = body.replace("${index__summary-writer-"+board.getCode()+ i + "}", article.getExtra_writer());
+		body = body.replace("${index__summary-board-"+board.getCode() + i + "}", article.getExtra_boardName());
+		body = body.replace("${index__summary-body-title-"+board.getCode() + i + "}", article.getTitle());
+		body = body.replace("${index__summary-regDate-"+board.getCode() + i + "}", article.getRegDate().subSequence(2, 4) + "-" + article.getRegDate().subSequence(5, 7) + "-" + article.getRegDate().subSequence(8, 10));
+		body = body.replace("${index__summary-body-"+board.getCode() + i + "}", article.getBody());
+		body = body.replace("${index__summary-link-"+board.getCode() + i + "}", "article_detail_" + article.getId() + ".html");
+		i = i + 1;
+		if(i == 4) {
+		    break;
+		}
+	    }
 	}
 	sb.append(body);
 	sb.append(foot);
@@ -270,8 +262,7 @@ public class ExportService {
 		sb.append("<div class=article-list__cell-reg-date>" + article.getRegDate() + "</div>");
 		sb.append("<div class=article-list__cell-writer>" + member.getName() + "</div>");
 		sb.append("<div class=article-list__cell-rcm>" + article.getRcmCount() + "</div>");
-		sb.append("<div class=article-list__cell-title><a href=\"" + board.getCode().trim() + article.getId()
-			+ ".html\" class=hover-underline>" + article.getTitle() + "</a></div>");
+		sb.append("<div class=article-list__cell-title><a href=\"" + board.getCode().trim() + article.getId() + ".html\" class=hover-underline>" + article.getTitle() + "</a></div>");
 		sb.append("</div>");
 	    }
 	    sb.append("</main></div></div>");
@@ -288,32 +279,24 @@ public class ExportService {
 		}
 	    }
 	    if (i > paging) {
-		sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list"
-			+ ((int) Math.ceil((double) (((i - 1 - paging) / paging) * paging) + paging))
-			+ ".html\">&lt;&lt; </a></div>");
+		sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" + ((int) Math.ceil((double) (((i - 1 - paging) / paging) * paging) + paging)) + ".html\">&lt;&lt; </a></div>");
 	    }
 	    if (i > 1) {
-		sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" + (i - 1)
-			+ ".html\">&lt; 이전</a></div>");
+		sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" + (i - 1) + ".html\">&lt; 이전</a></div>");
 	    }
 
 	    for (int k = startPage; k <= endPage; k++) {
 		if (k == i) {
-		    sb.append("<div class=\"page-no selected\"><a class=\"flex\" href=\"article_list" + k + ".html\">"
-			    + k + "</a></div>");
+		    sb.append("<div class=\"page-no selected\"><a class=\"flex\" href=\"article_list" + k + ".html\">" + k + "</a></div>");
 		} else {
-		    sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" + k + ".html\">" + k
-			    + "</a></div>");
+		    sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" + k + ".html\">" + k + "</a></div>");
 		}
 	    }
 	    if (i < totalPages) {
-		sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" + (i + 1)
-			+ ".html\">다음 &gt;</a></div>");
+		sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" + (i + 1) + ".html\">다음 &gt;</a></div>");
 	    }
 	    if (i - 1 / paging < (totalPages - (totalPages % paging) + 1)) {
-		sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list"
-			+ ((int) Math.ceil((double) (((i - 1 + paging) / paging) * paging) + 1))
-			+ ".html\"> &gt;&gt;</a></div>");
+		sb.append("<div class=\"page-no\"><a class=\"flex\" href=\"article_list" + ((int) Math.ceil((double) (((i - 1 + paging) / paging) * paging) + 1)) + ".html\"> &gt;&gt;</a></div>");
 	    }
 	    sb.append("</div>");
 	    sb.append("</div>");
@@ -326,7 +309,7 @@ public class ExportService {
 	}
     }
 
-//상세페이지
+    //상세페이지
     private void detail() {
 	List<Board> boards = articleService.getForPrintBoards();
 
@@ -355,18 +338,14 @@ public class ExportService {
 		body = body.replace("${article-detail__rcm}", "추천수: " + article.getRcmCount() + "");
 
 		if (id > 0) {
-		    body = body.replace("${article-detail__link-prev-article}",
-			    "article_detail_" + (articles.get(id - 1).getId()) + ".html");
+		    body = body.replace("${article-detail__link-prev-article}", "article_detail_" + (articles.get(id - 1).getId()) + ".html");
 		} else {
 		    body = body.replace("${article-detail__link-prev-article-class}", "none");
 		}
-		body = body.replace("${article-detail__link-list}", "article_list_" + board.getName() + "_"
-			+ (int) Math.ceil((double) (id + 1) / paging) + ".html");
-		body = body.replace("${title-bar__file}", "article_list_" + board.getName() + "_"
-			+ (int) Math.ceil((double) (id + 1) / paging) + ".html");
+		body = body.replace("${article-detail__link-list}", "article_list_" + board.getName() + "_" + (int) Math.ceil((double) (id + 1) / paging) + ".html");
+		body = body.replace("${title-bar__file}", "article_list_" + board.getName() + "_" + (int) Math.ceil((double) (id + 1) / paging) + ".html");
 		if (articles.size() > id + 1) {
-		    body = body.replace("${article-detail__link-next-article}",
-			    "article_detail_" + (articles.get(id + 1).getId()) + ".html");
+		    body = body.replace("${article-detail__link-next-article}", "article_detail_" + (articles.get(id + 1).getId()) + ".html");
 		} else {
 		    body = body.replace("${article-detail__link-next-article-class}", "none");
 		}
@@ -404,20 +383,17 @@ public class ExportService {
 	if (articleId == 213654654) {
 	    head = head.replace("${meta-title}", pageName + " List");
 	    head = head.replace("${page-title}", pageName + " List");
-	    head = head.replace("${meta-description}",
-		    "Article list for "+ pageName);
-	    head = head.replace("${meta-url)", "blog.phoneus.net/"+"article_list_" + pageName + "_1.html");
+	    head = head.replace("${meta-description}", "Article list for " + pageName);
+	    head = head.replace("${meta-url)", "blog.phoneus.net/" + "article_list_" + pageName + "_1.html");
 	} else if (articleId == 496465411) {
 	    head = head.replace("${meta-title}", "Main Page");
 	    head = head.replace("${page-title}", "fun and coding");
-	    head = head.replace("${meta-description}",
-		    "Technology for java, html, photograph, technical, css,js, java script, scss, cording, c");
+	    head = head.replace("${meta-description}", "Technology for java, html, photograph, technical, css,js, java script, scss, cording, c");
 	    head = head.replace("${meta-url)", "blog.phoneus.net/site/index.html");
 	} else if (articleId == 231321321) {
 	    head = head.replace("${meta-title}", "Search Page");
 	    head = head.replace("${page-title}", "fun and coding");
-	    head = head.replace("${meta-description}",
-		    "Technology for java, html, photograph, technical, css,js, java script, scss, cording, c");
+	    head = head.replace("${meta-description}", "Technology for java, html, photograph, technical, css,js, java script, scss, cording, c");
 	    head = head.replace("${meta-url}", "blog.phoneus.net/site/article_search.html");
 	} else {
 	    head = head.replace("${meta-title}", article.getTitle());
@@ -425,25 +401,25 @@ public class ExportService {
 	    head = head.replace("${page-title}", article.getTitle());
 	    head = head.replace("${meta-url}", "blog.phoneus.net/article_detail_" + article.getId() + ".html");
 	}
-//		String titleBarContentHtml = getTitleBarContentByPageName(pageName);
-//		head = head.replace("${title-bar__content}", titleBarContentHtml);
+	//		String titleBarContentHtml = getTitleBarContentByPageName(pageName);
+	//		head = head.replace("${title-bar__content}", titleBarContentHtml);
 	head = head.replace("${current-date}", time1);
 	return head;
     }
 
-//	private String getTitleBarContentByPageName(String pageName) {
-//		if (pageName.equals("index")) {
-//			return "<i class=\"fas fa-home\"></i> <span>HOME</span>";
-//		} else if (pageName.contains("notice")) {
-//			return "<i class=\"far fa-clipboard\"></i> <span>WEB CORDING</span>";
-//		} else if (pageName.contains("free")) {
-//			return "<i class=\"fas fa-comment-medical\"></i> <span>FREE LIST</span>";
-//		} else if (pageName.contains("detail")) {
-//			return "<i class=\"fas fa-flag\"></i> <span>ARTICLE DETAIL</span>";
-//		} else if (pageName.startsWith("article_list")) {
-//			return "<i class=\"fas fa-flag\"></i> <span>ALL LIST</span>";
-//		}
-//		return "";
-//	}
+    //	private String getTitleBarContentByPageName(String pageName) {
+    //		if (pageName.equals("index")) {
+    //			return "<i class=\"fas fa-home\"></i> <span>HOME</span>";
+    //		} else if (pageName.contains("notice")) {
+    //			return "<i class=\"far fa-clipboard\"></i> <span>WEB CORDING</span>";
+    //		} else if (pageName.contains("free")) {
+    //			return "<i class=\"fas fa-comment-medical\"></i> <span>FREE LIST</span>";
+    //		} else if (pageName.contains("detail")) {
+    //			return "<i class=\"fas fa-flag\"></i> <span>ARTICLE DETAIL</span>";
+    //		} else if (pageName.startsWith("article_list")) {
+    //			return "<i class=\"fas fa-flag\"></i> <span>ALL LIST</span>";
+    //		}
+    //		return "";
+    //	}
 
 }
